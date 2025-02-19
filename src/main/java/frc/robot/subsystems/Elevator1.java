@@ -59,13 +59,14 @@ public class Elevator1 extends SubsystemBase {
   public void gotolevel(double targetPos){
     //targetPos = SmartDashboard.getNumber("TestNumber", 0);
     //System.out.println(targetPos);
-    setPosition = targetPos;
+    //setPosition = targetPos;
     if (targetPos > Constants.MaxMotorPosition) {
       targetPos = Constants.MaxMotorPosition;
     }
     if (targetPos < Constants.MinMotorPosition) {
       targetPos = Constants.MinMotorPosition;
     }
+    setPosition = targetPos;
     ElevatorLeader.setControl(m_request.withPosition(targetPos));
   }
   public double getSetPosiiton(){
