@@ -24,4 +24,5 @@ public final class Constants {
    
   public static final double MaxMotorPosition = 100.0;
   public static final double MinMotorPosition = 0.0;
+  public static final int elevatorLimitSwitchPort = 0;
 }
