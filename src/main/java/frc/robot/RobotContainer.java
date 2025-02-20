@@ -17,9 +17,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.commands.ArmDown;
+import frc.robot.commands.ArmUp;
+import frc.robot.commands.ElevatorDown;
+import frc.robot.commands.ElevatorUp;
 import frc.robot.generated.TunerConstants;
+
+
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Elevator1;
+import frc.robot.subsystems.PivotArm;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -40,6 +47,12 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
+    //private final Arm arm = new Arm();
+    //private final Arm1 armed = new Arm1();
+    private final Elevator1 elevator = new Elevator1();
+    private final PivotArm pivot = new PivotArm();
+    
+
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
 
@@ -51,6 +64,11 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
+
+        joystick.povUp().onTrue(new ElevatorUp(elevator));
+        joystick.povDown().onTrue(new ElevatorDown(elevator));
+        joystick.povRight().onTrue(new ArmUp(pivot));
+        joystick.povLeft().onTrue(new ArmDown(pivot));
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
@@ -67,12 +85,12 @@ public class RobotContainer {
             point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
         ));
 
-        joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
+        /*joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.5).withVelocityY(0))
         );
         joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(-0.5).withVelocityY(0))
-        );
+        );*/
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
