@@ -4,33 +4,33 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Elevator1;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.PivotArm;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class ElevatorUp extends Command {
+public class ArmUp extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //private final ExampleSubsystem m_subsystem;
-  private final Elevator1 m_elevator;
+  private final PivotArm m_pivot;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ElevatorUp(Elevator1 elevator) {
+  public ArmUp(PivotArm pivot) {
     //m_subsystem = subsystem;
-    m_elevator = elevator;
-
+    m_pivot = pivot;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(elevator);
+    //addRequirements(subsystem);
+    addRequirements(pivot);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_elevator.gotolevel(m_elevator.getSetPosiiton()+9);
+    m_pivot.goTo(m_pivot.getPosition()+0.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
