@@ -21,11 +21,13 @@ import frc.robot.commands.ArmDown;
 import frc.robot.commands.ArmUp;
 import frc.robot.commands.ElevatorDown;
 import frc.robot.commands.ElevatorUp;
+import frc.robot.commands.RunIntake;
 import frc.robot.generated.TunerConstants;
 
 
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator1;
+import frc.robot.subsystems.EndEffector;
 import frc.robot.subsystems.PivotArm;
 
 public class RobotContainer {
@@ -51,6 +53,7 @@ public class RobotContainer {
     //private final Arm1 armed = new Arm1();
     private final Elevator1 elevator = new Elevator1();
     private final PivotArm pivot = new PivotArm();
+    private final EndEffector effector = new EndEffector();
     
 
     /* Path follower */
@@ -65,10 +68,12 @@ public class RobotContainer {
 
     private void configureBindings() {
 
-        joystick.povUp().onTrue(new ElevatorUp(elevator));
-        joystick.povDown().onTrue(new ElevatorDown(elevator));
-        joystick.povRight().onTrue(new ArmUp(pivot));
-        joystick.povLeft().onTrue(new ArmDown(pivot));
+        //joystick.povUp().onTrue(new ElevatorUp(elevator));
+        //joystick.povDown().onTrue(new ElevatorDown(elevator));
+        //joystick.povRight().onTrue(new ArmUp(pivot));
+        //joystick.povLeft().onTrue(new ArmDown(pivot));
+        joystick.povLeft().toggleOnTrue(new RunIntake(effector));
+        
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
