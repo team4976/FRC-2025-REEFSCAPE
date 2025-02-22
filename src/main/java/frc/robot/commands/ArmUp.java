@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
+//import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PivotArm;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -30,7 +30,7 @@ public class ArmUp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_pivot.goTo(m_pivot.getPosition()+0.5);
+    m_pivot.goTo(m_pivot.getPosition()+0.25);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

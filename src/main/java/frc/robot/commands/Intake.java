@@ -5,7 +5,8 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.EndEffector;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.PivotArm;
+//import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
@@ -13,6 +14,7 @@ public class Intake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //private final ExampleSubsystem m_subsystem;
   private final EndEffector m_EndEffector;
+  private final PivotArm m_Arm;
   private boolean hasCoral = false;
 
   /**
@@ -20,18 +22,21 @@ public class Intake extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Intake(EndEffector endEffector) {
+  public Intake(EndEffector endEffector, PivotArm pivotArm) {
     //m_subsystem = subsystem;
     m_EndEffector = endEffector;
+    m_Arm = pivotArm;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(endEffector);
+    addRequirements(pivotArm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_EndEffector.runed(0.3);
+    m_EndEffector.runed(0.2);
     hasCoral = false;
+    m_Arm.goTo(1.7);
 
   }
 
@@ -47,6 +52,8 @@ public class Intake extends Command {
   @Override
   public void end(boolean interrupted) {
     m_EndEffector.runed(0);
+
+    m_Arm.goTo(2.75);
   }
 
   // Returns true when the command should end.

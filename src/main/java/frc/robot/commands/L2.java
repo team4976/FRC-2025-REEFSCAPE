@@ -4,47 +4,60 @@
 
 package frc.robot.commands;
 
+import frc.robot.subsystems.Elevator1;
 import frc.robot.subsystems.EndEffector;
-//import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.PivotArm;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /** An example command that uses an example subsystem. */
-public class RunIntake extends Command {
+public class L2 extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //private final ExampleSubsystem m_subsystem;
-  private final EndEffector m_EndEffector;
+  private final Elevator1 m_elevator;
+  private final PivotArm m_PivotArm;
+  private final EndEffector m_Effector;
+
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public RunIntake(EndEffector endEffector) {
+  public L2(Elevator1 elevator, PivotArm pivot, EndEffector effector) {
     //m_subsystem = subsystem;
-    m_EndEffector = endEffector;
+    m_elevator = elevator;
+    m_PivotArm = pivot;
+    m_Effector = effector;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(endEffector);
+    addRequirements(elevator);
+    addRequirements(pivot);
+    addRequirements(effector);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_EndEffector.runed(0.2);
+    m_elevator.gotolevel(8);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if(Math.abs(m_elevator.getAccel())< 0.1){
+      new Outake(m_Effector, m_PivotArm);
+
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_EndEffector.runed(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

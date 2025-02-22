@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,7 +31,7 @@ public class PivotArm extends SubsystemBase {
 
   private SparkMaxConfig pivotConfig;
 
-  private int mode = 1;
+  //private int mode = 1;
 
   private double position = 0;
   
@@ -45,8 +46,14 @@ public class PivotArm extends SubsystemBase {
 
     pivotConfig = new SparkMaxConfig();
 
-    pivotConfig.closedLoop.pidf(0.5, 0, 0.125, 0);
+    pivotConfig.closedLoop.outputRange(-0.1, 0.5);
+    pivotConfig.idleMode(IdleMode.kBrake);
+
+    pivotConfig.closedLoop.pidf(0.2, 0, 2, 0);
+    pivotConfig.closedLoop.iZone(0.1);
     pivotConfig.inverted(true);
+    pivotConfig.closedLoopRampRate(0.5);
+    
     
     pivot.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -94,6 +101,12 @@ public class PivotArm extends SubsystemBase {
   public double getPosition(){
     return position;
   }
+  public double getVelocity(){
+    return pivotEncoder.getVelocity();
+  }
+  public double getRealPostion(){
+    return pivotEncoder.getPosition();
+  }
 
   /**
    * Example command factory method.
@@ -118,6 +131,7 @@ public class PivotArm extends SubsystemBase {
     // Query some boolean state, such as a digital sensor.
     return false;
   }
+  
 
   @Override
   public void periodic() {

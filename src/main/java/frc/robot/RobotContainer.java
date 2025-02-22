@@ -21,10 +21,15 @@ import frc.robot.commands.ArmDown;
 import frc.robot.commands.ArmUp;
 import frc.robot.commands.ElevatorDown;
 import frc.robot.commands.ElevatorUp;
+import frc.robot.commands.Intake;
+import frc.robot.commands.L1;
+import frc.robot.commands.L2;
+import frc.robot.commands.L3;
+import frc.robot.commands.L4;
+import frc.robot.commands.Outake;
 import frc.robot.commands.RunIntake;
 import frc.robot.generated.TunerConstants;
-
-
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator1;
 import frc.robot.subsystems.EndEffector;
@@ -36,7 +41,7 @@ public class RobotContainer {
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+            .withDeadband(MaxSpeed * 0.9).withRotationalDeadband(MaxAngularRate * 0.9) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
@@ -54,6 +59,8 @@ public class RobotContainer {
     private final Elevator1 elevator = new Elevator1();
     private final PivotArm pivot = new PivotArm();
     private final EndEffector effector = new EndEffector();
+    private final Climber climber = new Climber();
+    
     
 
     /* Path follower */
@@ -72,7 +79,13 @@ public class RobotContainer {
         //joystick.povDown().onTrue(new ElevatorDown(elevator));
         //joystick.povRight().onTrue(new ArmUp(pivot));
         //joystick.povLeft().onTrue(new ArmDown(pivot));
-        joystick.povLeft().toggleOnTrue(new RunIntake(effector));
+        joystick.povUp().onTrue(new L4(elevator));
+        joystick.povRight().onTrue(new L3(elevator));
+        joystick.povDown().onTrue(new L2(elevator, pivot, effector));
+        joystick.povLeft().onTrue(new L1(elevator));
+        joystick.b().toggleOnTrue(new Intake(effector, pivot));
+        joystick.a().toggleOnTrue(new Outake(effector, pivot));
+        //joystick.povLeft().toggleOnTrue(new RunIntake(effector));
         
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
@@ -85,10 +98,10 @@ public class RobotContainer {
             )
         );
 
-        joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
+        //joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        /*joystick.b().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
-        ));
+        ));*/
 
         /*joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.5).withVelocityY(0))
