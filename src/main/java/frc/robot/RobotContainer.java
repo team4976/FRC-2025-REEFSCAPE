@@ -41,7 +41,7 @@ public class RobotContainer {
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.9).withRotationalDeadband(MaxAngularRate * 0.9) // Add a 10% deadband
+            .withDeadband(MaxSpeed * 0.15).withRotationalDeadband(MaxAngularRate * 0.15) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
@@ -81,7 +81,7 @@ public class RobotContainer {
         //joystick.povLeft().onTrue(new ArmDown(pivot));
         joystick.povUp().onTrue(new L4(elevator));
         joystick.povRight().onTrue(new L3(elevator));
-        joystick.povDown().onTrue(new L2(elevator, pivot, effector));
+        joystick.povDown().toggleOnTrue(new L2(elevator, pivot, effector));
         joystick.povLeft().onTrue(new L1(elevator));
         joystick.b().toggleOnTrue(new Intake(effector, pivot));
         joystick.a().toggleOnTrue(new Outake(effector, pivot));

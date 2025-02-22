@@ -78,6 +78,9 @@ public class Elevator1 extends SubsystemBase {
   public double getAccel(){
     return ElevatorLeader.getAcceleration().getValueAsDouble();
   }
+  public double getRealPostion(){
+    return ElevatorLeader.getPosition().getValueAsDouble();
+  }
 
 
   /**
