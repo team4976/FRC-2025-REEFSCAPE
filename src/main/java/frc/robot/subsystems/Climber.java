@@ -20,7 +20,7 @@ import frc.robot.Constants;
 
 public class Climber extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-  double multiplier = 400;
+  double multiplier = 500;
 
   final SparkMax m_Leader = new SparkMax(41, MotorType.kBrushless);
 
@@ -32,14 +32,17 @@ public class Climber extends SubsystemBase {
   public Climber() {
     SparkMaxConfig config = new SparkMaxConfig();
     config.inverted(true);
+    config.smartCurrentLimit(50, 40);
 
     ClosedLoopConfig pidConfig = new ClosedLoopConfig();
-    pidConfig.p(0.001);
+    
+    pidConfig.p(0.01);
     pidConfig.i(0);
-    pidConfig.d(0.0005);
-    pidConfig.outputRange(-0.2, 1);
+    pidConfig.d(0.05);
+    pidConfig.outputRange(-1, 0.2);
 
     config.closedLoop.apply(pidConfig);
+    config.closedLoopRampRate(0.5);
 
     m_Leader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
@@ -79,8 +82,12 @@ public class Climber extends SubsystemBase {
       m_Leader.set(0);
     }
     else{
-      double out = (m_Controller.getLeftTriggerAxis() - m_Controller.getRightTriggerAxis()) * multiplier;
-      pid.setReference(out, ControlType.kVelocity);
+      double out = (m_Controller.getLeftTriggerAxis() - m_Controller.getRightTriggerAxis());
+      //pid.setReference(out, ControlType.kVelocity);
+
+      m_Leader.set(out);
+
+
     }
 
     //pid.setReference(out, ControlType.kVelocity);

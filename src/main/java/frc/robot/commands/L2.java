@@ -43,42 +43,31 @@ public class L2 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_elevator.gotolevel(8);
+    m_elevator.gotolevel(13);
+    //m_PivotArm.goTo(2.75);
+
     //outake = new Outake(m_Effector, m_PivotArm);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(Math.abs(m_elevator.getAccel())< 0.1 && 5 > Math.abs(m_elevator.getSetPosiiton() - m_elevator.getRealPostion())){
-      m_PivotArm.goTo(1.75);
-      //new Outake(m_Effector, m_PivotArm);
-
-      
-      //execute(new Outake(m_Effector, m_PivotArm));
-      //new Outake(m_Effector, m_PivotArm).runOnce();
-      
-      //WaitUntilCommand(new Outake(m_Effector, m_PivotArm));
-
-      if(!m_Effector.getSwitch()){
-        hasCoral = true;
-      }
-      if(Math.abs(m_PivotArm.getPosition() - (m_PivotArm.getRealPostion())) <0.5){
-        m_Effector.runed(0.2);
-      }
-
-      System.out.println("oh");     
-
-      
+    if(m_elevator.getVelocity() < 0.4){
+      m_PivotArm.goTo(1.35);
 
     }
+    else{
+      m_PivotArm.goTo(2.75);
+    }
+
+   
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_Effector.runed(0);
-    m_PivotArm.goTo(2.75);
+    //m_PivotArm.goTo(2.75);
   }
 
   // Returns true when the command should end.

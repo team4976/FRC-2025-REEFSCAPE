@@ -22,7 +22,7 @@ public final class Constants {
   public static final int Elevator_Leader_Id = 30;
   public static final int Elevator_Follower_Id = 31;
    
-  public static final double MaxMotorPosition = 30.5;
+  public static final double MaxMotorPosition = 31.5;
   public static final double MinMotorPosition = 0.5;
   public static final int elevatorLimitSwitchPort = 0;
 
