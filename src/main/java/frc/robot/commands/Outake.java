@@ -34,9 +34,9 @@ public class Outake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //m_EndEffector.runed(0.2);
+    m_EndEffector.runed(0.15);
     hasCoral = false;
-    m_PivotArm.goTo(1.75);
+    //m_PivotArm.goTo(1.75);
 
 
 
@@ -57,8 +57,8 @@ public class Outake extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_EndEffector.runed(0);
-    m_PivotArm.goTo(2.75);
+    //m_EndEffector.runed(0);
+    //m_PivotArm.goTo(2.75);
   }
 
   // Returns true when the command should end.

@@ -30,7 +30,9 @@ public class L1 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_elevator.gotolevel(3);
+    //m_elevator.gotolevel(2);
+    m_elevator.gotolevel(1);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

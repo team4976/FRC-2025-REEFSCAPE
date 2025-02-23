@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.ActuateDown;
+import frc.robot.commands.ActuateUp;
 import frc.robot.commands.ArmDown;
 import frc.robot.commands.ArmUp;
 import frc.robot.commands.ElevatorDown;
@@ -26,9 +28,12 @@ import frc.robot.commands.L1;
 import frc.robot.commands.L2;
 import frc.robot.commands.L3;
 import frc.robot.commands.L4;
+//import frc.robot.commands.L3;
+//import frc.robot.commands.L4;
 import frc.robot.commands.Outake;
 import frc.robot.commands.RunIntake;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Actuation;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Elevator1;
@@ -60,6 +65,7 @@ public class RobotContainer {
     private final PivotArm pivot = new PivotArm();
     private final EndEffector effector = new EndEffector();
     private final Climber climber = new Climber();
+    private final Actuation actuation = new Actuation();
     
     
 
@@ -75,16 +81,28 @@ public class RobotContainer {
 
     private void configureBindings() {
 
-        //joystick.povUp().onTrue(new ElevatorUp(elevator));
+        joystick.povUp().onTrue(new ElevatorUp(elevator));
         //joystick.povDown().onTrue(new ElevatorDown(elevator));
         //joystick.povRight().onTrue(new ArmUp(pivot));
         //joystick.povLeft().onTrue(new ArmDown(pivot));
-        joystick.povUp().onTrue(new L4(elevator));
-        joystick.povRight().onTrue(new L3(elevator));
-        joystick.povDown().toggleOnTrue(new L2(elevator, pivot, effector));
-        joystick.povLeft().onTrue(new L1(elevator));
+        //joystick.povUp().onTrue(new L4(elevator));
+        //joystick.povRight().onTrue(new L3(elevator));
+        //joystick.povDown().toggleOnTrue(new L2(elevator, pivot, effector));
+        //joystick.povLeft().onTrue(new L1(elevator));
+
+        joystick.povUp().toggleOnTrue(new L4(elevator, pivot, effector));
+        joystick.povRight().toggleOnTrue(new L3(elevator, pivot, effector));
+        joystick.povLeft().toggleOnTrue(new L2(elevator, pivot, effector));
+        joystick.povDown().toggleOnTrue(new L1(elevator));
+
+        joystick.povDown().toggleOnTrue(new Intake(effector, pivot));
+
+
+
         joystick.b().toggleOnTrue(new Intake(effector, pivot));
         joystick.a().toggleOnTrue(new Outake(effector, pivot));
+        joystick.start().toggleOnTrue(new ActuateUp(actuation));
+        joystick.back().toggleOnTrue(new ActuateDown(actuation));
         //joystick.povLeft().toggleOnTrue(new RunIntake(effector));
         
         // Note that X is defined as forward according to WPILib convention,

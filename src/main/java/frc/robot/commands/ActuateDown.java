@@ -4,75 +4,47 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Elevator1;
-import frc.robot.subsystems.EndEffector;
+import frc.robot.subsystems.Actuation;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.PivotArm;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 /** An example command that uses an example subsystem. */
-public class L3 extends Command {
+public class ActuateDown extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //private final ExampleSubsystem m_subsystem;
-  private final Elevator1 m_elevator;
-  private final PivotArm m_PivotArm;
-  private final EndEffector m_Effector;
-  private boolean hasCoral;
-  //private final Command outake;
-  
-
+  private final Actuation m_Actuation;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public L3(Elevator1 elevator, PivotArm pivot, EndEffector effector) {
+  public ActuateDown(Actuation actuation) {
     //m_subsystem = subsystem;
-    m_elevator = elevator;
-    m_PivotArm = pivot;
-    m_Effector = effector;
+    m_Actuation = actuation;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(elevator);
-    addRequirements(pivot);
-    addRequirements(effector);
+    addRequirements(actuation);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_elevator.gotolevel(21);
-    //m_PivotArm.goTo(2.75);
-
-    //outake = new Outake(m_Effector, m_PivotArm);
+    m_Actuation.runActuator(0.2);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    if(m_elevator.getVelocity() < 0.4){
-      m_PivotArm.goTo(1.35);
-
-    }
-    else{
-      m_PivotArm.goTo(2.75);
-    }
-
-   
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Effector.runed(0);
-    //m_PivotArm.goTo(2.75);
+    //m_Actuation.runActuator(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return hasCoral;
+    return true;
   }
 }
