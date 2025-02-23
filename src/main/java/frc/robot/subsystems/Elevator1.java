@@ -10,6 +10,7 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -97,6 +98,26 @@ public class Elevator1 extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Elevator Position", ElevatorLeader.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("Elevator Set", setPosition);
+    
+    Voltage tempvar8 = ElevatorLeader.getMotorVoltage().getValue();
+     SmartDashboard.putNumber("voltage of ElevatorLeader", tempvar8.magnitude());
+
+     if (tempvar8.magnitude()>0.1) {
+      SmartDashboard.putBoolean("ElevatorLeader", true);
+     }
+     if (tempvar8.magnitude()<0.1) {
+      SmartDashboard.putBoolean("ElevatorLeader", false);
+        }
+
+    Voltage tempvar9 = ElevatorFollower.getMotorVoltage().getValue();
+    SmartDashboard.putNumber("voltage of ElevatorFollower", tempvar9.magnitude());
+   
+    if (tempvar9.magnitude()>0.1) {
+      SmartDashboard.putBoolean("ElevatorFollower", true);
+    }
+    if (tempvar9.magnitude()<0.1) {
+      SmartDashboard.putBoolean("ElevatorFollower", false);
+    }
     // This method will be called once per scheduler run
   }
 
