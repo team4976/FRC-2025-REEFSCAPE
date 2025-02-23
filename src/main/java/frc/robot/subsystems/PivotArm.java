@@ -49,7 +49,7 @@ public class PivotArm extends SubsystemBase {
     pivotConfig.closedLoop.outputRange(-0.1, 0.5);
     pivotConfig.idleMode(IdleMode.kBrake);
 
-    pivotConfig.closedLoop.pidf(0.2, 0, 2, 0);
+    pivotConfig.closedLoop.pidf(0.15, 0, 2, 0);//p was 0.2
     pivotConfig.closedLoop.iZone(0.1);
     pivotConfig.inverted(true);
     pivotConfig.closedLoopRampRate(0.5);
@@ -59,7 +59,7 @@ public class PivotArm extends SubsystemBase {
 
     pid = pivot.getClosedLoopController();
 
-    pivotEncoder.setPosition(0);
+    //pivotEncoder.setPosition(0);
 
 
 

@@ -56,6 +56,7 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController joystick = new CommandXboxController(0);
+    private final CommandXboxController andrew = new CommandXboxController(1);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
@@ -81,11 +82,11 @@ public class RobotContainer {
 
     private void configureBindings() {
 
-        joystick.povUp().onTrue(new ElevatorUp(elevator));
-        //joystick.povDown().onTrue(new ElevatorDown(elevator));
-        //joystick.povRight().onTrue(new ArmUp(pivot));
-        //joystick.povLeft().onTrue(new ArmDown(pivot));
-        //joystick.povUp().onTrue(new L4(elevator));
+        andrew.povUp().onTrue(new ElevatorUp(elevator));
+        andrew.povDown().onTrue(new ElevatorDown(elevator));
+        andrew.povRight().onTrue(new ArmUp(pivot));
+        andrew.povLeft().onTrue(new ArmDown(pivot));
+        //andrew.povUp().onTrue(new L4(elevator));
         //joystick.povRight().onTrue(new L3(elevator));
         //joystick.povDown().toggleOnTrue(new L2(elevator, pivot, effector));
         //joystick.povLeft().onTrue(new L1(elevator));
@@ -95,11 +96,11 @@ public class RobotContainer {
         joystick.povLeft().toggleOnTrue(new L2(elevator, pivot, effector));
         joystick.povDown().toggleOnTrue(new L1(elevator));
 
-        joystick.povDown().toggleOnTrue(new Intake(effector, pivot));
+        joystick.povDown().onTrue(new Intake(effector, pivot));
 
 
 
-        joystick.b().toggleOnTrue(new Intake(effector, pivot));
+        //joystick.b().toggleOnTrue(new Intake(effector, pivot));
         joystick.a().toggleOnTrue(new Outake(effector, pivot));
         joystick.start().toggleOnTrue(new ActuateUp(actuation));
         joystick.back().toggleOnTrue(new ActuateDown(actuation));

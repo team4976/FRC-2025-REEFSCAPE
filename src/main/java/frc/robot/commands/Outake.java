@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.subsystems.Elevator1;
 import frc.robot.subsystems.EndEffector;
 import frc.robot.subsystems.PivotArm;
 //import frc.robot.subsystems.ExampleSubsystem;
@@ -15,6 +16,7 @@ public class Outake extends Command {
   //private final ExampleSubsystem m_subsystem;
   private final EndEffector m_EndEffector;
   private final PivotArm m_PivotArm;
+  //private final Elevator1 m_Elevator1;
   private boolean hasCoral = false;
 
   /**
@@ -26,15 +28,23 @@ public class Outake extends Command {
     //m_subsystem = subsystem;
     m_EndEffector = endEffector;
     m_PivotArm = pivotarm;
+    //m_Elevator1 = elevator1;
+    //addRequirements(elevator1);
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(endEffector);
-    addRequirements(pivotarm);
+    //addRequirements(endEffector);
+    //addRequirements(pivotarm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_EndEffector.runed(0.15);
+    if(m_PivotArm.getPosition() < 3){
+      m_EndEffector.runed(0.15);
+    }
+    else{
+      m_EndEffector.runed(-0.15);
+    }
+    //m_EndEffector.runed(-0.15);
     hasCoral = false;
     //m_PivotArm.goTo(1.75);
 
@@ -50,7 +60,7 @@ public class Outake extends Command {
       hasCoral = true;
     }
     if(Math.abs(m_PivotArm.getPosition() - (m_PivotArm.getRealPostion())) <0.25){
-      m_EndEffector.runed(0.2);
+      //m_EndEffector.runed(-0.2);
     }
   }
 

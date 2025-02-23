@@ -52,8 +52,8 @@ public class L4 extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_elevator.getVelocity() < 0.4){
-      m_PivotArm.goTo(1.5);
+    if(m_elevator.getVelocity() < 0.5){
+      m_PivotArm.goTo(4.5);
 
     }
     else{
@@ -67,7 +67,7 @@ public class L4 extends Command {
   @Override
   public void end(boolean interrupted) {
     m_Effector.runed(0);
-    //m_PivotArm.goTo(2.75);
+    m_PivotArm.goTo(2.75);
   }
 
   // Returns true when the command should end.

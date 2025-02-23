@@ -43,7 +43,7 @@ public class L2 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_elevator.gotolevel(13);
+    m_elevator.gotolevel(11);
     //m_PivotArm.goTo(2.75);
 
     //outake = new Outake(m_Effector, m_PivotArm);
@@ -52,7 +52,7 @@ public class L2 extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_elevator.getVelocity() < 0.4){
+    if(m_elevator.getVelocity() < 0.8){
       m_PivotArm.goTo(1.35);
 
     }

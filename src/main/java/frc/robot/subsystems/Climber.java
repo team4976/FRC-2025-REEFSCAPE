@@ -32,7 +32,7 @@ public class Climber extends SubsystemBase {
   public Climber() {
     SparkMaxConfig config = new SparkMaxConfig();
     config.inverted(true);
-    config.smartCurrentLimit(50, 40);
+    config.smartCurrentLimit(80, 50);
 
     ClosedLoopConfig pidConfig = new ClosedLoopConfig();
     
