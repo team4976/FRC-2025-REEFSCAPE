@@ -11,6 +11,8 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import choreo.auto.AutoChooser;
+import choreo.auto.AutoFactory;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -74,14 +76,25 @@ public class RobotContainer {
     private final PhotonVision photon = new PhotonVision();
 
     
-    
+      /* Path follower FOR CHOREO */
+    private final AutoFactory autoFactory;
+    private final AutoRoutines autoRoutines;
+    private final AutoChooser autoChooserC = new AutoChooser();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
+        //PATHPLANNER AUTOS
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
+
+        //CHOREO AUTOS
+        autoFactory = drivetrain.createAutoFactory();
+        autoRoutines = new AutoRoutines(autoFactory);
+        /*add auto routines */
+        SmartDashboard.putData("Auto Chooser", autoChooserC);
+        autoChooserC.addRoutine("test path", autoRoutines::testPath);
 
         configureBindings();
     }
@@ -151,7 +164,11 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        /* Run the path selected from the auto chooser */
-        return autoChooser.getSelected();
+        /* Run the path selected from the auto chooser FOR PATHPLANNER */
+        // return autoChooser.getSelected();
+
+        /* Run the path selected from the auto chooser FOR CHOREO */
+
+        return autoChooserC.selectedCommand();
     }
 }
