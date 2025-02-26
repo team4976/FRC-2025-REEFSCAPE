@@ -21,6 +21,7 @@ import frc.robot.commands.ActuateDown;
 import frc.robot.commands.ActuateUp;
 import frc.robot.commands.ArmDown;
 import frc.robot.commands.ArmUp;
+import frc.robot.commands.AutoAlign;
 import frc.robot.commands.ElevatorDown;
 import frc.robot.commands.ElevatorUp;
 import frc.robot.commands.Intake;
@@ -36,8 +37,10 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Actuation;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Driving;
 import frc.robot.subsystems.Elevator1;
 import frc.robot.subsystems.EndEffector;
+import frc.robot.subsystems.PhotonVision;
 import frc.robot.subsystems.PivotArm;
 
 public class RobotContainer {
@@ -56,7 +59,7 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController joystick = new CommandXboxController(0);
-    private final CommandXboxController andrew = new CommandXboxController(1);
+   // private final CommandXboxController andrew = new CommandXboxController(1);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
@@ -67,6 +70,9 @@ public class RobotContainer {
     private final EndEffector effector = new EndEffector();
     private final Climber climber = new Climber();
     private final Actuation actuation = new Actuation();
+    private final Driving driving = new Driving();
+    private final PhotonVision photon = new PhotonVision();
+
     
     
 
@@ -82,10 +88,10 @@ public class RobotContainer {
 
     private void configureBindings() {
 
-        andrew.povUp().onTrue(new ElevatorUp(elevator));
-        andrew.povDown().onTrue(new ElevatorDown(elevator));
-        andrew.povRight().onTrue(new ArmUp(pivot));
-        andrew.povLeft().onTrue(new ArmDown(pivot));
+        //andrew.povUp().onTrue(new ElevatorUp(elevator));
+        //andrew.povDown().onTrue(new ElevatorDown(elevator));
+        //andrew.povRight().onTrue(new ArmUp(pivot));
+        //andrew.povLeft().onTrue(new ArmDown(pivot));
         //andrew.povUp().onTrue(new L4(elevator));
         //joystick.povRight().onTrue(new L3(elevator));
         //joystick.povDown().toggleOnTrue(new L2(elevator, pivot, effector));
@@ -97,6 +103,7 @@ public class RobotContainer {
         joystick.povDown().toggleOnTrue(new L1(elevator));
 
         joystick.povDown().onTrue(new Intake(effector, pivot));
+        joystick.leftBumper().toggleOnTrue(new AutoAlign(photon, driving));
 
 
 
@@ -108,14 +115,14 @@ public class RobotContainer {
         
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
-        drivetrain.setDefaultCommand(
+        /*drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
                     .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
-        );
+        );*/
 
         //joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         /*joystick.b().whileTrue(drivetrain.applyRequest(() ->
@@ -137,10 +144,10 @@ public class RobotContainer {
         //joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // reset the field-centric heading on left bumper press
-        joystick.y().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        //joystick.y().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
         
 
-        drivetrain.registerTelemetry(logger::telemeterize);
+        //drivetrain.registerTelemetry(logger::telemeterize);
     }
 
     public Command getAutonomousCommand() {

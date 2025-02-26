@@ -141,9 +141,9 @@ public class PivotArm extends SubsystemBase {
 
     }
 
-    SmartDashboard.putNumber("Pivot Position", pivotEncoder.getPosition());
-    SmartDashboard.putNumber("Pivot Set", position);
-    SmartDashboard.putBoolean("Pivot Limit", Zero());
+    //SmartDashboard.putNumber("Pivot Position", pivotEncoder.getPosition());
+    //SmartDashboard.putNumber("Pivot Set", position);
+    //SmartDashboard.putBoolean("Pivot Limit", Zero());
   }
 
   @Override

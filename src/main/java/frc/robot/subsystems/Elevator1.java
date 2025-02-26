@@ -99,27 +99,27 @@ public class Elevator1 extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Elevator Position", ElevatorLeader.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("Elevator Set", setPosition);
+    //SmartDashboard.putNumber("Elevator Position", ElevatorLeader.getPosition().getValueAsDouble());
+    //SmartDashboard.putNumber("Elevator Set", setPosition);
     
     Voltage tempvar8 = ElevatorLeader.getMotorVoltage().getValue();
-     SmartDashboard.putNumber("voltage of ElevatorLeader", tempvar8.magnitude());
+     //SmartDashboard.putNumber("voltage of ElevatorLeader", tempvar8.magnitude());
 
      if (tempvar8.magnitude()>0.1) {
-      SmartDashboard.putBoolean("ElevatorLeader", true);
+      //SmartDashboard.putBoolean("ElevatorLeader", true);
      }
      if (tempvar8.magnitude()<0.1) {
-      SmartDashboard.putBoolean("ElevatorLeader", false);
+      //SmartDashboard.putBoolean("ElevatorLeader", false);
         }
 
     Voltage tempvar9 = ElevatorFollower.getMotorVoltage().getValue();
-    SmartDashboard.putNumber("voltage of ElevatorFollower", tempvar9.magnitude());
+    //SmartDashboard.putNumber("voltage of ElevatorFollower", tempvar9.magnitude());
    
     if (tempvar9.magnitude()>0.1) {
-      SmartDashboard.putBoolean("ElevatorFollower", true);
+      //SmartDashboard.putBoolean("ElevatorFollower", true);
     }
     if (tempvar9.magnitude()<0.1) {
-      SmartDashboard.putBoolean("ElevatorFollower", false);
+      //SmartDashboard.putBoolean("ElevatorFollower", false);
     }
     // This method will be called once per scheduler run
   }
