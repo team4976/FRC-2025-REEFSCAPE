@@ -102,24 +102,24 @@ public class Elevator1 extends SubsystemBase {
     //SmartDashboard.putNumber("Elevator Position", ElevatorLeader.getPosition().getValueAsDouble());
     //SmartDashboard.putNumber("Elevator Set", setPosition);
     
-    Voltage tempvar8 = ElevatorLeader.getMotorVoltage().getValue();
-     //SmartDashboard.putNumber("voltage of ElevatorLeader", tempvar8.magnitude());
+    Voltage tempvarElevatorL = ElevatorLeader.getMotorVoltage().getValue();
+     SmartDashboard.putNumber("voltage of ElevatorLeader", tempvarElevatorL.magnitude());
 
-     if (tempvar8.magnitude()>0.1) {
-      //SmartDashboard.putBoolean("ElevatorLeader", true);
+     if (tempvarElevatorL.magnitude()>0.1) {
+      SmartDashboard.putBoolean("ElevatorLeader", true);
      }
-     if (tempvar8.magnitude()<0.1) {
-      //SmartDashboard.putBoolean("ElevatorLeader", false);
+     if (tempvarElevatorL.magnitude()<0.1) {
+      SmartDashboard.putBoolean("ElevatorLeader", false);
         }
 
-    Voltage tempvar9 = ElevatorFollower.getMotorVoltage().getValue();
-    //SmartDashboard.putNumber("voltage of ElevatorFollower", tempvar9.magnitude());
+    Voltage tempvarEllevatorF = ElevatorFollower.getMotorVoltage().getValue();
+    SmartDashboard.putNumber("voltage of ElevatorFollower", tempvarEllevatorF.magnitude());
    
-    if (tempvar9.magnitude()>0.1) {
-      //SmartDashboard.putBoolean("ElevatorFollower", true);
+    if (tempvarEllevatorF.magnitude()>0.1) {
+      SmartDashboard.putBoolean("ElevatorFollower", true);
     }
-    if (tempvar9.magnitude()<0.1) {
-      //SmartDashboard.putBoolean("ElevatorFollower", false);
+    if (tempvarEllevatorF.magnitude()<0.1) {
+      SmartDashboard.putBoolean("ElevatorFollower", false);
     }
     // This method will be called once per scheduler run
   }

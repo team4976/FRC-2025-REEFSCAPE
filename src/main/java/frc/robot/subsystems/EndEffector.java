@@ -12,6 +12,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -84,10 +85,33 @@ public class EndEffector extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //SmartDashboard.putNumber("Intake Switch", stopAnalogInput.getPosition());
-    //SmartDashboard.putBoolean("Switch", getSwitch());
-    // This method will be called once per scheduler run
-  }
+   // This method will be called once per scheduler run
+
+    SmartDashboard.putNumber("Intake Switch", stopAnalogInput.getPosition());
+    SmartDashboard.putBoolean("Switch", getSwitch());
+
+    Double tempvarLeftMax = leftMax .getBusVoltage();
+    SmartDashboard.putNumber("voltage of leftMax", tempvarLeftMax);
+       if (tempvarLeftMax>0.1) {
+           SmartDashboard.putBoolean("leftMax", true);
+                                           
+       }
+       if (tempvarLeftMax<0.1) {
+         SmartDashboard.putBoolean("leftMax", false);
+       }
+    
+ 
+    Double tempvarRightMax = rightMax .getBusVoltage();
+    SmartDashboard.putNumber("voltage of RightMax", tempvarRightMax);
+      if (tempvarRightMax>0.1) {
+          SmartDashboard.putBoolean("RightMax", true);
+                                              
+      }
+      if (tempvarRightMax<0.1) {
+        SmartDashboard.putBoolean("RightMax", false);
+      
+      } 
+      }
 
   @Override
   public void simulationPeriodic() {

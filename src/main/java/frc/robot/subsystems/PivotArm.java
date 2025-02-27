@@ -141,9 +141,20 @@ public class PivotArm extends SubsystemBase {
 
     }
 
-    //SmartDashboard.putNumber("Pivot Position", pivotEncoder.getPosition());
-    //SmartDashboard.putNumber("Pivot Set", position);
-    //SmartDashboard.putBoolean("Pivot Limit", Zero());
+    SmartDashboard.putNumber("Pivot Position", pivotEncoder.getPosition());
+    SmartDashboard.putNumber("Pivot Set", position);
+    SmartDashboard.putBoolean("Pivot Limit", Zero());
+
+    Double tempvarPivot = pivot .getBusVoltage();
+    SmartDashboard.putNumber("voltage of Pivot", tempvarPivot);
+      if (tempvarPivot>0.1) {
+          SmartDashboard.putBoolean("Pivot", true);
+                                              
+      }
+      if (tempvarPivot<0.1) {
+        SmartDashboard.putBoolean("Pivot", false);
+      
+      } 
   }
 
   @Override

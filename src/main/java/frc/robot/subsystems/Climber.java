@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -91,7 +92,17 @@ public class Climber extends SubsystemBase {
     }
 
     //pid.setReference(out, ControlType.kVelocity);
-
+   
+    Double tempvarClimber = m_Leader .getBusVoltage();
+    SmartDashboard.putNumber("voltage of Climber", tempvarClimber);
+      if (tempvarClimber>0.1) {
+          SmartDashboard.putBoolean("Climber", true);
+                                              
+      }
+      if (tempvarClimber<0.1) {
+        SmartDashboard.putBoolean("Climber", false);
+      
+      }   
 
   }
 
