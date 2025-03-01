@@ -13,13 +13,19 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import frc.robot.commands.Intake;
+import frc.robot.subsystems.EndEffector;
+import frc.robot.subsystems.PivotArm;
+import frc.robot.subsystems.Elevator1;
 
 public class AutoRoutines {
     private final AutoFactory m_factory;
     public boolean startLeft;
+    private Intake _intake;
 
-    public AutoRoutines(AutoFactory factory) {
+    public AutoRoutines(AutoFactory factory, EndEffector f, PivotArm p, Elevator1 e) {
         m_factory = factory;
+        _intake = new Intake(f, p);
     }
 
     public AutoRoutine testPath() {
@@ -30,6 +36,14 @@ public class AutoRoutines {
             .andThen(path.cmd())
         );
         
+        return routine;
+    }
+
+    public AutoRoutine basicAuto() {
+        final AutoRoutine routine = m_factory.newRoutine("just move");
+        final AutoTrajectory path_start = routine.trajectory("null");
+        routine.active().onTrue(path_start.resetOdometry().andThen(path_start.cmd()));
+
         return routine;
     }
     

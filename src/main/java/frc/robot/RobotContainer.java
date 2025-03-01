@@ -91,10 +91,11 @@ public class RobotContainer {
 
         //CHOREO AUTOS
         autoFactory = drivetrain.createAutoFactory();
-        autoRoutines = new AutoRoutines(autoFactory);
+        autoRoutines = new AutoRoutines(autoFactory, effector, pivot, elevator);
         /*add auto routines */
         SmartDashboard.putData("Auto Chooser", autoChooserC);
-        autoChooserC.addRoutine("test path", autoRoutines::testPath);
+        autoChooserC.addRoutine("test", autoRoutines::testPath);
+        autoChooserC.addRoutine("just move", autoRoutines::basicAuto);
 
         configureBindings();
     }
