@@ -46,13 +46,13 @@ public class PivotArm extends SubsystemBase {
 
     pivotConfig = new SparkMaxConfig();
 
-    pivotConfig.closedLoop.outputRange(-0.1, 0.5);
+    pivotConfig.closedLoop.outputRange(-0.2, 0.2);
     pivotConfig.idleMode(IdleMode.kBrake);
 
-    pivotConfig.closedLoop.pidf(0.15, 0, 2, 0);//p was 0.2
+    pivotConfig.closedLoop.pidf(0.3, 0, 0, 0);//p was 0.2
     pivotConfig.closedLoop.iZone(0.1);
     pivotConfig.inverted(true);
-    pivotConfig.closedLoopRampRate(0.5);
+    //pivotConfig.closedLoopRampRate(0.5);
     
     
     pivot.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -144,17 +144,6 @@ public class PivotArm extends SubsystemBase {
     SmartDashboard.putNumber("Pivot Position", pivotEncoder.getPosition());
     SmartDashboard.putNumber("Pivot Set", position);
     SmartDashboard.putBoolean("Pivot Limit", Zero());
-
-    Double tempvarPivot = pivot .getBusVoltage();
-    SmartDashboard.putNumber("voltage of Pivot", tempvarPivot);
-      if (tempvarPivot>0.1) {
-          SmartDashboard.putBoolean("Pivot", true);
-                                              
-      }
-      if (tempvarPivot<0.1) {
-        SmartDashboard.putBoolean("Pivot", false);
-      
-      } 
   }
 
   @Override

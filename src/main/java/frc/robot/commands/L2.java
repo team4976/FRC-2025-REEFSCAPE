@@ -19,8 +19,11 @@ public class L2 extends Command {
   private final Elevator1 m_elevator;
   private final PivotArm m_PivotArm;
   private final EndEffector m_Effector;
-  private boolean hasCoral;
+  private boolean done;
+  private double position;
+  private double ArmPosition;
   //private final Command outake;
+  private double time;
   
 
 
@@ -29,22 +32,27 @@ public class L2 extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public L2(Elevator1 elevator, PivotArm pivot, EndEffector effector) {
+  public L2(Elevator1 elevator, PivotArm pivot, EndEffector effector, double Position, double arm) {
     //m_subsystem = subsystem;
+    ArmPosition = arm;
     m_elevator = elevator;
     m_PivotArm = pivot;
     m_Effector = effector;
+    position = Position;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(elevator);
     addRequirements(pivot);
-    addRequirements(effector);
+    time = System.currentTimeMillis();
+    //addRequirements(effector);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_elevator.gotolevel(11);
-    //m_PivotArm.goTo(2.75);
+    m_elevator.gotolevel(position);
+    m_PivotArm.goTo(ArmPosition);
+    done = false;
+    time = System.currentTimeMillis();
 
     //outake = new Outake(m_Effector, m_PivotArm);
   }
@@ -52,27 +60,33 @@ public class L2 extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_elevator.getVelocity() < 0.8){
-      m_PivotArm.goTo(1.35);
+     if(System.currentTimeMillis()-time > 2000){
+      done = true;
 
-    }
-    else{
-      m_PivotArm.goTo(2.75);
-    }
+     }
+    //   m_PivotArm.goTo(1.35);
+    
 
+    // }
+    // else{
+    //   m_PivotArm.goTo(2.75);
+    // }
+
+    
    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Effector.runed(0);
+    //m_Effector.runed(0);
     //m_PivotArm.goTo(2.75);
+    System.out.println("sigma");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return hasCoral;
+    return done;
   }
 }

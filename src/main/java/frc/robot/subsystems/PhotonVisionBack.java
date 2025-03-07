@@ -16,22 +16,21 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class PhotonVision extends SubsystemBase {
+public class PhotonVisionBack extends SubsystemBase {
   PhotonTrackedTarget bestTarget;
   GenericEntry Rotation3d_WidgetX,Rotation3d_WidgetY,Rotation3d_WidgetZ;
-  private PhotonCamera p_photon = new PhotonCamera("Front Cam");
+  private PhotonCamera p_photon = new PhotonCamera("Back Cam");
   /** Creates a new ExampleSubsystem. */
-  public PhotonVision() {
-    Rotation3d_WidgetX = Shuffleboard.getTab("SmartDashboard").add("Rotation3d X",0).getEntry();
-    Rotation3d_WidgetY = Shuffleboard.getTab("SmartDashboard").add("Rotation3d Y",0).getEntry();
-    Rotation3d_WidgetZ = Shuffleboard.getTab("SmartDashboard").add("Rotation3d Z",0).getEntry();
+  public PhotonVisionBack() {
+    Rotation3d_WidgetX = Shuffleboard.getTab("SmartDashboard").add("Rotation3d2 X",0).getEntry();
+    Rotation3d_WidgetY = Shuffleboard.getTab("SmartDashboard").add("Rotation3d2 Y",0).getEntry();
+    Rotation3d_WidgetZ = Shuffleboard.getTab("SmartDashboard").add("Rotation3d2 Z",0).getEntry();
     //SmartDashboard.putNumber("PhotonX", p_photon.getLatestResult().getBestTarget().getBestCameraToTarget().getX());
       //SmartDashboard.putNumber("PhotonY", p_photon.getLatestResult().getBestTarget().getBestCameraToTarget().getY());
       //SmartDashboard.putNumber("Yaw", p_photon.getLatestResult().getBestTarget().getYaw());
@@ -111,16 +110,6 @@ public class PhotonVision extends SubsystemBase {
     
     return oh;
   }
-  public int getId(){
-    var result = p_photon.getLatestResult();
-
-    if(result.hasTargets()){
-      return result.getBestTarget().getFiducialId();
-    }
-    else{
-      return -1;
-    }
-  }
   public double getAmbiguity(){
     var result = p_photon.getLatestResult();
     if(result.hasTargets()){
@@ -134,10 +123,9 @@ public class PhotonVision extends SubsystemBase {
     
     var result = p_photon.getLatestResult();
     if(result.hasTargets()){
-      //return result.getBestTarget().
       return result.getBestTarget().getBestCameraToTarget().getX();
     }
-    
+    //PhotonTrackedTarget target = result.getBestTarget();
 
     return 0;
   }
@@ -146,7 +134,7 @@ public class PhotonVision extends SubsystemBase {
     if(result.hasTargets()){
       return result.getBestTarget().getBestCameraToTarget().getY();
     }
-    
+    //PhotonTrackedTarget target = result.getBestTarget();
 
     return 0;
   }
@@ -164,9 +152,6 @@ public class PhotonVision extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Xoff", getX());
-    SmartDashboard.putNumber("Yoff", getY());
-    SmartDashboard.putNumber("Fiducial Id", getId());
     //double x = getYaw();
     //SmartDashboard.putNumber("oh", x);
 

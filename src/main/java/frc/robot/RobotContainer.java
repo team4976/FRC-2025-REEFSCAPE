@@ -6,6 +6,8 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.jar.Attributes.Name;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -13,6 +15,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 
 import choreo.auto.AutoChooser;
 import choreo.auto.AutoFactory;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,7 +27,9 @@ import frc.robot.commands.ActuateDown;
 import frc.robot.commands.ActuateUp;
 import frc.robot.commands.ArmDown;
 import frc.robot.commands.ArmUp;
-import frc.robot.commands.AutoAlign;
+import frc.robot.commands.AutoAlignLeft;
+import frc.robot.commands.AutoAlignRight;
+import frc.robot.commands.DumbAlign;
 import frc.robot.commands.ElevatorDown;
 import frc.robot.commands.ElevatorUp;
 import frc.robot.commands.Intake;
@@ -35,7 +41,7 @@ import frc.robot.commands.L4;
 //import frc.robot.commands.L4;
 import frc.robot.commands.Outake;
 import frc.robot.commands.RunIntake;
-import frc.robot.generated.TunerConstants;
+import frc.robot.generated.TunerConstants_other;
 import frc.robot.subsystems.Actuation;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -43,27 +49,37 @@ import frc.robot.subsystems.Driving;
 import frc.robot.subsystems.Elevator1;
 import frc.robot.subsystems.EndEffector;
 import frc.robot.subsystems.PhotonVision;
+import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.PivotArm;
+import frc.robot.subsystems.SideCam;
+
+
+
 
 public class RobotContainer {
-    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+
+    private final AutoFactory autoFactory;
+    private final AutoRoutines autoRoutines;
+    private final AutoChooser autoChooserC = new AutoChooser();
+
+    private double MaxSpeed = TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
-    /* Setting up bindings for necessary control of the swerve drive platform */
+    /* Setting up bindings for necessary control of the swerve drive platform 
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.15).withRotationalDeadband(MaxAngularRate * 0.15) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);*/
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController joystick = new CommandXboxController(0);
-   // private final CommandXboxController andrew = new CommandXboxController(1);
+    private final CommandXboxController andrew = new CommandXboxController(1);
 
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+  public final CommandSwerveDrivetrain drivetrain = TunerConstants_other.createDrivetrain();
 
     //private final Arm arm = new Arm();
     //private final Arm1 armed = new Arm1();
@@ -72,22 +88,32 @@ public class RobotContainer {
     private final EndEffector effector = new EndEffector();
     private final Climber climber = new Climber();
     private final Actuation actuation = new Actuation();
-    private final Driving driving = new Driving();
+    private final Driving driving = new Driving(drivetrain);
     private final PhotonVision photon = new PhotonVision();
+    private final SideCam m_SideCam = new SideCam();
+    private final Pigeon pig = new Pigeon();
+    //private final PhotonVisionRear photonRear = new PhotonVisionRear();
 
     
-      /* Path follower FOR CHOREO */
-    private final AutoFactory autoFactory;
-    private final AutoRoutines autoRoutines;
-    private final AutoChooser autoChooserC = new AutoChooser();
+    
 
     /* Path follower */
-    private final SendableChooser<Command> autoChooser;
+   private final SendableChooser<Command> autoChooser;
+   private final SendableChooser<Command> autoChooser2;
+   private final SendableChooser<Command> autoChooser3;
 
     public RobotContainer() {
-        //PATHPLANNER AUTOS
-        autoChooser = AutoBuilder.buildAutoChooser("Tests");
-        SmartDashboard.putData("Auto Mode", autoChooser);
+        autoChooser = AutoBuilder.buildAutoChooser("1");
+        autoChooser2 = AutoBuilder.buildAutoChooser("2");
+        autoChooser3 = AutoBuilder.buildAutoChooser("3");
+        
+        //SmartDashboard.putData("Auto Mode", autoChooser);
+        //NamedCommands.registerCommand("Leftaim", new AutoAlignLeft(photon, driving));
+        //NamedCommands.registerCommand("Rightaim", new AutoAlignRight(photon, driving));
+        NamedCommands.registerCommand("L1", new L1(elevator, pivot).alongWith(new Intake(effector, pivot)));
+        NamedCommands.registerCommand("Intake", new Intake(effector, pivot));
+        NamedCommands.registerCommand("LeftAlign", new DumbAlign(m_SideCam, driving, -0.35, photon, pig));
+
 
         //CHOREO AUTOS
         autoFactory = drivetrain.createAutoFactory();
@@ -101,29 +127,47 @@ public class RobotContainer {
 
     private void configureBindings() {
 
-        //andrew.povUp().onTrue(new ElevatorUp(elevator));
-        //andrew.povDown().onTrue(new ElevatorDown(elevator));
-        //andrew.povRight().onTrue(new ArmUp(pivot));
-        //andrew.povLeft().onTrue(new ArmDown(pivot));
+        andrew.povUp().onTrue(new ElevatorUp(elevator));
+        andrew.povDown().onTrue(new ElevatorDown(elevator));
+        andrew.povRight().onTrue(new ArmUp(pivot));
+        andrew.povLeft().onTrue(new ArmDown(pivot));
         //andrew.povUp().onTrue(new L4(elevator));
         //joystick.povRight().onTrue(new L3(elevator));
         //joystick.povDown().toggleOnTrue(new L2(elevator, pivot, effector));
         //joystick.povLeft().onTrue(new L1(elevator));
 
-        joystick.povUp().toggleOnTrue(new L4(elevator, pivot, effector));
-        joystick.povRight().toggleOnTrue(new L3(elevator, pivot, effector));
-        joystick.povLeft().toggleOnTrue(new L2(elevator, pivot, effector));
-        joystick.povDown().toggleOnTrue(new L1(elevator));
+        //joystick.povUp().toggleOnTrue(new L4(elevator, pivot, effector));
+        //joystick.povRight().toggleOnTrue(new L3(elevator, pivot, effector));
+        //joystick.povLeft().toggleOnTrue(new L2(elevator, pivot, effector));
+        //joystick.povDown().toggleOnTrue(new L1(elevator));
 
-        joystick.povDown().onTrue(new Intake(effector, pivot));
-        joystick.leftBumper().toggleOnTrue(new AutoAlign(photon, driving));
+        //joystick.povDown().onTrue(new Intake(effector, pivot));
+        //joystick.leftBumper().toggleOnTrue(new AutoAlignLeft(photon, driving));
+        //joystick.rightBumper().toggleOnTrue(new AutoAlignRight(photon, driving));
 
 
 
-        //joystick.b().toggleOnTrue(new Intake(effector, pivot));
-        joystick.a().toggleOnTrue(new Outake(effector, pivot));
+        joystick.b().toggleOnTrue(new Intake(effector, pivot));
+        joystick.a().toggleOnTrue(new Outake(effector, pivot, driving));
         joystick.start().toggleOnTrue(new ActuateUp(actuation));
         joystick.back().toggleOnTrue(new ActuateDown(actuation));
+
+        andrew.b().whileTrue(new RunIntake(effector, 0.3));
+        andrew.a().whileTrue(new RunIntake(effector, -0.3));
+        //joystick.povRight().onTrue(new ArmUp(pivot));
+        //joystick.povLeft().onTrue(new ArmDown(pivot));
+        joystick.povLeft().onTrue(new L2(elevator, pivot, effector, 8.42, -2.6));//L2
+
+        joystick.povRight().onTrue(new L2(elevator, pivot, effector, 16.72, -2.6));//L3
+        joystick.povUp().onTrue(new L2(elevator, pivot, effector, 31.62, -2.6));//L4 2.7
+        joystick.x().onTrue(new L2(elevator, pivot, effector, 31.5, -2.75));
+
+        joystick.povDown().toggleOnTrue(new L1(elevator, pivot).alongWith(new Intake(effector, pivot)));//L1
+
+        joystick.rightBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, 0.13, photon, pig));
+
+        joystick.leftBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, -0.23, photon, pig));
+        
         //joystick.povLeft().toggleOnTrue(new RunIntake(effector));
         
         // Note that X is defined as forward according to WPILib convention,
@@ -160,15 +204,28 @@ public class RobotContainer {
         //joystick.y().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
         
 
-        //drivetrain.registerTelemetry(logger::telemeterize);
+        drivetrain.registerTelemetry(logger::telemeterize);
     }
 
     public Command getAutonomousCommand() {
-        /* Run the path selected from the auto chooser FOR PATHPLANNER */
-        // return autoChooser.getSelected();
-
-        /* Run the path selected from the auto chooser FOR CHOREO */
-
-        return autoChooserC.selectedCommand();
+        /* Run the path selected from the auto chooser */
+        //return autoChooser.getSelected();
+        //return null;
+        //return autoChooserC.selectedCommand();
+        return autoChooser.getSelected()
+            .andThen(new DumbAlign(m_SideCam, driving, -0.2, photon, pig)
+            .alongWith(new L2(elevator, pivot, effector, 31.62, -2.7)))
+            .andThen(new L2(elevator, pivot, effector, 31.62, -2.7))
+            .andThen(new Outake(effector, pivot, driving))
+            .andThen(new L1(elevator, pivot))
+            .andThen(autoChooser2.getSelected())
+            .andThen(new Intake(effector, pivot))
+            .andThen(autoChooser3.getSelected())
+            .andThen(new DumbAlign(m_SideCam, driving, 0.01, photon, pig)
+            .alongWith(new L2(elevator, pivot, effector, 31.62, -2.7)))
+            .andThen(new Outake(effector, pivot, driving))
+            .andThen(new L1(elevator, pivot));
+        //return new L1(elevator, pivot).andThen(autoChooser2.getSelected());
+        //return autoChooser.getSelected();
     }
 }

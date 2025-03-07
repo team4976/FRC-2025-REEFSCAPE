@@ -4,21 +4,16 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Servo;
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Actuation extends SubsystemBase {
+public class SideCam extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-  private Servo actuator = new Servo(0);
-  private Servo actuator1 = new Servo(1);
+  private PhotonCamera p_photon = new PhotonCamera("Global_Shutter_Camera");
 
-  public Actuation() {
-    actuator.set(0.2);
-    actuator1.set(0.2);
-
-
-  }
+  public SideCam() {}
 
   /**
    * Example command factory method.
@@ -33,10 +28,6 @@ public class Actuation extends SubsystemBase {
           /* one-time action goes here */
         });
   }
-  public void runActuator(double out){
-    actuator.set(out);
-    actuator1.set(out);
-  } 
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
@@ -47,7 +38,17 @@ public class Actuation extends SubsystemBase {
     // Query some boolean state, such as a digital sensor.
     return false;
   }
-  
+
+  public double getYaw(){
+    var result = p_photon.getLatestResult();
+    if(result.hasTargets()){
+      return result.getBestTarget().getYaw();
+    }
+    else{
+      return 1000;
+    }
+    
+  }
 
   @Override
   public void periodic() {

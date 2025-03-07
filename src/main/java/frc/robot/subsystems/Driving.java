@@ -6,12 +6,13 @@ package frc.robot.subsystems;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.generated.TunerConstants;
+import frc.robot.generated.TunerConstants_other;
 import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,13 +26,15 @@ public class Driving extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   final SwerveRequest.RobotCentric drive1;
   final SwerveRequest.FieldCentric drive;
-  public Driving() {
+  CommandSwerveDrivetrain drivetrainer;
+  public Driving(CommandSwerveDrivetrain _drivetrain) {
+    drivetrainer = _drivetrain;
     drive1 = new SwerveRequest.RobotCentric()
             .withDeadband(0).withRotationalDeadband(0) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     
     drive = new SwerveRequest.FieldCentric()
-    .withDeadband(0.25).withRotationalDeadband(0.20) // Add a 10% deadband
+    .withDeadband(0.15).withRotationalDeadband(0.15) // Add a 10% deadband
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
   }
   
@@ -40,9 +43,9 @@ public class Driving extends SubsystemBase {
   private double y = 0;
   private double r = 0.5;
   private boolean mode = false;
-  public CommandSwerveDrivetrain drivetrainer = TunerConstants.createDrivetrain();
+  //public CommandSwerveDrivetrain drivetrainer = TunerConstants.createDrivetrain();
   private final CommandXboxController joystick = new CommandXboxController(Constants.OperatorConstants.kDriverControllerPort);
-
+  
   
 
   /**
@@ -92,33 +95,78 @@ public class Driving extends SubsystemBase {
             .withDeadband(0).withRotationalDeadband(0) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors*/
 
-      drivetrainer.setControl(drive1.withVelocityX(x*TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)));
+      
 
-      drivetrainer.setControl(drive1.withVelocityY(y*TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)));
+      drivetrainer.setControl(drive1.withVelocityX(x*TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
+
+      drivetrainer.setControl(drive1.withVelocityY(y*TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
       drivetrainer.setControl(drive1.withRotationalRate(r*RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
       
     }
     else{
+      if(DriverStation.isAutonomous()){
+
+      }
+      else{
+         if(Math.abs(joystick.getRightX()) > 0.15){
+           //drivetrainer.setControl(drive.withRotationalRate(-joystick.getRightX() * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
+           drivetrainer.setControl(drive.withRotationalRate(-1*(0.41*(joystick.getRightX()-1)*joystick.getRightX()*(joystick.getRightX()+1)+joystick.getRightX()) * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
+         }
+        else{
+          drivetrainer.setControl(drive.withRotationalRate(0));
+        }
+ 
+       if(Math.sqrt(joystick.getLeftY()*joystick.getLeftY() + joystick.getLeftX()*joystick.getLeftX())>0.18){
+         drivetrainer.setControl(drive.withVelocityY(-1*(0.41*(joystick.getLeftX()-1)*joystick.getLeftX()*(joystick.getLeftX()+1) + joystick.getLeftX()) * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
+         //drivetrainer.setControl(drive.withVelocityY(-joystick.getLeftX() * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
+
+
+         //drivetrainer.setControl(drive.withVelocityX(-joystick.getLeftY() * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
+         drivetrainer.setControl(drive.withVelocityX(-1*(0.41*(joystick.getLeftY() -1)*joystick.getLeftY()*(joystick.getLeftY()+1) + joystick.getLeftY()) * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
+       }
+       else{
+         drivetrainer.setControl(drive.withVelocityY(0));
+         drivetrainer.setControl(drive.withVelocityX(0));
+       }
+       //drivetrainer.setControl(drive.withVelocityX(-joystick.getLeftY() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)));
+ 
+       //drivetrainer.setControl(drive.withVelocityY(-joystick.getLeftX() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)));
+ 
+       //drivetrainer.setControl(drive.withRotationalRate(-joystick.getRightX() * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
+ 
+       joystick.y().onTrue(drivetrainer.runOnce(() -> drivetrainer.seedFieldCentric()));
+        
+
+      }
       //final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       //      .withDeadband(0.05).withRotationalDeadband(0.05) // Add a 10% deadband
       //      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-      if(Math.abs(joystick.getLeftY())>0.15){
-        drivetrainer.setControl(drive.withVelocityX(-joystick.getLeftY() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)));
-      }
+      // if(Math.abs(joystick.getLeftY())>0.15){
+      //   drivetrainer.setControl(drive.withVelocityX(-joystick.getLeftY() * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
+      // }
+      // else{
+      //   drivetrainer.setControl(drive.withVelocityX(0));
+      // }
+      // if(Math.abs(joystick.getLeftX())>0.15){
+      //   drivetrainer.setControl(drive.withVelocityY(-joystick.getLeftX() * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
+      // }
+      // else{
+      //   drivetrainer.setControl(drive.withVelocityY(0));
+      // }
+       /*if(Math.abs(joystick.getRightX()) > 0.15){
+         drivetrainer.setControl(drive.withRotationalRate(-joystick.getRightX() * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
+       }
       else{
-        drivetrainer.setControl(drive.withVelocityX(0));
+        drivetrainer.setControl(drive.withRotationalRate(0));
       }
-      if(Math.abs(joystick.getLeftX())>0.15){
-        drivetrainer.setControl(drive.withVelocityY(-joystick.getLeftX() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)));
+
+      if(Math.sqrt(joystick.getLeftY()*joystick.getLeftY() + joystick.getLeftX()*joystick.getLeftX())>0.13){
+        drivetrainer.setControl(drive.withVelocityY(-joystick.getLeftX() * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
+        drivetrainer.setControl(drive.withVelocityX(-joystick.getLeftY() * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
       }
       else{
         drivetrainer.setControl(drive.withVelocityY(0));
-      }
-      if(Math.abs(joystick.getRightX()) > 0.15){
-        drivetrainer.setControl(drive.withRotationalRate(-joystick.getRightX() * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
-      }
-      else{
-        drivetrainer.setControl(drive.withRotationalRate(0));
+        drivetrainer.setControl(drive.withVelocityX(0));
       }
       //drivetrainer.setControl(drive.withVelocityX(-joystick.getLeftY() * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)));
 
@@ -126,7 +174,7 @@ public class Driving extends SubsystemBase {
 
       //drivetrainer.setControl(drive.withRotationalRate(-joystick.getRightX() * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
 
-      joystick.y().onTrue(drivetrainer.runOnce(() -> drivetrainer.seedFieldCentric()));
+      joystick.y().onTrue(drivetrainer.runOnce(() -> drivetrainer.seedFieldCentric())); */
     }
 
     // This method will be called once per scheduler run

@@ -4,20 +4,18 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Servo;
+import com.ctre.phoenix6.hardware.Pigeon2;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Actuation extends SubsystemBase {
+public class Pigeon extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-  private Servo actuator = new Servo(0);
-  private Servo actuator1 = new Servo(1);
 
-  public Actuation() {
-    actuator.set(0.2);
-    actuator1.set(0.2);
-
-
+  private final Pigeon2 pig = new Pigeon2(60);
+  public Pigeon() {
+    
   }
 
   /**
@@ -33,10 +31,6 @@ public class Actuation extends SubsystemBase {
           /* one-time action goes here */
         });
   }
-  public void runActuator(double out){
-    actuator.set(out);
-    actuator1.set(out);
-  } 
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
@@ -47,11 +41,24 @@ public class Actuation extends SubsystemBase {
     // Query some boolean state, such as a digital sensor.
     return false;
   }
+
+  public double getYaw(){
+    double angle = pig.getAccumGyroZ().getValueAsDouble();
+    angle = angle % 360;  // Get remainder within -360 to 360
+    return (angle >= 0) ? angle : angle + 360;  // Convert negative to positive
+
+    //return pig.getRotation3d().getAxis().get;
+  }
   
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("rotation", getYaw());
+    SmartDashboard.putNumber("Yaws", pig.getAccumGyroZ().getValueAsDouble());
+    
+    SmartDashboard.putNumber("oh3", (((0-getYaw()+180)%360+360)%360-180));
+
   }
 
   @Override
