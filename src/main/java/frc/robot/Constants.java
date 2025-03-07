@@ -53,6 +53,8 @@ public final class Constants {
   public static final HashMap<Integer, Double> tagIdtoRotation = new HashMap<Integer, Double>();
 
   static public void initTags(){
+    tagIdtoRotation.put(1, 120.0);
+    tagIdtoRotation.put(2, 315.0);
     tagIdtoRotation.put(6, 120.0);
     tagIdtoRotation.put(7, 180.0);
     tagIdtoRotation.put(8, 240.0);
@@ -61,6 +63,8 @@ public final class Constants {
     tagIdtoRotation.put(11, 60.0);
 
     
+    tagIdtoRotation.put(13, tagIdtoRotation.get(1));
+    tagIdtoRotation.put(12, tagIdtoRotation.get(2));
     tagIdtoRotation.put(17, tagIdtoRotation.get(8));
     tagIdtoRotation.put(18, tagIdtoRotation.get(7));
     tagIdtoRotation.put(19, tagIdtoRotation.get(6));
@@ -68,6 +72,7 @@ public final class Constants {
     tagIdtoRotation.put(21, tagIdtoRotation.get(10));
     tagIdtoRotation.put(22, tagIdtoRotation.get(9));
   }
+  
 
   
   

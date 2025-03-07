@@ -27,6 +27,7 @@ import frc.robot.commands.ArmUp;
 import frc.robot.commands.AutoAlignLeft;
 import frc.robot.commands.AutoAlignRight;
 import frc.robot.commands.DumbAlign;
+import frc.robot.commands.DumbAlignReverse;
 import frc.robot.commands.ElevatorDown;
 import frc.robot.commands.ElevatorUp;
 import frc.robot.commands.Intake;
@@ -46,6 +47,7 @@ import frc.robot.subsystems.Driving;
 import frc.robot.subsystems.Elevator1;
 import frc.robot.subsystems.EndEffector;
 import frc.robot.subsystems.PhotonVision;
+import frc.robot.subsystems.PhotonVisionRear;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.PivotArm;
 import frc.robot.subsystems.SideCam;
@@ -81,6 +83,7 @@ public class RobotContainer {
     private final PhotonVision photon = new PhotonVision();
     private final SideCam m_SideCam = new SideCam();
     private final Pigeon pig = new Pigeon();
+    private final PhotonVisionRear photonRear = new PhotonVisionRear(); 
     //private final PhotonVisionRear photonRear = new PhotonVisionRear();
 
     
@@ -110,8 +113,12 @@ public class RobotContainer {
 
         andrew.povUp().onTrue(new ElevatorUp(elevator));
         andrew.povDown().onTrue(new ElevatorDown(elevator));
-        andrew.povRight().onTrue(new ArmUp(pivot));
-        andrew.povLeft().onTrue(new ArmDown(pivot));
+        //andrew.povRight().onTrue(new ArmUp(pivot));
+        //andrew.povLeft().onTrue(new ArmDown(pivot));
+
+        //andrew.rightStick().
+
+        andrew.axisMagnitudeGreaterThan(4, 0.2).whileTrue((new ArmDown(pivot, andrew.getRightX())));
         //andrew.povUp().onTrue(new L4(elevator));
         //joystick.povRight().onTrue(new L3(elevator));
         //joystick.povDown().toggleOnTrue(new L2(elevator, pivot, effector));
@@ -148,6 +155,8 @@ public class RobotContainer {
         joystick.rightBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, 0.13, photon, pig));
 
         joystick.leftBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, -0.23, photon, pig));
+
+        joystick.leftTrigger().toggleOnTrue(new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig));
         
         //joystick.povLeft().toggleOnTrue(new RunIntake(effector));
         
@@ -199,10 +208,10 @@ public class RobotContainer {
             .andThen(new Outake(effector, pivot, driving))
             .andThen(new L1(elevator, pivot))
             .andThen(autoChooser2.getSelected())
-            .andThen(new Intake(effector, pivot))
+            .andThen(new Intake(effector, pivot).alongWith(new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig)))
             .andThen(autoChooser3.getSelected())
-            .andThen(new DumbAlign(m_SideCam, driving, 0.01, photon, pig)
-            .alongWith(new L2(elevator, pivot, effector, 31.62, -2.7)))
+            .andThen(new DumbAlign(m_SideCam, driving, 0.13, photon, pig)
+            .alongWith(new L2(elevator, pivot, effector, 31.62, -2.7))).andThen(new DumbAlign(m_SideCam, driving, 0.13, photon, pig))
             .andThen(new Outake(effector, pivot, driving))
             .andThen(new L1(elevator, pivot));
         //return new L1(elevator, pivot).andThen(autoChooser2.getSelected());

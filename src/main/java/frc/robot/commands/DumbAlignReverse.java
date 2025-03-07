@@ -8,16 +8,17 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Driving;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PhotonVision;
+import frc.robot.subsystems.PhotonVisionRear;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SideCam;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class DumbAlign extends Command {
+public class DumbAlignReverse extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //private final ExampleSubsystem m_subsystem;
   private final SideCam m_SideCam;
-  private final PhotonVision m_PhotonVision;
+  private final PhotonVisionRear m_PhotonVision;
   private final Driving m_Driving;
   private final double m_Offset;
   private boolean end = false;
@@ -29,7 +30,7 @@ public class DumbAlign extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DumbAlign(SideCam sideCam, Driving driving, double Offset, PhotonVision photonVision, Pigeon pig){
+  public DumbAlignReverse(SideCam sideCam, Driving driving, double Offset, PhotonVisionRear photonVision, Pigeon pig){
 
     m_pig = pig;
 
@@ -82,7 +83,7 @@ public class DumbAlign extends Command {
       rotation = -0.2;
     }
 
-    m_Driving.setRotation(-rotation/2);
+    m_Driving.setRotation(-rotation);
 
     
 
@@ -94,7 +95,7 @@ public class DumbAlign extends Command {
     }else{
 
       //output = (m_SideCam.getYaw() - (m_Offset))/-20;
-      output = m_PhotonVision.getY()+0.25;
+      output = m_PhotonVision.getY()+0.7;
       //m_Driving.setY((m_SideCam.getYaw() - (-27))/-40);
     }
     if(output>0.1){
@@ -105,24 +106,24 @@ public class DumbAlign extends Command {
       output = -0.1;
     }
     if(m_PhotonVision.getHas()){
-      output = (m_PhotonVision.getY()-m_Offset)/1;
+      output = -m_PhotonVision.getY()-m_Offset;
 
-      if(output>0.2){
-        output = 0.2;
+      if(output>0.1){
+        output = 0.1;
 
       }
-      else if(output < -0.2){
-        output = -0.2;
+      else if(output < -0.1){
+        output = -0.1;
       }
 
-      forward = m_PhotonVision.getX()-0.3;
+      forward = -(m_PhotonVision.getX()-0.72);
       if(forward>0.2){
         forward = 0.2;
       }      
       else if(forward < -0.2){
         forward = -0.2;
       }
-      m_Driving.setX(forward/1);
+      m_Driving.setX(forward);
 
     }
     else{
@@ -146,7 +147,7 @@ public class DumbAlign extends Command {
 
     //m_Driving.setY((m_SideCam.getYaw() - (-27)));
 
-    if(Math.abs(forward) < 0.007 && Math.abs(output) < 0.007 && Math.abs(rotation) < 0.007 ){
+    if(Math.abs(forward) < 0.01 && Math.abs(output) < 0.01 && Math.abs(rotation) < 0.01 ){
       end = true;
     }
   }

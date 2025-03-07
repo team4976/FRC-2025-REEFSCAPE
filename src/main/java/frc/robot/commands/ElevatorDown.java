@@ -13,6 +13,7 @@ public class ElevatorDown extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //private final ExampleSubsystem m_subsystem;
   private final Elevator1 m_elevator;
+  
 
   /**
    * Creates a new ExampleCommand.

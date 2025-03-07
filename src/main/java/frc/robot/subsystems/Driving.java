@@ -43,6 +43,7 @@ public class Driving extends SubsystemBase {
   private double y = 0;
   private double r = 0.5;
   private boolean mode = false;
+  private boolean whatWas = false;
   //public CommandSwerveDrivetrain drivetrainer = TunerConstants.createDrivetrain();
   private final CommandXboxController joystick = new CommandXboxController(Constants.OperatorConstants.kDriverControllerPort);
   
@@ -91,6 +92,8 @@ public class Driving extends SubsystemBase {
   @Override
   public void periodic() {
     if(mode){
+      whatWas = true;
+
       /*final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric()
             .withDeadband(0).withRotationalDeadband(0) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors*/
@@ -104,6 +107,11 @@ public class Driving extends SubsystemBase {
       
     }
     else{
+      if(whatWas){
+        drivetrainer.setControl(drive.withVelocityY(y));
+        drivetrainer.setControl(drive.withVelocityX(x));
+        whatWas = false;
+      }
       if(DriverStation.isAutonomous()){
 
       }

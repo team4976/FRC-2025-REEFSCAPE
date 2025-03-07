@@ -60,7 +60,7 @@ public class L2 extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     if(System.currentTimeMillis()-time > 2000){
+     if(System.currentTimeMillis()-time > 1000){
       done = true;
 
      }
