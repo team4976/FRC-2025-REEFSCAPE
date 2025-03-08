@@ -76,7 +76,7 @@ public class Outake extends Command {
       hasCoral = true;
       
     }
-    if(hasCoral && (System.currentTimeMillis()-time > 2000)){
+    if(hasCoral && (System.currentTimeMillis()-time > 150)){
       done = true;
 
     }

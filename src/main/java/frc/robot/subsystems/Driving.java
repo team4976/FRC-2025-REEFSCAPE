@@ -116,21 +116,21 @@ public class Driving extends SubsystemBase {
 
       }
       else{
-         if(Math.abs(joystick.getRightX()) > 0.15){
+         if(Math.abs(joystick.getRightX()) > 0.13){
            //drivetrainer.setControl(drive.withRotationalRate(-joystick.getRightX() * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
-           drivetrainer.setControl(drive.withRotationalRate(-1*(0.41*(joystick.getRightX()-1)*joystick.getRightX()*(joystick.getRightX()+1)+joystick.getRightX()) * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
+           drivetrainer.setControl(drive.withRotationalRate(-1*(0.6*(joystick.getRightX()-1)*joystick.getRightX()*(joystick.getRightX()+1)+joystick.getRightX()) * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
          }
         else{
           drivetrainer.setControl(drive.withRotationalRate(0));
         }
  
        if(Math.sqrt(joystick.getLeftY()*joystick.getLeftY() + joystick.getLeftX()*joystick.getLeftX())>0.18){
-         drivetrainer.setControl(drive.withVelocityY(-1*(0.41*(joystick.getLeftX()-1)*joystick.getLeftX()*(joystick.getLeftX()+1) + joystick.getLeftX()) * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
+         drivetrainer.setControl(drive.withVelocityY(-1*(0.6*(joystick.getLeftX()-1)*joystick.getLeftX()*(joystick.getLeftX()+1) + joystick.getLeftX()) * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
          //drivetrainer.setControl(drive.withVelocityY(-joystick.getLeftX() * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
 
 
          //drivetrainer.setControl(drive.withVelocityX(-joystick.getLeftY() * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
-         drivetrainer.setControl(drive.withVelocityX(-1*(0.41*(joystick.getLeftY() -1)*joystick.getLeftY()*(joystick.getLeftY()+1) + joystick.getLeftY()) * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
+         drivetrainer.setControl(drive.withVelocityX(-1*(0.6*(joystick.getLeftY() -1)*joystick.getLeftY()*(joystick.getLeftY()+1) + joystick.getLeftY()) * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
        }
        else{
          drivetrainer.setControl(drive.withVelocityY(0));

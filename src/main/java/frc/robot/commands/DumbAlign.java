@@ -22,6 +22,7 @@ public class DumbAlign extends Command {
   private final double m_Offset;
   private boolean end = false;
   private Pigeon m_pig;
+  private double time;
 
 
   /**
@@ -50,6 +51,7 @@ public class DumbAlign extends Command {
     //m_Driving.setX(0.05);
     m_Driving.setRotation(0);
     end = false;
+    time = System.currentTimeMillis();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -64,76 +66,65 @@ public class DumbAlign extends Command {
     }
 
     double Offset = 0;
-    int id = m_PhotonVision.getId();
+    //int id = m_PhotonVision.getId();
 
 
-    if(Constants.tagIdtoRotation.containsKey(id)){
-      Offset = Constants.tagIdtoRotation.get(id);
-    }
+    // if(Constants.tagIdtoRotation.containsKey(id)){
+    //   Offset = Constants.tagIdtoRotation.get(id);
+    // }
     
     
 
-    double rotation = -(((Offset-m_pig.getYaw()+180)%360+360)%360-180)/100;
 
-    if(rotation > 0.2){
-      rotation = 0.2;
-    }
-    else if(rotation < -0.2){
-      rotation = -0.2;
-    }
-
-    m_Driving.setRotation(-rotation/2);
 
     
 
     double output;
     double forward;
+    double rotation;
 
-    if(m_SideCam.getYaw() == 1000){
-      output = 0;
-    }else{
 
-      //output = (m_SideCam.getYaw() - (m_Offset))/-20;
-      output = m_PhotonVision.getY()+0.25;
-      //m_Driving.setY((m_SideCam.getYaw() - (-27))/-40);
-    }
-    if(output>0.1){
-      output = 0.1;
-
-    }
-    else if(output < -0.1){
-      output = -0.1;
-    }
     if(m_PhotonVision.getHas()){
-      output = (m_PhotonVision.getY()-m_Offset)/1;
 
-      if(output>0.2){
-        output = 0.2;
+      int id = m_PhotonVision.getId();
 
-      }
-      else if(output < -0.2){
-        output = -0.2;
+      if(Constants.tagIdtoRotation.containsKey(id)){
+        Offset = Constants.tagIdtoRotation.get(id);
       }
 
-      forward = m_PhotonVision.getX()-0.3;
-      if(forward>0.2){
-        forward = 0.2;
-      }      
-      else if(forward < -0.2){
-        forward = -0.2;
-      }
-      m_Driving.setX(forward/1);
+      rotation = (((Offset-m_pig.getYaw()+180)%360+360)%360-180)/100;
+
+      
+  
+      //m_Driving.setRotation(-rotation/2);
+
+
+      output = (m_PhotonVision.getY()-m_Offset);
+
+      
+
+      forward = m_PhotonVision.getX()-0.34;
+      
+      //m_Driving.setX(forward/1);
 
     }
     else{
       output = 0;
-      m_Driving.setX(0);
+      rotation = 0;
       forward = 0;
+
+      
     }
 
 
 
     //output = m_PhotonVision.getY()-m_Offset;
+    if(forward>0.2){
+      forward = 0.2;
+    }
+    else if(forward<-0.2){
+      forward = -0.2;
+    }
 
     if(output>0.2){
       output = 0.2;
@@ -142,11 +133,22 @@ public class DumbAlign extends Command {
     else if(output < -0.2){
       output = -0.2;
     }
-    m_Driving.setY(output);
+
+    if(rotation > 0.2){
+      rotation = 0.2;
+    }
+    else if(rotation < -0.2){
+      rotation = -0.2;
+    }
+
+    m_Driving.setRotation(rotation);
+    m_Driving.setY(output/1);
+    m_Driving.setX(forward/1);
+    
 
     //m_Driving.setY((m_SideCam.getYaw() - (-27)));
 
-    if(Math.abs(forward) < 0.007 && Math.abs(output) < 0.007 && Math.abs(rotation) < 0.007 ){
+    if((Math.abs(forward) < 0.007 && Math.abs(output) < 0.007 && Math.abs(rotation) < 0.007)|| System.currentTimeMillis() - time >2500 ){
       end = true;
     }
   }

@@ -47,14 +47,21 @@ public final class Constants {
   public static final double modeChangeLimit = 0.2;
   public static final double scaleRotation = 4;
   public static final double scaleTranslation = 4;
+  
+  
+  public static final double LeftOffset = -0.19;
+  
+
+  public static final double RightOffset = 0.13;
 
 
   // Rotational Offsets
   public static final HashMap<Integer, Double> tagIdtoRotation = new HashMap<Integer, Double>();
 
   static public void initTags(){
-    tagIdtoRotation.put(1, 120.0);
-    tagIdtoRotation.put(2, 315.0);
+    tagIdtoRotation.put(1, 126.0);//feeder
+    tagIdtoRotation.put(2, 234.0);//feeder
+    
     tagIdtoRotation.put(6, 120.0);
     tagIdtoRotation.put(7, 180.0);
     tagIdtoRotation.put(8, 240.0);

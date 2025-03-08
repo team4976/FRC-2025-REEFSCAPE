@@ -93,16 +93,22 @@ public class RobotContainer {
    private final SendableChooser<Command> autoChooser;
    private final SendableChooser<Command> autoChooser2;
    private final SendableChooser<Command> autoChooser3;
+   private final SendableChooser<Command> autoChooser4;
+   private final SendableChooser<Command> autoChooser5;
 
     public RobotContainer() {
         autoChooser = AutoBuilder.buildAutoChooser("1");
         autoChooser2 = AutoBuilder.buildAutoChooser("2");
         autoChooser3 = AutoBuilder.buildAutoChooser("3");
+        autoChooser4 = AutoBuilder.buildAutoChooser("4");
+        autoChooser5 = AutoBuilder.buildAutoChooser("5");
+        
         
         //SmartDashboard.putData("Auto Mode", autoChooser);
         //NamedCommands.registerCommand("Leftaim", new AutoAlignLeft(photon, driving));
         //NamedCommands.registerCommand("Rightaim", new AutoAlignRight(photon, driving));
         NamedCommands.registerCommand("L1", new L1(elevator, pivot).alongWith(new Intake(effector, pivot)));
+        NamedCommands.registerCommand("L4", new L2(elevator, pivot, effector, 31.26, -2.7));
         NamedCommands.registerCommand("Intake", new Intake(effector, pivot));
         NamedCommands.registerCommand("LeftAlign", new DumbAlign(m_SideCam, driving, -0.35, photon, pig));
 
@@ -154,7 +160,7 @@ public class RobotContainer {
 
         joystick.rightBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, 0.13, photon, pig));
 
-        joystick.leftBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, -0.23, photon, pig));
+        joystick.leftBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig));
 
         joystick.leftTrigger().toggleOnTrue(new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig));
         
@@ -201,20 +207,42 @@ public class RobotContainer {
         /* Run the path selected from the auto chooser */
         //return autoChooser.getSelected();
         //return null;
-        return autoChooser.getSelected()
-            .andThen(new DumbAlign(m_SideCam, driving, -0.2, photon, pig)
-            .alongWith(new L2(elevator, pivot, effector, 31.62, -2.7)))
-            .andThen(new L2(elevator, pivot, effector, 31.62, -2.7))
-            .andThen(new Outake(effector, pivot, driving))
-            .andThen(new L1(elevator, pivot))
-            .andThen(autoChooser2.getSelected())
-            .andThen(new Intake(effector, pivot).alongWith(new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig)))
-            .andThen(autoChooser3.getSelected())
-            .andThen(new DumbAlign(m_SideCam, driving, 0.13, photon, pig)
-            .alongWith(new L2(elevator, pivot, effector, 31.62, -2.7))).andThen(new DumbAlign(m_SideCam, driving, 0.13, photon, pig))
-            .andThen(new Outake(effector, pivot, driving))
-            .andThen(new L1(elevator, pivot));
+        // return autoChooser.getSelected()
+        //     .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig)
+        //     .alongWith(new L2(elevator, pivot, effector, 31.62, -2.7)))
+        //     .andThen(new L2(elevator, pivot, effector, 31.62, -2.7))
+        //     .andThen(new Outake(effector, pivot, driving))
+        //     .andThen(new L1(elevator, pivot))
+        //     .andThen(autoChooser2.getSelected())
+        //     .andThen(new Intake(effector, pivot).alongWith(new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig)))
+        //     .andThen(autoChooser3.getSelected())
+        //     .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig)
+        //     .alongWith(new L2(elevator, pivot, effector, 31.62, -2.7))).andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig))
+        //     .andThen(new Outake(effector, pivot, driving))
+        //     .andThen(new L1(elevator, pivot))
+        //     .andThen(autoChooser4.getSelected())
+        //     .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig).alongWith(new Intake(effector, pivot)))
+        //     .andThen();
+
+
         //return new L1(elevator, pivot).andThen(autoChooser2.getSelected());
         //return autoChooser.getSelected();
+
+        return (autoChooser.getSelected().alongWith(new L2(elevator, pivot, effector, 31.26, -2.7)))
+            .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig))//.alongWith(new L2(elevator, pivot, effector, 31.26, -2.7)))
+            .andThen(new Outake(effector, pivot, driving))
+            .andThen(new L1(elevator, pivot).alongWith(autoChooser2.getSelected()))
+            //.andThen(autoChooser2.getSelected())
+            .andThen(new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig).alongWith(new Intake(effector, pivot)))
+            .andThen(autoChooser3.getSelected().alongWith(new L2(elevator, pivot, effector,  31.26, -2.7)))
+            .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig))//.alongWith(new L2(elevator, pivot, effector, 31.26, -2.7)))
+            .andThen(new Outake(effector, pivot, driving))
+            .andThen(new L1(elevator, pivot).alongWith(autoChooser4.getSelected()))
+            //.andThen(autoChooser4.getSelected())
+            .andThen(new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig).alongWith(new Intake(effector, pivot)))
+            .andThen(autoChooser5.getSelected().alongWith(new L2(elevator, pivot, effector,  31.26, -2.7)))
+            .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig))//.alongWith(new L2(elevator, pivot, effector, 31.26, -2.7)))
+            .andThen(new Outake(effector, pivot, driving))
+            .andThen(new L1(elevator, pivot));
     }
 }
