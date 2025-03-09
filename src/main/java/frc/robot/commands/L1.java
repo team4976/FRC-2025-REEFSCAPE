@@ -40,7 +40,7 @@ public class L1 extends Command {
   @Override
   public void initialize() {
     //m_elevator.gotolevel(2);
-    m_elevator.gotolevel(1.125); // was 1
+    m_elevator.gotolevel(0.63); // was 1
     done = false;
 
   }
@@ -49,7 +49,7 @@ public class L1 extends Command {
   @Override
   public void execute() {
     if(m_elevator.getRealPostion()<7.5 && !done){
-      m_PivotArm.goTo(-6.5);
+      m_PivotArm.goTo(0.81);
       done = true;
 
     }

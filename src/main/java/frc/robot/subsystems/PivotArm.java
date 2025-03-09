@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkAnalogSensor;
 import com.revrobotics.spark.SparkBase;
@@ -13,6 +14,7 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,6 +27,8 @@ public class PivotArm extends SubsystemBase {
   private SparkMax pivot;
   private RelativeEncoder pivotEncoder;
 
+  private AbsoluteEncoder absEncoder;
+
   private SparkClosedLoopController pid;
 
   private SparkAnalogSensor pivotAnalogSensor;
@@ -33,26 +37,33 @@ public class PivotArm extends SubsystemBase {
 
   //private int mode = 1;
 
-  private double position = 0;
+  private double position = 0.7;
   
   
   public PivotArm() {
     pivot = new SparkMax(50, MotorType.kBrushless);
     pivotEncoder = pivot.getEncoder();
+
+    absEncoder = pivot.getAbsoluteEncoder();
+
+    
     pivotAnalogSensor = pivot.getAnalog();
 
 
     pivot.set(0);
 
     pivotConfig = new SparkMaxConfig();
+    //pivotConfig.inverted(true);
+    
 
     pivotConfig.closedLoop.outputRange(-0.2, 0.2);
+    pivotConfig.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder);
     pivotConfig.idleMode(IdleMode.kBrake);
 
-    pivotConfig.closedLoop.pidf(0.3, 0, 0, 0);//p was 0.2
-    pivotConfig.closedLoop.iZone(0.1);
-    pivotConfig.inverted(true);
-    //pivotConfig.closedLoopRampRate(0.5);
+    pivotConfig.closedLoop.pidf(2.5, 0.01, 5, 0);//p was 0.2
+    pivotConfig.closedLoop.iZone(0.05);
+    pivotConfig.inverted(false);
+    pivotConfig.closedLoopRampRate(0.1);
     
     
     pivot.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -105,7 +116,7 @@ public class PivotArm extends SubsystemBase {
     return pivotEncoder.getVelocity();
   }
   public double getRealPostion(){
-    return pivotEncoder.getPosition();
+    return absEncoder.getPosition();
   }
 
   /**
@@ -141,7 +152,7 @@ public class PivotArm extends SubsystemBase {
 
     }
 
-    SmartDashboard.putNumber("Pivot Position", pivotEncoder.getPosition());
+    SmartDashboard.putNumber("Pivot Position", absEncoder.getPosition());
     SmartDashboard.putNumber("Pivot Set", position);
     SmartDashboard.putBoolean("Pivot Limit", Zero());
   }

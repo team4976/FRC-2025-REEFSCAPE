@@ -150,11 +150,11 @@ public class RobotContainer {
         andrew.a().whileTrue(new RunIntake(effector, -0.3));
         //joystick.povRight().onTrue(new ArmUp(pivot));
         //joystick.povLeft().onTrue(new ArmDown(pivot));
-        joystick.povLeft().onTrue(new L2(elevator, pivot, effector, 8.42, -2.6));//L2
+        joystick.povLeft().onTrue(new L2(elevator, pivot, effector, 7.4, 0.346));//L2
 
-        joystick.povRight().onTrue(new L2(elevator, pivot, effector, 16.72, -2.6));//L3
-        joystick.povUp().onTrue(new L2(elevator, pivot, effector, 31.62, -2.6));//L4 2.7
-        joystick.x().onTrue(new L2(elevator, pivot, effector, 31.5, -2.75));
+        joystick.povRight().onTrue(new L2(elevator, pivot, effector, 15.7, 0.346));//L3
+        joystick.povUp().onTrue(new L2(elevator, pivot, effector, 29.9, 0.346));//L4 2.7
+        //joystick.x().onTrue(new L2(elevator, pivot, effector, 31.5, 0.346));
 
         joystick.povDown().toggleOnTrue(new L1(elevator, pivot).alongWith(new Intake(effector, pivot)));//L1
 
@@ -228,7 +228,7 @@ public class RobotContainer {
         //return new L1(elevator, pivot).andThen(autoChooser2.getSelected());
         //return autoChooser.getSelected();
 
-        return (autoChooser.getSelected().alongWith(new L2(elevator, pivot, effector, 31.26, -2.7)))
+        return (autoChooser.getSelected().alongWith(new L2(elevator, pivot, effector, 31.26, 0.346)))
             .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig))//.alongWith(new L2(elevator, pivot, effector, 31.26, -2.7)))
             .andThen(new Outake(effector, pivot, driving))
             .andThen(new L1(elevator, pivot).alongWith(autoChooser2.getSelected()))
