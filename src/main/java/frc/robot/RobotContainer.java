@@ -150,10 +150,10 @@ public class RobotContainer {
         andrew.a().whileTrue(new RunIntake(effector, -0.3));
         //joystick.povRight().onTrue(new ArmUp(pivot));
         //joystick.povLeft().onTrue(new ArmDown(pivot));
-        joystick.povLeft().onTrue(new L2(elevator, pivot, effector, 7.4, 0.346));//L2
+        joystick.povLeft().onTrue(new L2(elevator, pivot, effector, 0.63, 0.346));//L2 7.4
 
-        joystick.povRight().onTrue(new L2(elevator, pivot, effector, 15.7, 0.346));//L3
-        joystick.povUp().onTrue(new L2(elevator, pivot, effector, 29.9, 0.346));//L4 2.7
+        joystick.povRight().onTrue(new L2(elevator, pivot, effector, 0.63, 0.346));//L3 15.7
+        joystick.povUp().onTrue(new L2(elevator, pivot, effector, 0.63, 0.346));//L4 29.9
         //joystick.x().onTrue(new L2(elevator, pivot, effector, 31.5, 0.346));
 
         joystick.povDown().toggleOnTrue(new L1(elevator, pivot).alongWith(new Intake(effector, pivot)));//L1

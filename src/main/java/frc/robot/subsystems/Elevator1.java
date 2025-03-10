@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -29,7 +30,9 @@ public class Elevator1 extends SubsystemBase {
 
   public Trigger HomeLimitSwitchUnpressedTrigger = new Trigger(HomeLimitSwitchUnpressed);
 
-  public final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
+  //public final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
+
+  public final MotionMagicVoltage m_request = new MotionMagicVoltage(0).withSlot(0);
 
   public double setPosition = 0.5;
 
@@ -71,7 +74,8 @@ public class Elevator1 extends SubsystemBase {
       targetPos = Constants.MinMotorPosition;
     }
     setPosition = targetPos;
-    ElevatorLeader.setControl(m_request.withPosition(targetPos));
+    //ElevatorLeader.setControl(m_request.withPosition(targetPos));
+
   }
   public double getSetPosiiton(){
     return setPosition;
