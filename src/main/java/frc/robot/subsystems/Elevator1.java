@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Newton;
+
 import java.util.function.BooleanSupplier;
 
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -36,9 +39,23 @@ public class Elevator1 extends SubsystemBase {
 
   public double setPosition = 0.5;
 
+  //Orchestra m_Orchestra = new Orchestra();
+
+  
+
+
+
 
 
   public Elevator1() {
+    //m_Orchestra.addInstrument(ElevatorLeader);
+    //m_Orchestra.addInstrument(ElevatorFollower);
+
+    //m_Orchestra.loadMusic("output.chrp");
+
+    //m_Orchestra.play();
+
+    //m_Orchestra.play();
     //HomeLimitSwitchUnpressedTrigger.onFalse(StopElevator());
     HomeLimitSwitchUnpressed.getAsBoolean();
     //ElevatorLeader.set(0.2);
@@ -67,6 +84,7 @@ public class Elevator1 extends SubsystemBase {
     //targetPos = SmartDashboard.getNumber("TestNumber", 0);
     //System.out.println(targetPos);
     //setPosition = targetPos;
+    //m_Orchestra.play();
     if (targetPos > Constants.MaxMotorPosition) {
       targetPos = Constants.MaxMotorPosition;
     }
@@ -74,7 +92,7 @@ public class Elevator1 extends SubsystemBase {
       targetPos = Constants.MinMotorPosition;
     }
     setPosition = targetPos;
-    //ElevatorLeader.setControl(m_request.withPosition(targetPos));
+    ElevatorLeader.setControl(m_request.withPosition(targetPos));
 
   }
   public double getSetPosiiton(){

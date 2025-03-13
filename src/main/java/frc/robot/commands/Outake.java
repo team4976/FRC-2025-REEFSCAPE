@@ -45,11 +45,11 @@ public class Outake extends Command {
   @Override
   public void initialize() {
     //if(m_PivotArm.getPosition() < 3){
-    if(m_PivotArm.getPosition() < -6){
-      m_EndEffector.runed(-0.4);
+    if(m_PivotArm.getPosition() > 0.6){
+      m_EndEffector.runed(-0.5);
     }
     else{
-      m_EndEffector.runed(0.4);
+      m_EndEffector.runed(0.6);
     }
       //m_EndEffector.runed(0.4);
       //time = System.currentTimeMillis();

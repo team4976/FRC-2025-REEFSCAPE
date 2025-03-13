@@ -150,10 +150,10 @@ public class RobotContainer {
         andrew.a().whileTrue(new RunIntake(effector, -0.3));
         //joystick.povRight().onTrue(new ArmUp(pivot));
         //joystick.povLeft().onTrue(new ArmDown(pivot));
-        joystick.povLeft().onTrue(new L2(elevator, pivot, effector, 0.63, 0.346));//L2 7.4
+        joystick.povLeft().onTrue(new L2(elevator, pivot, effector, 7.4, 0.346));//L2 7.4
 
-        joystick.povRight().onTrue(new L2(elevator, pivot, effector, 0.63, 0.346));//L3 15.7
-        joystick.povUp().onTrue(new L2(elevator, pivot, effector, 0.63, 0.346));//L4 29.9
+        joystick.povRight().onTrue(new L2(elevator, pivot, effector, 15.7, 0.346));//L3 15.7
+        joystick.povUp().onTrue(new L2(elevator, pivot, effector, 30.6, 0.346));//L4 29.9
         //joystick.x().onTrue(new L2(elevator, pivot, effector, 31.5, 0.346));
 
         joystick.povDown().toggleOnTrue(new L1(elevator, pivot).alongWith(new Intake(effector, pivot)));//L1
@@ -233,13 +233,13 @@ public class RobotContainer {
             .andThen(new Outake(effector, pivot, driving))
             .andThen(new L1(elevator, pivot).alongWith(autoChooser2.getSelected()))
             //.andThen(autoChooser2.getSelected())
-            .andThen(new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig).alongWith(new Intake(effector, pivot)))
+            .andThen(new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig).withDeadline(new Intake(effector, pivot)))
             .andThen(autoChooser3.getSelected().alongWith(new L2(elevator, pivot, effector,  31.26, -2.7)))
             .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig))//.alongWith(new L2(elevator, pivot, effector, 31.26, -2.7)))
             .andThen(new Outake(effector, pivot, driving))
             .andThen(new L1(elevator, pivot).alongWith(autoChooser4.getSelected()))
             //.andThen(autoChooser4.getSelected())
-            .andThen(new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig).alongWith(new Intake(effector, pivot)))
+            .andThen(new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig).withDeadline(new Intake(effector, pivot)))
             .andThen(autoChooser5.getSelected().alongWith(new L2(elevator, pivot, effector,  31.26, -2.7)))
             .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig))//.alongWith(new L2(elevator, pivot, effector, 31.26, -2.7)))
             .andThen(new Outake(effector, pivot, driving))

@@ -49,7 +49,7 @@ public final class Constants {
   public static final double scaleTranslation = 4;
   
   
-  public static final double LeftOffset = -0.19;
+  public static final double LeftOffset = -0.14;
   
 
   public static final double RightOffset = 0.13;

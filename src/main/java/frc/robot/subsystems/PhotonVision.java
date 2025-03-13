@@ -14,6 +14,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 
 public class PhotonVision extends SubsystemBase {
@@ -161,12 +163,38 @@ public class PhotonVision extends SubsystemBase {
     return false;
   }
   //var result;
+  CommandXboxController joy = new CommandXboxController(0);
 
   @Override
   public void periodic() {
+    
     SmartDashboard.putNumber("Xoff", getX());
     SmartDashboard.putNumber("Yoff", getY());
     SmartDashboard.putNumber("Fiducial Id", getId());
+
+    SmartDashboard.putNumber("LeftRR", Math.abs(Constants.LeftOffset - getY()));
+    SmartDashboard.putNumber("LeftRRR", Math.abs(0.34 - getX()));
+
+    if(Math.abs(0.34 - getX())< 0.03 && Math.abs(Constants.LeftOffset - getY()) < 0.03){
+      SmartDashboard.putBoolean("LeftGood", true);
+      joy.setRumble(RumbleType.kLeftRumble, 1);
+
+    }
+    else{
+      SmartDashboard.putBoolean("LeftGood", false);
+      joy.setRumble(RumbleType.kLeftRumble, 0);
+    }
+    if(Math.abs(0.34 - getX())< 0.03 && Math.abs(Constants.RightOffset - getY()) < 0.03){
+      SmartDashboard.putBoolean("RightGood", true);
+      joy.setRumble(RumbleType.kRightRumble, 1);
+
+    }
+    else{
+      SmartDashboard.putBoolean("RightGood", false);
+      joy.setRumble(RumbleType.kRightRumble, 0);
+    }
+
+
     //double x = getYaw();
     //SmartDashboard.putNumber("oh", x);
 
