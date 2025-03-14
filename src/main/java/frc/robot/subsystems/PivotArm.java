@@ -92,13 +92,13 @@ public class PivotArm extends SubsystemBase {
 
     pivotEncoder.setPosition((1-absEncoder.getPosition())*-1);
 
-    // if(absEncoder.getPosition()>0.8){
-    //   pivotEncoder.setPosition((1-absEncoder.getPosition())*-1);
-    // }
-    // else{
-    //   pivotEncoder.setPosition(absEncoder.getPosition());
+     if(absEncoder.getPosition()>0.8){
+       pivotEncoder.setPosition((1-absEncoder.getPosition())*-1);
+     }
+     else{
+       pivotEncoder.setPosition(absEncoder.getPosition());
 
-    // }
+     }
     //pivotEncoder.setPosition(absEncoder.getPosition());
 
     //pivotEncoder.setPosition(absEncoder.getPosition());
@@ -117,6 +117,7 @@ public class PivotArm extends SubsystemBase {
 
   public void goTo(double pos){
     pid.setReference(pos, SparkBase.ControlType.kPosition);
+    
     position = pos;
   }
     
@@ -145,6 +146,10 @@ public class PivotArm extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    if(absEncoder.getPosition()>0.3 && absEncoder.getPosition()<0.8){
+      //pivotEncoder.setPosition(absEncoder.getPosition());
+    }
     // This method will be called once per scheduler run
     //if(Zero()){
      // pivotEncoder.setPosition(0);

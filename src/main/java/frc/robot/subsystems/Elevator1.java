@@ -16,6 +16,9 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -38,6 +41,9 @@ public class Elevator1 extends SubsystemBase {
   public final MotionMagicVoltage m_request = new MotionMagicVoltage(0).withSlot(0);
 
   public double setPosition = 0.5;
+
+  public static final PowerDistribution m_pdh = new PowerDistribution(1, ModuleType.kRev);
+  //private final EndEffector m_Effector = new EndEffector();
 
   //Orchestra m_Orchestra = new Orchestra();
 
@@ -91,7 +97,9 @@ public class Elevator1 extends SubsystemBase {
     if (targetPos < Constants.MinMotorPosition) {
       targetPos = Constants.MinMotorPosition;
     }
+
     setPosition = targetPos;
+    
     ElevatorLeader.setControl(m_request.withPosition(targetPos));
 
   }
@@ -123,6 +131,13 @@ public class Elevator1 extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Elevator Position", ElevatorLeader.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("Elevator Set", setPosition);
+
+    if((((Math.abs(setPosition-ElevatorLeader.getPosition().getValueAsDouble())<0.3) && setPosition<6) && DriverStation.isEnabled())&& !SmartDashboard.getBoolean("Switch", false)){
+      m_pdh.setSwitchableChannel(true);
+    }
+    else{
+      m_pdh.setSwitchableChannel(false);
+    }
     
     //Voltage tempvar8 = ElevatorLeader.getMotorVoltage().getValue();
      //SmartDashboard.putNumber("voltage of ElevatorLeader", tempvar8.magnitude());
