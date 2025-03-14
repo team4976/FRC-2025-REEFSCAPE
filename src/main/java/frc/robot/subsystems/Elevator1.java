@@ -132,7 +132,7 @@ public class Elevator1 extends SubsystemBase {
     SmartDashboard.putNumber("Elevator Position", ElevatorLeader.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("Elevator Set", setPosition);
 
-    if((((Math.abs(setPosition-ElevatorLeader.getPosition().getValueAsDouble())<0.3) && setPosition<6) && DriverStation.isEnabled())&& !SmartDashboard.getBoolean("Switch", false)){
+    if((((Math.abs(setPosition-ElevatorLeader.getPosition().getValueAsDouble())<0.3) && setPosition == 1.05) && DriverStation.isEnabled())&& !SmartDashboard.getBoolean("Switch", false)){
       m_pdh.setSwitchableChannel(true);
     }
     else{

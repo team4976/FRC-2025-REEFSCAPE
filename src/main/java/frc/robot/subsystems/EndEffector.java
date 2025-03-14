@@ -70,6 +70,10 @@ public class EndEffector extends SubsystemBase {
     leftMax.set(output);
     rightMax.set(output);
   }
+  public void oneSide(double output){
+    leftMax.set(0.01);
+    rightMax.set(output);
+  }
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).

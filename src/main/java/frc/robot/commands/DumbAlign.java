@@ -23,6 +23,7 @@ public class DumbAlign extends Command {
   private boolean end = false;
   private Pigeon m_pig;
   private double time;
+  private double m_forwardOffset;
 
 
   /**
@@ -30,10 +31,10 @@ public class DumbAlign extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DumbAlign(SideCam sideCam, Driving driving, double Offset, PhotonVision photonVision, Pigeon pig){
+  public DumbAlign(SideCam sideCam, Driving driving, double Offset, PhotonVision photonVision, Pigeon pig, double forwardOffset){
 
     m_pig = pig;
-
+    m_forwardOffset = forwardOffset;
     m_Offset = Offset;
     m_SideCam = sideCam;
     m_Driving = driving;
@@ -103,7 +104,7 @@ public class DumbAlign extends Command {
 
       
 
-      forward = m_PhotonVision.getX()-0.34;
+      forward = m_PhotonVision.getX()-m_forwardOffset;//0.34 works good
       
       //m_Driving.setX(forward/1);
 

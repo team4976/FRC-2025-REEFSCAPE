@@ -42,6 +42,11 @@ public class Pigeon extends SubsystemBase {
     return false;
   }
 
+
+  public double getAccumGyro(){
+    return pig.getAccumGyroZ().getValueAsDouble();
+  }
+
   public double getYaw(){
     double angle = pig.getAccumGyroZ().getValueAsDouble();
     angle = angle % 360;  // Get remainder within -360 to 360
