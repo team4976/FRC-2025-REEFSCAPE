@@ -10,6 +10,8 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PhotonVision;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SideCam;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
@@ -25,6 +27,8 @@ public class DumbAlign extends Command {
   private double time;
   private double m_forwardOffset;
 
+  private ProfiledPIDController forwardPid = new ProfiledPIDController(0.5, 0, 0, new TrapezoidProfile.Constraints(0.01, 10000));
+  private ProfiledPIDController parallelPid = new ProfiledPIDController(0.1, 0, 0, new TrapezoidProfile.Constraints(0.2, 0.2));
 
   /**
    * Creates a new ExampleCommand.
@@ -52,13 +56,20 @@ public class DumbAlign extends Command {
     //m_Driving.setX(0.05);
     m_Driving.setRotation(0);
     end = false;
+
+    parallelPid.reset(0);
+    forwardPid.reset(0);
+
+
     time = System.currentTimeMillis();
+
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    System.out.println("oh");
+    //System.out.println("oh");
     if(!m_PhotonVision.getHas()){
       m_Driving.setRotation(0);
       m_Driving.setX(0);
@@ -101,10 +112,16 @@ public class DumbAlign extends Command {
 
 
       output = (m_PhotonVision.getY()-m_Offset);
+      //output = -parallelPid.calculate(m_PhotonVision.getY(), m_Offset);
 
       
 
       forward = m_PhotonVision.getX()-m_forwardOffset;//0.34 works good
+
+      //forward = -forwardPid.calculate(m_PhotonVision.getX(), m_forwardOffset);
+      //System.out.println(forward);
+
+
       
       //m_Driving.setX(forward/1);
 
@@ -160,7 +177,7 @@ public class DumbAlign extends Command {
     m_Driving.setX(0);
     m_Driving.setY(0);
     m_Driving.setMode(false);
-    System.out.println("oh");
+    //System.out.println("oh");
   }
 
   // Returns true when the command should end.

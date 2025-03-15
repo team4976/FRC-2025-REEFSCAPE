@@ -26,7 +26,7 @@ public class EndEffector extends SubsystemBase {
 
     config.idleMode(IdleMode.kBrake);
     
-    leftMax = new SparkMax(51, MotorType.kBrushless);
+    leftMax = new SparkMax(51, MotorType.kBrushed);
     config.inverted(true);
     config.openLoopRampRate(0.01);
     
@@ -35,7 +35,7 @@ public class EndEffector extends SubsystemBase {
     config.inverted(false);
 
     
-    rightMax = new SparkMax(52, MotorType.kBrushless);
+    rightMax = new SparkMax(52, MotorType.kBrushed);
 
     rightMax.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     //SparkMaxConfig sparkconfig = new SparkMaxConfig();
@@ -67,8 +67,10 @@ public class EndEffector extends SubsystemBase {
   }
 
   public void runed(double output){
-    leftMax.set(output);
-    rightMax.set(output);
+    //leftMax.set(output);
+    leftMax.setVoltage(output);
+    //rightMax.set(output);
+    rightMax.setVoltage(output);
   }
   public void oneSide(double output){
     leftMax.set(0.01);
