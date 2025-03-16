@@ -166,7 +166,7 @@ public class DumbAlign extends Command {
 
     //m_Driving.setY((m_SideCam.getYaw() - (-27)));
 
-    if((Math.abs(forward) < 0.007 && Math.abs(output) < 0.007 && Math.abs(rotation) < 0.007)|| System.currentTimeMillis() - time >2500 ){
+    if((Math.abs(forward) < 0.007 && Math.abs(output) < 0.007 && Math.abs(rotation) < 0.007)|| System.currentTimeMillis() - time >2000 ){
       end = true;
     }
   }

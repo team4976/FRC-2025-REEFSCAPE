@@ -18,6 +18,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.ActuateDown;
@@ -39,6 +40,7 @@ import frc.robot.commands.L4;
 //import frc.robot.commands.L3;
 //import frc.robot.commands.L4;
 import frc.robot.commands.Outake;
+import frc.robot.commands.Reset;
 import frc.robot.commands.RunIntake;
 import frc.robot.generated.TunerConstants_other;
 import frc.robot.subsystems.Actuation;
@@ -128,8 +130,10 @@ public class RobotContainer {
 
         andrew.axisMagnitudeGreaterThan(4, 0.2).whileTrue((new ArmDown(pivot, andrew.getRightX())));
 
-        joystick.leftTrigger().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, 0.4).andThen(new L1Shot(pivot, elevator, pig, driving, 20, 1.5, 0.78)));
+        //joystick.leftTrigger().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, 0.4).andThen(new L1Shot(pivot, elevator, pig, driving, 20, 1.5, 0.78)));
         joystick.rightTrigger().toggleOnTrue(new DumbAlign(m_SideCam, driving, 0, photon, pig, 0.31).andThen(new L1Shot(pivot, elevator, pig, driving, 0, 0.5, 0.32)));
+        joystick.x().toggleOnTrue(new Reset(pig));
+        
         //andrew.povUp().onTrue(new L4(elevator));
         //joystick.povRight().onTrue(new L3(elevator));
         //joystick.povDown().toggleOnTrue(new L2(elevator, pivot, effector));
@@ -155,17 +159,17 @@ public class RobotContainer {
         andrew.a().whileTrue(new RunIntake(effector, -0.3));
         //joystick.povRight().onTrue(new ArmUp(pivot));
         //joystick.povLeft().onTrue(new ArmDown(pivot));
-        joystick.povLeft().onTrue(new L2(elevator, pivot, effector, 7.4, 0.346));//L2 7.4
+        joystick.povLeft().onTrue(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm));//L2 7.4
 
-        joystick.povRight().onTrue(new L2(elevator, pivot, effector, 15.7, 0.346));//L3 15.7
-        joystick.povUp().onTrue(new L2(elevator, pivot, effector, 30.6, 0.346));//L4 29.9
+        joystick.povRight().onTrue(new L2(elevator, pivot, effector, Constants.L3Elevator, Constants.L3Arm));//L3 15.7
+        joystick.povUp().onTrue(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm));//L4 29.9
         //joystick.x().onTrue(new L2(elevator, pivot, effector, 31.5, 0.346));
 
         joystick.povDown().toggleOnTrue(new L1(elevator, pivot).alongWith(new Intake(effector, pivot)));//L1
 
-        joystick.rightBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, 0.13, photon, pig, 0.34));
+        joystick.rightBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset));
 
-        joystick.leftBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, 0.34));
+        joystick.leftBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset));
 
         joystick.b().toggleOnTrue(new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig));
         
@@ -233,7 +237,7 @@ public class RobotContainer {
         //return new L1(elevator, pivot).andThen(autoChooser2.getSelected());
         //return autoChooser.getSelected();
 
-        return (autoChooser.getSelected().alongWith(new L2(elevator, pivot, effector, 31.26, 0.346)))
+        /*return (autoChooser.getSelected().alongWith(new L2(elevator, pivot, effector, 31.26, 0.346)))
             .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, 0.34))//.alongWith(new L2(elevator, pivot, effector, 31.26, -2.7)))
             .andThen(new Outake(effector, pivot, driving))
             .andThen(new L1(elevator, pivot).alongWith(autoChooser2.getSelected()))
@@ -248,6 +252,28 @@ public class RobotContainer {
             .andThen(autoChooser5.getSelected().alongWith(new L2(elevator, pivot, effector,  31.26, -2.7)))
             .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, 0.34))//.alongWith(new L2(elevator, pivot, effector, 31.26, -2.7)))
             .andThen(new Outake(effector, pivot, driving))
+            .andThen(new L1(elevator, pivot));*/
+
+        
+        return 
+            (autoChooser.getSelected().alongWith(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
+            .andThen(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm).alongWith(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset)))
+            .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset))
+            .andThen(new Outake(effector, pivot, driving))
+            .andThen(new L1(elevator, pivot).alongWith(autoChooser2.getSelected()))
+            .andThen(Commands.deadline(new Intake(effector, pivot), new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig)))
+            .andThen(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm).alongWith(autoChooser3.getSelected()))
+            .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset).alongWith(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
+            .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset))
+            .andThen(new Outake(effector, pivot, driving))
+            .andThen(new L1(elevator, pivot).alongWith(autoChooser4.getSelected()))
+            .andThen(Commands.deadline(new Intake(effector, pivot), new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig)))
+            .andThen(autoChooser5.getSelected().alongWith(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
+            .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset).alongWith(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
+            .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset))
+            .andThen(new Outake(effector, pivot, driving))
             .andThen(new L1(elevator, pivot));
+
+
     }
 }

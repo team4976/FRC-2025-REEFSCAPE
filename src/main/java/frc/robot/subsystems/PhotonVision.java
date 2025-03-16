@@ -175,7 +175,7 @@ public class PhotonVision extends SubsystemBase {
     SmartDashboard.putNumber("LeftRR", Math.abs(Constants.LeftOffset - getY()));
     SmartDashboard.putNumber("LeftRRR", Math.abs(0.34 - getX()));
 
-    if(Math.abs(0.34 - getX())< 0.03 && Math.abs(Constants.LeftOffset - getY()) < 0.03){
+    if(Math.abs(Constants.ForwardOffset - getX())< 0.03 && Math.abs(Constants.LeftOffset - getY()) < 0.03){
       SmartDashboard.putBoolean("LeftGood", true);
       joy.setRumble(RumbleType.kLeftRumble, 1);
 
@@ -184,7 +184,7 @@ public class PhotonVision extends SubsystemBase {
       SmartDashboard.putBoolean("LeftGood", false);
       joy.setRumble(RumbleType.kLeftRumble, 0);
     }
-    if(Math.abs(0.34 - getX())< 0.03 && Math.abs(Constants.RightOffset - getY()) < 0.03){
+    if(Math.abs(Constants.ForwardOffset - getX())< 0.03 && Math.abs(Constants.RightOffset - getY()) < 0.03){
       SmartDashboard.putBoolean("RightGood", true);
       joy.setRumble(RumbleType.kRightRumble, 1);
 

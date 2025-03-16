@@ -54,6 +54,18 @@ public final class Constants {
 
   public static final double RightOffset = 0.13;
 
+  public static final double ForwardOffset = 0.34;
+
+
+  public static final double L4Elevator = 30.6;
+  public static final double L4Arm = 0.346;
+
+  public static final double L3Elevator = 15.7;
+  public static final double L3Arm = 0.346;
+  
+  public static final double L2Elevator = 7.4;
+  public static final double L2Arm = 0.346;
+
 
   // Rotational Offsets
   public static final HashMap<Integer, Double> tagIdtoRotation = new HashMap<Integer, Double>();

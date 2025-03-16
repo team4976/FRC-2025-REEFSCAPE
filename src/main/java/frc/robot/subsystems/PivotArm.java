@@ -90,9 +90,9 @@ public class PivotArm extends SubsystemBase {
 
     pivotEncoder = pivot.getEncoder();
 
-    pivotEncoder.setPosition((1-absEncoder.getPosition())*-1);
+    //pivotEncoder.setPosition((1-absEncoder.getPosition())*-1);
 
-     if(absEncoder.getPosition()>0.8){
+     if(absEncoder.getPosition()>0.9){
        pivotEncoder.setPosition((1-absEncoder.getPosition())*-1);
      }
      else{
