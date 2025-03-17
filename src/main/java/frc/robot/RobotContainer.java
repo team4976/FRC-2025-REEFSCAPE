@@ -272,7 +272,7 @@ public class RobotContainer {
             .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset).alongWith(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
             .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset))
             .andThen(new Outake(effector, pivot, driving))
-            .andThen(new L1(elevator, pivot));
+            .andThen(new L1(elevator, pivot).alongWith(new Intake(effector, pivot)));
 
 
     }

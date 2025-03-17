@@ -116,7 +116,7 @@ public class DumbAlignReverse extends Command {
         output = -0.1;
       }
 
-      forward = -(m_PhotonVision.getX()-0.72);
+      forward = -(m_PhotonVision.getX()-0.64);//was 0.72
       if(forward>0.2){
         forward = 0.2;
       }      

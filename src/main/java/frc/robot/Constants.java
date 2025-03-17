@@ -49,22 +49,22 @@ public final class Constants {
   public static final double scaleTranslation = 4;
   
   
-  public static final double LeftOffset = -0.14;
+  public static final double LeftOffset = -0.19;//was -0.14
   
 
-  public static final double RightOffset = 0.13;
+  public static final double RightOffset = 0.15;// was 0.14
 
-  public static final double ForwardOffset = 0.34;
+  public static final double ForwardOffset = 0.35;//was 0.34 at home
 
 
-  public static final double L4Elevator = 30.6;
-  public static final double L4Arm = 0.346;
+  public static final double L4Elevator = 30.45;//was 30.6
+  public static final double L4Arm = 0.346;//was 0.346 //was 0.364
 
-  public static final double L3Elevator = 15.7;
-  public static final double L3Arm = 0.346;
+  public static final double L3Elevator = 15.9;//was 15.7
+  public static final double L3Arm = 0.346;//was 0.346
   
-  public static final double L2Elevator = 7.4;
-  public static final double L2Arm = 0.346;
+  public static final double L2Elevator = 6.2;//was 7.4
+  public static final double L2Arm = 0.346;//was 0.346
 
 
   // Rotational Offsets
