@@ -49,7 +49,7 @@ public class Outake extends Command {
       m_EndEffector.runed(-5.5);
     }
     else if(m_PivotArm.getPosition() == 0.32){
-      m_EndEffector.oneSide(1);
+      m_EndEffector.oneSide(0.75);
     }
     else{
       m_EndEffector.runed(5.5);

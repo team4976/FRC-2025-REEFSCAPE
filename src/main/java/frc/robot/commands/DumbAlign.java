@@ -104,7 +104,7 @@ public class DumbAlign extends Command {
         Offset = Constants.tagIdtoRotation.get(id);
       }
 
-      rotation = (((Offset-m_pig.getYaw()+180)%360+360)%360-180)/100;
+      rotation = (((Offset-m_pig.getYaw()+180)%360+360)%360-180)/80;
 
       
   
@@ -152,11 +152,11 @@ public class DumbAlign extends Command {
       output = -0.2;
     }
 
-    if(rotation > 0.2){
-      rotation = 0.2;
+    if(rotation > 0.3){
+      rotation = 0.3;
     }
-    else if(rotation < -0.2){
-      rotation = -0.2;
+    else if(rotation < -0.3){
+      rotation = -0.3;
     }
 
     m_Driving.setRotation(rotation);

@@ -30,14 +30,14 @@ public class EndEffector extends SubsystemBase {
     config.inverted(true);
     config.openLoopRampRate(0.01);
     
-    leftMax.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    leftMax.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     config.inverted(false);
 
     
     rightMax = new SparkMax(52, MotorType.kBrushed);
 
-    rightMax.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    rightMax.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     //SparkMaxConfig sparkconfig = new SparkMaxConfig();
     //sparkconfig.inverted(true);
     

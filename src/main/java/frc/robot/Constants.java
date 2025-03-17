@@ -73,6 +73,10 @@ public final class Constants {
   static public void initTags(){
     tagIdtoRotation.put(1, 126.0);//feeder
     tagIdtoRotation.put(2, 234.0);//feeder
+
+    tagIdtoRotation.put(3, 0.0);//irrelevant from amp
+    tagIdtoRotation.put(4, 0.0);
+    tagIdtoRotation.put(5, 0.0);
     
     tagIdtoRotation.put(6, 120.0);
     tagIdtoRotation.put(7, 180.0);
@@ -90,6 +94,11 @@ public final class Constants {
     tagIdtoRotation.put(20, tagIdtoRotation.get(11));
     tagIdtoRotation.put(21, tagIdtoRotation.get(10));
     tagIdtoRotation.put(22, tagIdtoRotation.get(9));
+
+
+    tagIdtoRotation.put(15, tagIdtoRotation.get(4));
+    tagIdtoRotation.put(14, tagIdtoRotation.get(5));
+    tagIdtoRotation.put(16, tagIdtoRotation.get(3));
   }
   
 
