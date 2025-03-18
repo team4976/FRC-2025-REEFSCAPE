@@ -74,7 +74,7 @@ public class EndEffector extends SubsystemBase {
     SmartDashboard.putBoolean("Coral LimitSwitch", getSwitch());
     // This method will be called once per scheduler run
 
-    SmartDashboard.putNumber("Effector Left Volt", leftMax.getBusVoltage());
-    SmartDashboard.putNumber("Effector Right Volt", rightMax.getBusVoltage());
+    SmartDashboard.putNumber("Effector Left Volt", leftMax.getAppliedOutput());
+    SmartDashboard.putNumber("Effector Right Volt", rightMax.getAppliedOutput());
   }
 }
