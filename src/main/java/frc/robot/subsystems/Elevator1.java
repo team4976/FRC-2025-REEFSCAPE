@@ -129,8 +129,13 @@ public class Elevator1 extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Elevator Position", ElevatorLeader.getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("Elevator Set", setPosition);
+    //elevator position for smart dash
+    SmartDashboard.putNumber("Elevator Real Pos.", ElevatorLeader.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("Elevator Target Pos.", setPosition);
+
+    SmartDashboard.putNumber("Elevator Lead Volt", ElevatorLeader.getMotorVoltage().getValueAsDouble());
+    SmartDashboard.putNumber("Elevator Follow Volt", ElevatorFollower.getMotorVoltage().getValueAsDouble());
+    SmartDashboard.putBoolean("Elevator LimitSwitch", HomeLimitSwitch.get());
 
     if((((Math.abs(setPosition-ElevatorLeader.getPosition().getValueAsDouble())<0.3) && setPosition == 1.05) && DriverStation.isEnabled())&& !SmartDashboard.getBoolean("Switch", false)){
       m_pdh.setSwitchableChannel(true);
@@ -161,8 +166,4 @@ public class Elevator1 extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
 }

@@ -20,7 +20,9 @@ public class EndEffector extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   private SparkMax leftMax;
   private SparkMax rightMax;
-  private AnalogInput stopAnalogInput;
+  //limit switch in the end effector that says wether a coral is there or not
+  private AnalogInput coralLimitSwitch;
+
   public EndEffector() {
     SparkMaxConfig config = new SparkMaxConfig();
 
@@ -41,62 +43,38 @@ public class EndEffector extends SubsystemBase {
     //SparkMaxConfig sparkconfig = new SparkMaxConfig();
     //sparkconfig.inverted(true);
     
-    stopAnalogInput = leftMax.getAnalog();
-    
-
-
-
+    coralLimitSwitch = leftMax.getAnalog();
+ 
   }
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
 
   public boolean getSwitch(){
-    return stopAnalogInput.getPosition() > 3;
+    return coralLimitSwitch.getPosition() > 3;
   }
 
+  //runs the end effector
   public void runed(double output){
     //leftMax.set(output);
     leftMax.setVoltage(output);
     //rightMax.set(output);
     rightMax.setVoltage(output);
   }
+
+  //runs half the end effector
   public void oneSide(double output){
     leftMax.set(0.01);
     rightMax.set(output);
   }
 
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
 
-  }
 
   @Override
   public void periodic() {
     //SmartDashboard.putNumber("Intake Switch", stopAnalogInput.getPosition());
-    SmartDashboard.putBoolean("Switch", getSwitch());
+    SmartDashboard.putBoolean("Coral LimitSwitch", getSwitch());
     // This method will be called once per scheduler run
-  }
 
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
+    SmartDashboard.putNumber("Effector Left Volt", leftMax.getBusVoltage());
+    SmartDashboard.putNumber("Effector Right Volt", rightMax.getBusVoltage());
   }
 }
