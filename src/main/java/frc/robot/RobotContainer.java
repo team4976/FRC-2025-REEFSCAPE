@@ -131,37 +131,37 @@ public class RobotContainer {
         theAutochooser.addOption("Left", (autoChooser.getSelected().alongWith(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
         .andThen(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm).alongWith(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset)))
         .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset))
-        .andThen(new Outake(effector, pivot, driving))
+        .andThen(new Outake(effector, pivot, driving, elevator))
         .andThen(new L1(elevator, pivot).alongWith(autoChooser2.getSelected()))
         .andThen(Commands.deadline(new Intake(effector, pivot), new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig)))
         .andThen(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm).alongWith(autoChooser3.getSelected()))
         .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset).alongWith(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
-        .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset))
-        .andThen(new Outake(effector, pivot, driving))
+        //.andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset))
+        .andThen(new Outake(effector, pivot, driving, elevator))
         .andThen(new L1(elevator, pivot).alongWith(autoChooser4.getSelected()))
         .andThen(Commands.deadline(new Intake(effector, pivot), new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig)))
         .andThen(autoChooser5.getSelected().alongWith(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
         .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset).alongWith(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
         .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset))
-        .andThen(new Outake(effector, pivot, driving))
+        .andThen(new Outake(effector, pivot, driving, elevator))
         .andThen(new L1(elevator, pivot).alongWith(new Intake(effector, pivot))));
 
         theAutochooser.addOption("Right", (autoChooserb.getSelected().alongWith(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
         .andThen(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm).alongWith(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset)))
         .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset))
-        .andThen(new Outake(effector, pivot, driving))
+        .andThen(new Outake(effector, pivot, driving, elevator))
         .andThen(new L1(elevator, pivot).alongWith(autoChooser2b.getSelected()))
         .andThen(Commands.deadline(new Intake(effector, pivot), new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig)))
         .andThen(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm).alongWith(autoChooser3b.getSelected()))
         .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset).alongWith(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
         .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset))
-        .andThen(new Outake(effector, pivot, driving))
+        .andThen(new Outake(effector, pivot, driving, elevator))
         .andThen(new L1(elevator, pivot).alongWith(autoChooser4b.getSelected()))
         .andThen(Commands.deadline(new Intake(effector, pivot), new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig)))
         .andThen(autoChooser5b.getSelected().alongWith(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
         .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset).alongWith(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
         .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset))
-        .andThen(new Outake(effector, pivot, driving))
+        .andThen(new Outake(effector, pivot, driving, elevator))
         .andThen(new L1(elevator, pivot).alongWith(new Intake(effector, pivot))));
 
         SmartDashboard.putData("Auto:", theAutochooser);
@@ -213,12 +213,12 @@ public class RobotContainer {
 
 
         //joystick.b().toggleOnTrue(new Intake(effector, pivot));
-        joystick.a().toggleOnTrue(new Outake(effector, pivot, driving));
+        joystick.a().toggleOnTrue(new Outake(effector, pivot, driving, elevator));
         joystick.start().toggleOnTrue(new ActuateUp(actuation));
         joystick.back().toggleOnTrue(new ActuateDown(actuation));
 
-        andrew.b().whileTrue(new RunIntake(effector, 0.3));
-        andrew.a().whileTrue(new RunIntake(effector, -0.3));
+        andrew.b().whileTrue(new RunIntake(effector, 5));
+        andrew.a().whileTrue(new RunIntake(effector, -5));
         //joystick.povRight().onTrue(new ArmUp(pivot));
         //joystick.povLeft().onTrue(new ArmDown(pivot));
         joystick.povLeft().onTrue(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm));//L2 7.4
