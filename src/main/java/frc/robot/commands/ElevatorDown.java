@@ -31,7 +31,7 @@ public class ElevatorDown extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_elevator.gotolevel(m_elevator.getSetPosiiton()-2.5);
+    m_elevator.gotolevel(m_elevator.getSetPosiiton()-1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
