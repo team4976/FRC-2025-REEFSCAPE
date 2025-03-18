@@ -23,11 +23,6 @@ public class Outake extends Command {
   private boolean done = false;
   private double time;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
   public Outake(EndEffector endEffector, PivotArm pivotarm, Driving mDriving) {
     //m_subsystem = subsystem;
     m_EndEffector = endEffector;
@@ -66,10 +61,6 @@ public class Outake extends Command {
     hasCoral = false;
     done = false;
     //m_PivotArm.goTo(1.75);
-
-
-
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.

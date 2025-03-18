@@ -20,10 +20,12 @@ public class EndEffector extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   private SparkMax leftMax;
   private SparkMax rightMax;
+  public double output;
   //limit switch in the end effector that says wether a coral is there or not
   private AnalogInput coralLimitSwitch;
 
   public EndEffector() {
+    //configures the motors
     SparkMaxConfig config = new SparkMaxConfig();
 
     config.idleMode(IdleMode.kBrake);
@@ -48,12 +50,14 @@ public class EndEffector extends SubsystemBase {
   }
 
 
+  //returns true if there's a coral in the end effector 
   public boolean getSwitch(){
     return coralLimitSwitch.getPosition() > 3;
   }
 
   //runs the end effector
-  public void runed(double output){
+  public void runed(double o){
+    output = o;
     //leftMax.set(output);
     leftMax.setVoltage(output);
     //rightMax.set(output);
@@ -70,7 +74,7 @@ public class EndEffector extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //SmartDashboard.putNumber("Intake Switch", stopAnalogInput.getPosition());
+    //SmartDashboard.putNumber("Intake Switch", coralLimitSwitch.getPosition());
     SmartDashboard.putBoolean("Coral LimitSwitch", getSwitch());
     // This method will be called once per scheduler run
 

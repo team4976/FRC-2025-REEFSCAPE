@@ -15,11 +15,7 @@ public class Reset extends Command {
 
   private final Pigeon m_pigeon;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
+  
   public Reset(Pigeon pigeon) {
     m_pigeon = pigeon;
     //m_subsystem = subsystem;
@@ -33,14 +29,6 @@ public class Reset extends Command {
   public void initialize() {
     m_pigeon.resetGyro();
   }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

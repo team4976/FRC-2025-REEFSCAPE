@@ -200,11 +200,11 @@ public class RobotContainer {
         op_controller.b().whileTrue(new RunIntake(effector, 0.3));
         op_controller.a().whileTrue(new RunIntake(effector, -0.3));
         
-        //TODO: obsolete?
-        //joystick.povRight().onTrue(new ArmUp(pivot));
-        //joystick.povLeft().onTrue(new ArmDown(pivot));
+        //probably being kept around just in case
+        //drive_controller.povRight().onTrue(new ArmUp(pivot));
+        //drive_controller.povLeft().onTrue(new ArmDown(pivot));
 
-        //driver. elevator controls. TODO: rename command
+        //driver. elevator controls. 
         drive_controller.povLeft().onTrue(new ElevatorToPosition(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm));//L2 7.4
         drive_controller.povRight().onTrue(new ElevatorToPosition(elevator, pivot, effector, Constants.L3Elevator, Constants.L3Arm));//L3 15.7
         drive_controller.povUp().onTrue(new ElevatorToPosition(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm));//L4 29.9
@@ -224,7 +224,7 @@ public class RobotContainer {
         drive_controller.start().and(drive_controller.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
         */
 
-        //TODO: still wanted? we have a gyro reset now
+        //keeping for future reference
         // reset the field-centric heading on left bumper press
         //drive_controller.y().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
         

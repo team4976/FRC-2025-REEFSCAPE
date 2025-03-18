@@ -19,11 +19,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 
-
+//i dont really pretend to understand this subsystem or its purpose. it makes the robot go. don't poke it
 
 
 public class Driving extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
+
   final SwerveRequest.RobotCentric drive1;
   final SwerveRequest.FieldCentric drive;
   CommandSwerveDrivetrain drivetrainer;
@@ -49,29 +49,6 @@ public class Driving extends SubsystemBase {
   
   
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
-
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
-  }
 
   public void setX(double X) {
     x = Math.max(-1, Math.min(1, X));

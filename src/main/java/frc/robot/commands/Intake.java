@@ -17,11 +17,7 @@ public class Intake extends Command {
   private final PivotArm m_Arm;
   private boolean hasCoral = false;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
+  
   public Intake(EndEffector endEffector, PivotArm pivotArm) {
     //m_subsystem = subsystem;
     m_EndEffector = endEffector;

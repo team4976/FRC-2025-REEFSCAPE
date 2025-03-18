@@ -15,11 +15,6 @@ public class RunIntake extends Command {
   private final EndEffector m_EndEffector;
   private final double in;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
   public RunIntake(EndEffector endEffector, double out) {
     //m_subsystem = subsystem;
     m_EndEffector = endEffector;
@@ -34,10 +29,6 @@ public class RunIntake extends Command {
   public void initialize() {
     m_EndEffector.runed(in);
   }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

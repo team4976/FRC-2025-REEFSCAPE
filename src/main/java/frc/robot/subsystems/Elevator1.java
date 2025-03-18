@@ -42,16 +42,12 @@ public class Elevator1 extends SubsystemBase {
 
   public double setPosition = 0.5;
 
+  //pdh as in "power distribution hub"
   public static final PowerDistribution m_pdh = new PowerDistribution(1, ModuleType.kRev);
   //private final EndEffector m_Effector = new EndEffector();
 
+  //someone tried or perhaps succeeded to add sounds to this. we either dont need it or it didn't work
   //Orchestra m_Orchestra = new Orchestra();
-
-  
-
-
-
-
 
   public Elevator1() {
     //m_Orchestra.addInstrument(ElevatorLeader);
@@ -70,20 +66,6 @@ public class Elevator1 extends SubsystemBase {
     //ElevatorLeader.setControl(m_request.withPosition(setPosition));
     
   }
-
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
   
   
   public void gotolevel(double targetPos){
@@ -91,6 +73,8 @@ public class Elevator1 extends SubsystemBase {
     //System.out.println(targetPos);
     //setPosition = targetPos;
     //m_Orchestra.play();
+
+    //makes sure we don't exceed any max/min positions (which would break things)
     if (targetPos > Constants.MaxMotorPosition) {
       targetPos = Constants.MaxMotorPosition;
     }
@@ -98,11 +82,14 @@ public class Elevator1 extends SubsystemBase {
       targetPos = Constants.MinMotorPosition;
     }
 
+    //notes what position its currently set to
     setPosition = targetPos;
     
+    //this sets the position
     ElevatorLeader.setControl(m_request.withPosition(targetPos));
 
   }
+
   public double getSetPosiiton(){
     return setPosition;
   }
@@ -117,15 +104,6 @@ public class Elevator1 extends SubsystemBase {
   }
 
 
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
-  }
 
   @Override
   public void periodic() {
@@ -137,6 +115,7 @@ public class Elevator1 extends SubsystemBase {
     SmartDashboard.putNumber("Elevator Follow Volt", ElevatorFollower.getMotorVoltage().getValueAsDouble());
     SmartDashboard.putBoolean("Elevator LimitSwitch", HomeLimitSwitch.get());
 
+    //as far as I can tell, a failsafe to make sure the elevator doesn't try to go too far.
     if((((Math.abs(setPosition-ElevatorLeader.getPosition().getValueAsDouble())<0.3) && setPosition == 1.05) && DriverStation.isEnabled())&& !SmartDashboard.getBoolean("Switch", false)){
       m_pdh.setSwitchableChannel(true);
     }
@@ -144,7 +123,8 @@ public class Elevator1 extends SubsystemBase {
       m_pdh.setSwitchableChannel(false);
     }
     
-    //Voltage tempvar8 = ElevatorLeader.getMotorVoltage().getValue();
+    //we don't need this right now, might want it back at some point?
+    /*//Voltage tempvar8 = ElevatorLeader.getMotorVoltage().getValue();
      //SmartDashboard.putNumber("voltage of ElevatorLeader", tempvar8.magnitude());
 
      //if (tempvar8.magnitude()>0.1) {
@@ -162,8 +142,7 @@ public class Elevator1 extends SubsystemBase {
     //}
     //if (tempvar9.magnitude()<0.1) {
       //SmartDashboard.putBoolean("ElevatorFollower", false);
-    //}
-    // This method will be called once per scheduler run
+    //}*/
   }
 
 }
