@@ -59,6 +59,7 @@ public class RobotContainer {
     private double MaxSpeed = TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
+
     /* Setting up bindings for necessary control of the swerve drive platform 
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.15).withRotationalDeadband(MaxAngularRate * 0.15) // Add a 10% deadband
@@ -100,12 +101,16 @@ public class RobotContainer {
    private final SendableChooser<Command> autoChooser4;
    private final SendableChooser<Command> autoChooser5;
 
+   //private final SendableChooser<Command> theAutochooser;
+
     public RobotContainer() {
         autoChooser = AutoBuilder.buildAutoChooser("1");
         autoChooser2 = AutoBuilder.buildAutoChooser("2");
         autoChooser3 = AutoBuilder.buildAutoChooser("3");
         autoChooser4 = AutoBuilder.buildAutoChooser("4");
         autoChooser5 = AutoBuilder.buildAutoChooser("5");
+        //theAutochooser = new SendableChooser<>();
+        
         
         
         //SmartDashboard.putData("Auto Mode", autoChooser);
@@ -254,6 +259,8 @@ public class RobotContainer {
             .andThen(new Outake(effector, pivot, driving))
             .andThen(new L1(elevator, pivot));*/
 
+
+        
         
         return 
             (autoChooser.getSelected().alongWith(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
