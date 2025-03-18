@@ -4,14 +4,21 @@
 
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.Units.Newton;
+
 import java.util.function.BooleanSupplier;
 
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,13 +36,32 @@ public class Elevator1 extends SubsystemBase {
 
   public Trigger HomeLimitSwitchUnpressedTrigger = new Trigger(HomeLimitSwitchUnpressed);
 
-  public final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
+  //public final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
+
+  public final MotionMagicVoltage m_request = new MotionMagicVoltage(0).withSlot(0);
 
   public double setPosition = 0.5;
+
+  public static final PowerDistribution m_pdh = new PowerDistribution(1, ModuleType.kRev);
+  //private final EndEffector m_Effector = new EndEffector();
+
+  //Orchestra m_Orchestra = new Orchestra();
+
+  
+
+
 
 
 
   public Elevator1() {
+    //m_Orchestra.addInstrument(ElevatorLeader);
+    //m_Orchestra.addInstrument(ElevatorFollower);
+
+    //m_Orchestra.loadMusic("output.chrp");
+
+    //m_Orchestra.play();
+
+    //m_Orchestra.play();
     //HomeLimitSwitchUnpressedTrigger.onFalse(StopElevator());
     HomeLimitSwitchUnpressed.getAsBoolean();
     //ElevatorLeader.set(0.2);
@@ -64,14 +90,18 @@ public class Elevator1 extends SubsystemBase {
     //targetPos = SmartDashboard.getNumber("TestNumber", 0);
     //System.out.println(targetPos);
     //setPosition = targetPos;
+    //m_Orchestra.play();
     if (targetPos > Constants.MaxMotorPosition) {
       targetPos = Constants.MaxMotorPosition;
     }
     if (targetPos < Constants.MinMotorPosition) {
       targetPos = Constants.MinMotorPosition;
     }
+
     setPosition = targetPos;
+    
     ElevatorLeader.setControl(m_request.withPosition(targetPos));
+
   }
   public double getSetPosiiton(){
     return setPosition;
@@ -101,6 +131,13 @@ public class Elevator1 extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Elevator Position", ElevatorLeader.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("Elevator Set", setPosition);
+
+    if((((Math.abs(setPosition-ElevatorLeader.getPosition().getValueAsDouble())<0.3) && setPosition == 1.05) && DriverStation.isEnabled())&& !SmartDashboard.getBoolean("Switch", false)){
+      m_pdh.setSwitchableChannel(true);
+    }
+    else{
+      m_pdh.setSwitchableChannel(false);
+    }
     
     //Voltage tempvar8 = ElevatorLeader.getMotorVoltage().getValue();
      //SmartDashboard.putNumber("voltage of ElevatorLeader", tempvar8.magnitude());

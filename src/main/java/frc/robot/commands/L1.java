@@ -40,7 +40,7 @@ public class L1 extends Command {
   @Override
   public void initialize() {
     //m_elevator.gotolevel(2);
-    m_elevator.gotolevel(1.125); // was 1
+    m_elevator.gotolevel(1.05); // was 0.63
     done = false;
 
   }
@@ -48,8 +48,8 @@ public class L1 extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_elevator.getRealPostion()<5 && !done){
-      m_PivotArm.goTo(-6.5);
+    if(m_elevator.getRealPostion()<5.5 && !done){
+      m_PivotArm.goTo(0.81);
       done = true;
 
     }

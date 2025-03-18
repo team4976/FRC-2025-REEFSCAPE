@@ -47,12 +47,37 @@ public final class Constants {
   public static final double modeChangeLimit = 0.2;
   public static final double scaleRotation = 4;
   public static final double scaleTranslation = 4;
+  
+  
+  public static final double LeftOffset = -0.19;//was -0.14
+  
+
+  public static final double RightOffset = 0.15;// was 0.14
+
+  public static final double ForwardOffset = 0.35;//was 0.34 at home
+
+
+  public static final double L4Elevator = 29;//was 30.6 // was 30.45
+  public static final double L4Arm = 0.346;//was 0.346 //was 0.364
+
+  public static final double L3Elevator = 15;//was 15.7// was 15.9
+  public static final double L3Arm = 0.346;//was 0.346
+  
+  public static final double L2Elevator = 5.5;//was 7.4 // was 6.2
+  public static final double L2Arm = 0.346;//was 0.346
 
 
   // Rotational Offsets
   public static final HashMap<Integer, Double> tagIdtoRotation = new HashMap<Integer, Double>();
 
   static public void initTags(){
+    tagIdtoRotation.put(1, 126.0);//feeder
+    tagIdtoRotation.put(2, 234.0);//feeder
+
+    tagIdtoRotation.put(3, 0.0);//irrelevant from amp
+    tagIdtoRotation.put(4, 0.0);
+    tagIdtoRotation.put(5, 0.0);
+    
     tagIdtoRotation.put(6, 120.0);
     tagIdtoRotation.put(7, 180.0);
     tagIdtoRotation.put(8, 240.0);
@@ -61,13 +86,21 @@ public final class Constants {
     tagIdtoRotation.put(11, 60.0);
 
     
+    tagIdtoRotation.put(13, tagIdtoRotation.get(1));
+    tagIdtoRotation.put(12, tagIdtoRotation.get(2));
     tagIdtoRotation.put(17, tagIdtoRotation.get(8));
     tagIdtoRotation.put(18, tagIdtoRotation.get(7));
     tagIdtoRotation.put(19, tagIdtoRotation.get(6));
     tagIdtoRotation.put(20, tagIdtoRotation.get(11));
     tagIdtoRotation.put(21, tagIdtoRotation.get(10));
     tagIdtoRotation.put(22, tagIdtoRotation.get(9));
+
+
+    tagIdtoRotation.put(15, tagIdtoRotation.get(4));
+    tagIdtoRotation.put(14, tagIdtoRotation.get(5));
+    tagIdtoRotation.put(16, tagIdtoRotation.get(3));
   }
+  
 
   
   

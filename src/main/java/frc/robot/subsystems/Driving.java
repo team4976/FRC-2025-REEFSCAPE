@@ -43,6 +43,7 @@ public class Driving extends SubsystemBase {
   private double y = 0;
   private double r = 0.5;
   private boolean mode = false;
+  private boolean whatWas = false;
   //public CommandSwerveDrivetrain drivetrainer = TunerConstants.createDrivetrain();
   private final CommandXboxController joystick = new CommandXboxController(Constants.OperatorConstants.kDriverControllerPort);
   
@@ -91,6 +92,8 @@ public class Driving extends SubsystemBase {
   @Override
   public void periodic() {
     if(mode){
+      whatWas = true;
+
       /*final SwerveRequest.RobotCentric drive = new SwerveRequest.RobotCentric()
             .withDeadband(0).withRotationalDeadband(0) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors*/
@@ -104,25 +107,30 @@ public class Driving extends SubsystemBase {
       
     }
     else{
+      if(whatWas){
+        drivetrainer.setControl(drive.withVelocityY(y));
+        drivetrainer.setControl(drive.withVelocityX(x));
+        whatWas = false;
+      }
       if(DriverStation.isAutonomous()){
 
       }
       else{
-         if(Math.abs(joystick.getRightX()) > 0.15){
+         if(Math.abs(joystick.getRightX()) > 0.13){
            //drivetrainer.setControl(drive.withRotationalRate(-joystick.getRightX() * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
-           drivetrainer.setControl(drive.withRotationalRate(-1*(0.41*(joystick.getRightX()-1)*joystick.getRightX()*(joystick.getRightX()+1)+joystick.getRightX()) * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
+           drivetrainer.setControl(drive.withRotationalRate(-1*(0.6*(joystick.getRightX()-1)*joystick.getRightX()*(joystick.getRightX()+1)+joystick.getRightX()) * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
          }
         else{
           drivetrainer.setControl(drive.withRotationalRate(0));
         }
  
        if(Math.sqrt(joystick.getLeftY()*joystick.getLeftY() + joystick.getLeftX()*joystick.getLeftX())>0.18){
-         drivetrainer.setControl(drive.withVelocityY(-1*(0.41*(joystick.getLeftX()-1)*joystick.getLeftX()*(joystick.getLeftX()+1) + joystick.getLeftX()) * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
+         drivetrainer.setControl(drive.withVelocityY(-1*(0.6*(joystick.getLeftX()-1)*joystick.getLeftX()*(joystick.getLeftX()+1) + joystick.getLeftX()) * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
          //drivetrainer.setControl(drive.withVelocityY(-joystick.getLeftX() * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
 
 
          //drivetrainer.setControl(drive.withVelocityX(-joystick.getLeftY() * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
-         drivetrainer.setControl(drive.withVelocityX(-1*(0.41*(joystick.getLeftY() -1)*joystick.getLeftY()*(joystick.getLeftY()+1) + joystick.getLeftY()) * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
+         drivetrainer.setControl(drive.withVelocityX(-1*(0.6*(joystick.getLeftY() -1)*joystick.getLeftY()*(joystick.getLeftY()+1) + joystick.getLeftY()) * TunerConstants_other.kSpeedAt12Volts.in(MetersPerSecond)));
        }
        else{
          drivetrainer.setControl(drive.withVelocityY(0));

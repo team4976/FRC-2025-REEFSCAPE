@@ -60,8 +60,9 @@ public class L2 extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     if(System.currentTimeMillis()-time > 2000){
+     if(System.currentTimeMillis()-time > 1650||(Math.abs(m_elevator.getVelocity())<5 && Math.abs(m_elevator.getRealPostion()-m_elevator.getSetPosiiton()) <0.3)){
       done = true;
+      System.out.println(System.currentTimeMillis()-time);
 
      }
     //   m_PivotArm.goTo(1.35);
@@ -81,7 +82,7 @@ public class L2 extends Command {
   public void end(boolean interrupted) {
     //m_Effector.runed(0);
     //m_PivotArm.goTo(2.75);
-    System.out.println("sigma");
+    //System.out.println("sigma");
   }
 
   // Returns true when the command should end.

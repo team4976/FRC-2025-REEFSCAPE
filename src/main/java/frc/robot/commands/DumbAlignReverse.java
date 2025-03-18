@@ -8,37 +8,32 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Driving;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PhotonVision;
+import frc.robot.subsystems.PhotonVisionRear;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.SideCam;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class DumbAlign extends Command {
+public class DumbAlignReverse extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //private final ExampleSubsystem m_subsystem;
   private final SideCam m_SideCam;
-  private final PhotonVision m_PhotonVision;
+  private final PhotonVisionRear m_PhotonVision;
   private final Driving m_Driving;
   private final double m_Offset;
   private boolean end = false;
   private Pigeon m_pig;
-  private double time;
-  private double m_forwardOffset;
 
-  private ProfiledPIDController forwardPid = new ProfiledPIDController(0.5, 0, 0, new TrapezoidProfile.Constraints(0.01, 10000));
-  private ProfiledPIDController parallelPid = new ProfiledPIDController(0.1, 0, 0, new TrapezoidProfile.Constraints(0.2, 0.2));
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DumbAlign(SideCam sideCam, Driving driving, double Offset, PhotonVision photonVision, Pigeon pig, double forwardOffset){
+  public DumbAlignReverse(SideCam sideCam, Driving driving, double Offset, PhotonVisionRear photonVision, Pigeon pig){
 
     m_pig = pig;
-    m_forwardOffset = forwardOffset;
+
     m_Offset = Offset;
     m_SideCam = sideCam;
     m_Driving = driving;
@@ -56,20 +51,12 @@ public class DumbAlign extends Command {
     //m_Driving.setX(0.05);
     m_Driving.setRotation(0);
     end = false;
-
-    parallelPid.reset(0);
-    forwardPid.reset(0);
-
-
-    time = System.currentTimeMillis();
-
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    //System.out.println("oh");
+    System.out.println("oh");
     if(!m_PhotonVision.getHas()){
       m_Driving.setRotation(0);
       m_Driving.setX(0);
@@ -78,71 +65,76 @@ public class DumbAlign extends Command {
     }
 
     double Offset = 0;
-    //int id = m_PhotonVision.getId();
+    int id = m_PhotonVision.getId();
 
 
-    // if(Constants.tagIdtoRotation.containsKey(id)){
-    //   Offset = Constants.tagIdtoRotation.get(id);
-    // }
+    if(Constants.tagIdtoRotation.containsKey(id)){
+      Offset = Constants.tagIdtoRotation.get(id);
+    }
     
     
 
+    double rotation = -(((Offset-m_pig.getYaw()+180)%360+360)%360-180)/100;
 
+    if(rotation > 0.2){
+      rotation = 0.2;
+    }
+    else if(rotation < -0.2){
+      rotation = -0.2;
+    }
+
+    m_Driving.setRotation(-rotation);
 
     
 
     double output;
     double forward;
-    double rotation;
 
+    if(m_SideCam.getYaw() == 1000){
+      output = 0;
+    }else{
 
+      //output = (m_SideCam.getYaw() - (m_Offset))/-20;
+      output = m_PhotonVision.getY()+0.7;
+      //m_Driving.setY((m_SideCam.getYaw() - (-27))/-40);
+    }
+    if(output>0.1){
+      output = 0.1;
+
+    }
+    else if(output < -0.1){
+      output = -0.1;
+    }
     if(m_PhotonVision.getHas()){
+      output = -m_PhotonVision.getY()-m_Offset;
 
-      int id = m_PhotonVision.getId();
+      if(output>0.1){
+        output = 0.1;
 
-      if(Constants.tagIdtoRotation.containsKey(id)){
-        Offset = Constants.tagIdtoRotation.get(id);
+      }
+      else if(output < -0.1){
+        output = -0.1;
       }
 
-      rotation = (((Offset-m_pig.getYaw()+180)%360+360)%360-180)/80;
-
-      
-  
-      //m_Driving.setRotation(-rotation/2);
-
-
-      output = (m_PhotonVision.getY()-m_Offset);
-      //output = -parallelPid.calculate(m_PhotonVision.getY(), m_Offset);
-
-      
-
-      forward = m_PhotonVision.getX()-m_forwardOffset;//0.34 works good
-
-      //forward = -forwardPid.calculate(m_PhotonVision.getX(), m_forwardOffset);
-      //System.out.println(forward);
-
-
-      
-      //m_Driving.setX(forward/1);
+      forward = -(m_PhotonVision.getX()-0.64);//was 0.72
+      if(forward>0.2){
+        forward = 0.2;
+      }      
+      else if(forward < -0.2){
+        forward = -0.2;
+      }
+      m_Driving.setX(forward);
 
     }
     else{
       output = 0;
-      rotation = 0;
+      m_Driving.setX(0);
       forward = 0;
-
-      
     }
 
 
 
     //output = m_PhotonVision.getY()-m_Offset;
-    if(forward>0.2){
-      forward = 0.2;
-    }
-    else if(forward<-0.2){
-      forward = -0.2;
-    }
 
     if(output>0.2){
       output = 0.2;
@@ -151,22 +143,11 @@ public class DumbAlign extends Command {
     else if(output < -0.2){
       output = -0.2;
     }
-
-    if(rotation > 0.3){
-      rotation = 0.3;
-    }
-    else if(rotation < -0.3){
-      rotation = -0.3;
-    }
-
-    m_Driving.setRotation(rotation);
-    m_Driving.setY(output/1);
-    m_Driving.setX(forward/1);
-    
+    m_Driving.setY(output);
 
     //m_Driving.setY((m_SideCam.getYaw() - (-27)));
 
-    if((Math.abs(forward) < 0.007 && Math.abs(output) < 0.007 && Math.abs(rotation) < 0.007)|| System.currentTimeMillis() - time >2000 ){
+    if(Math.abs(forward) < 0.01 && Math.abs(output) < 0.01 && Math.abs(rotation) < 0.01 ){
       end = true;
     }
   }
@@ -177,7 +158,7 @@ public class DumbAlign extends Command {
     m_Driving.setX(0);
     m_Driving.setY(0);
     m_Driving.setMode(false);
-    //System.out.println("oh");
+    System.out.println("oh");
   }
 
   // Returns true when the command should end.

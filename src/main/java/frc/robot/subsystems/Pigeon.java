@@ -41,14 +41,26 @@ public class Pigeon extends SubsystemBase {
     // Query some boolean state, such as a digital sensor.
     return false;
   }
+  private double Offset = 0;
+
+
+  public double getAccumGyro(){
+    return pig.getAccumGyroZ().getValueAsDouble() - Offset;
+  }
 
   public double getYaw(){
-    double angle = pig.getAccumGyroZ().getValueAsDouble();
+    double angle = pig.getAccumGyroZ().getValueAsDouble() - Offset;
     angle = angle % 360;  // Get remainder within -360 to 360
     return (angle >= 0) ? angle : angle + 360;  // Convert negative to positive
 
     //return pig.getRotation3d().getAxis().get;
   }
+  public void resetGyro(){
+    Offset = Offset + getAccumGyro();
+    
+  }
+
+  
   
 
   @Override

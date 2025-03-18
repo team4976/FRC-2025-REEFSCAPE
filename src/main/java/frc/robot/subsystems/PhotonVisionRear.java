@@ -14,7 +14,6 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,18 +21,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 
-public class PhotonVision extends SubsystemBase {
+public class PhotonVisionRear extends SubsystemBase {
   PhotonTrackedTarget bestTarget;
   GenericEntry Rotation3d_WidgetX,Rotation3d_WidgetY,Rotation3d_WidgetZ;
-  private PhotonCamera p_photon = new PhotonCamera("Front Cam");
+  private PhotonCamera p_photon = new PhotonCamera("Back Cam");
   /** Creates a new ExampleSubsystem. */
-  public PhotonVision() {
-    Rotation3d_WidgetX = Shuffleboard.getTab("SmartDashboard").add("Rotation3d X",0).getEntry();
-    Rotation3d_WidgetY = Shuffleboard.getTab("SmartDashboard").add("Rotation3d Y",0).getEntry();
-    Rotation3d_WidgetZ = Shuffleboard.getTab("SmartDashboard").add("Rotation3d Z",0).getEntry();
+  public PhotonVisionRear() {
+    //Rotation3d_WidgetX = Shuffleboard.getTab("SmartDashboard").add("Rotation3d X2",0).getEntry();
+    //Rotation3d_WidgetY = Shuffleboard.getTab("SmartDashboard").add("Rotation3d Y2",0).getEntry();
+    //Rotation3d_WidgetZ = Shuffleboard.getTab("SmartDashboard").add("Rotation3d Z2",0).getEntry();
     //SmartDashboard.putNumber("PhotonX", p_photon.getLatestResult().getBestTarget().getBestCameraToTarget().getX());
       //SmartDashboard.putNumber("PhotonY", p_photon.getLatestResult().getBestTarget().getBestCameraToTarget().getY());
       //SmartDashboard.putNumber("Yaw", p_photon.getLatestResult().getBestTarget().getYaw());
@@ -163,38 +161,12 @@ public class PhotonVision extends SubsystemBase {
     return false;
   }
   //var result;
-  CommandXboxController joy = new CommandXboxController(0);
 
   @Override
   public void periodic() {
-    
-    SmartDashboard.putNumber("Xoff", getX());
-    SmartDashboard.putNumber("Yoff", getY());
-    SmartDashboard.putNumber("Fiducial Id", getId());
-
-    SmartDashboard.putNumber("LeftRR", Math.abs(Constants.LeftOffset - getY()));
-    SmartDashboard.putNumber("LeftRRR", Math.abs(0.34 - getX()));
-
-    if(Math.abs(Constants.ForwardOffset - getX())< 0.03 && Math.abs(Constants.LeftOffset - getY()) < 0.03){
-      SmartDashboard.putBoolean("LeftGood", true);
-      joy.setRumble(RumbleType.kLeftRumble, 1);
-
-    }
-    else{
-      SmartDashboard.putBoolean("LeftGood", false);
-      joy.setRumble(RumbleType.kLeftRumble, 0);
-    }
-    if(Math.abs(Constants.ForwardOffset - getX())< 0.03 && Math.abs(Constants.RightOffset - getY()) < 0.03){
-      SmartDashboard.putBoolean("RightGood", true);
-      joy.setRumble(RumbleType.kRightRumble, 1);
-
-    }
-    else{
-      SmartDashboard.putBoolean("RightGood", false);
-      joy.setRumble(RumbleType.kRightRumble, 0);
-    }
-
-
+    SmartDashboard.putNumber("Xoff2", getX());
+    SmartDashboard.putNumber("Yoff2", getY());
+    SmartDashboard.putNumber("Fiducial Id2", getId());
     //double x = getYaw();
     //SmartDashboard.putNumber("oh", x);
 
@@ -234,8 +206,8 @@ public class PhotonVision extends SubsystemBase {
                 int bestTargetID = result.getBestTarget().fiducialId;
                 for (PhotonTrackedTarget target : result.getTargets()) {
                   if(target.fiducialId == bestTargetID){
-                    Rotation3d_WidgetX.setValue(target.getBestCameraToTarget().getRotation().getX());
-                    Rotation3d_WidgetY.setValue(Units.radiansToDegrees(target.getBestCameraToTarget().getRotation().getX()));
+                    //Rotation3d_WidgetX.setValue(target.getBestCameraToTarget().getRotation().getX());
+                    //Rotation3d_WidgetY.setValue(Units.radiansToDegrees(target.getBestCameraToTarget().getRotation().getX()));
                   }
                 }
               }

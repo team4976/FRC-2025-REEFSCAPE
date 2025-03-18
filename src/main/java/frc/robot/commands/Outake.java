@@ -45,12 +45,16 @@ public class Outake extends Command {
   @Override
   public void initialize() {
     //if(m_PivotArm.getPosition() < 3){
-    if(m_PivotArm.getPosition() < -6){
-      m_EndEffector.runed(-0.4);
+    if(m_PivotArm.getPosition() > 0.6){
+      m_EndEffector.runed(-5.5);
+    }
+    else if(m_PivotArm.getPosition() == 0.32){
+      m_EndEffector.oneSide(0.5);
     }
     else{
-      m_EndEffector.runed(0.4);
+      m_EndEffector.runed(5.5);
     }
+    
       //m_EndEffector.runed(0.4);
       //time = System.currentTimeMillis();
 
@@ -76,7 +80,7 @@ public class Outake extends Command {
       hasCoral = true;
       
     }
-    if(hasCoral && (System.currentTimeMillis()-time > 2000)){
+    if(hasCoral && (System.currentTimeMillis()-time > 150)){
       done = true;
 
     }
