@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 /** An example command that uses an example subsystem. */
-public class L2 extends Command {
+public class ElevatorToPosition extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //private final ExampleSubsystem m_subsystem;
   private final Elevator1 m_elevator;
@@ -32,7 +32,7 @@ public class L2 extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public L2(Elevator1 elevator, PivotArm pivot, EndEffector effector, double Position, double arm) {
+  public ElevatorToPosition(Elevator1 elevator, PivotArm pivot, EndEffector effector, double Position, double arm) {
     //m_subsystem = subsystem;
     ArmPosition = arm;
     m_elevator = elevator;
