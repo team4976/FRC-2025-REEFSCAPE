@@ -90,7 +90,7 @@ public class EndEffector extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //SmartDashboard.putNumber("Intake Switch", stopAnalogInput.getPosition());
+    SmartDashboard.putNumber("Intake Switch", stopAnalogInput.getPosition());
     SmartDashboard.putBoolean("Switch", getSwitch());
     // This method will be called once per scheduler run
   }
