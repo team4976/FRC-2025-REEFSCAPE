@@ -183,8 +183,8 @@ public class RobotContainer {
 
     private void configureBindings() {
 
-        andrew.povUp().onTrue(new ElevatorUp(elevator));
-        andrew.povDown().onTrue(new ElevatorDown(elevator));
+        andrew.rightBumper().onTrue(new ElevatorUp(elevator));
+        andrew.leftBumper().onTrue(new ElevatorDown(elevator));
         //andrew.povRight().onTrue(new ArmUp(pivot));
         //andrew.povLeft().onTrue(new ArmDown(pivot));
 
@@ -232,16 +232,31 @@ public class RobotContainer {
         joystick.povDown().toggleOnTrue(new L1(elevator, pivot).alongWith(new Intake(effector, pivot)));//L1
 
         joystick.rightBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset, 2000));
-        joystick.rightBumper().onTrue(new L2(elevator, pivot, effector, Constants.L3Elevator, Constants.L3Arm));
+        //joystick.rightBumper().onTrue(new L2(elevator, pivot, effector, Constants.L3Elevator, Constants.L3Arm));
 
         joystick.leftBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset, 2000));
-        joystick.leftBumper().onTrue(new L2(elevator, pivot, effector, Constants.L3Elevator, Constants.L3Arm));
+        //joystick.leftBumper().onTrue(new L2(elevator, pivot, effector, Constants.L3Elevator, Constants.L3Arm));
 
         joystick.b().toggleOnTrue(new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig));
         
-        andrew.leftBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset, 2000));
-        andrew.rightBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset, 2000));
+        //andrew.leftBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset, 2000));
+        //andrew.rightBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset, 2000));
         //joystick.povLeft().toggleOnTrue(new RunIntake(effector));
+        
+
+        //andrew.povUp().and(joystick.leftBumper()).toggleOnTrue(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm));
+        //andrew.povLeft().and(joystick.leftBumper()).toggleOnTrue(new L2(elevator, pivot, effector, Constants.L3Elevator, Constants.L3Arm));
+        //andrew.povDown().and(joystick.leftBumper()).toggleOnTrue(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm));
+
+
+        joystick.leftBumper().and(andrew.povUp()).onTrue(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm));
+        joystick.rightBumper().and(andrew.povUp()).onTrue(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm));
+
+        joystick.leftBumper().and(andrew.povLeft()).onTrue(new L2(elevator, pivot, effector, Constants.L3Elevator, Constants.L3Arm));
+        joystick.rightBumper().and(andrew.povLeft()).onTrue(new L2(elevator, pivot, effector, Constants.L3Elevator, Constants.L3Arm));
+
+        joystick.leftBumper().and(andrew.povDown()).onTrue(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm));
+        joystick.rightBumper().and(andrew.povDown()).onTrue(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm));
         
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
