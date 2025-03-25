@@ -28,25 +28,19 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.ActuateDown;
 import frc.robot.commands.ActuateUp;
 import frc.robot.commands.ArmDown;
-import frc.robot.commands.ArmUp;
-import frc.robot.commands.AutoAlignLeft;
-import frc.robot.commands.AutoAlignRight;
 import frc.robot.commands.DumbAlign;
 import frc.robot.commands.DumbAlignReverse;
 import frc.robot.commands.ElevatorDown;
 import frc.robot.commands.ElevatorUp;
 import frc.robot.commands.Intake;
 import frc.robot.commands.L1;
-import frc.robot.commands.L1Shot;
+import frc.robot.commands.L2;
 import frc.robot.commands.ElevatorToPosition;
-import frc.robot.commands.L3;
-import frc.robot.commands.L4;
 import frc.robot.commands.Outake;
 import frc.robot.commands.Reset;
 import frc.robot.commands.RunIntake;
 import frc.robot.generated.TunerConstants_other;
 import frc.robot.subsystems.Actuation;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Driving;
 import frc.robot.subsystems.Elevator1;
@@ -182,9 +176,9 @@ public class RobotContainer {
         op_controller.axisMagnitudeGreaterThan(4, 0.2).whileTrue((new ArmDown(pivot, op_controller.getRightX())));
 
         //driver. dumb align and then... shoot low? TODO: ask ben
-        joystick.x().toggleOnTrue(new Reset(pig));
+        drive_controller.x().toggleOnTrue(new Reset(pig));
 
-        joystick.rightTrigger().toggleOnTrue(new L2(elevator, pivot, effector, 0.5, 0.32));
+        drive_controller.rightTrigger().toggleOnTrue(new L2(elevator, pivot, effector, 0.5, 0.32));
         
         //andrew.povUp().onTrue(new L4(elevator));
         //joystick.povRight().onTrue(new L3(elevator));
@@ -239,7 +233,7 @@ public class RobotContainer {
         drive_controller.back().and(drive_controller.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
         drive_controller.start().and(drive_controller.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         drive_controller.start().and(drive_controller.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-        */
+        
 
         //keeping for future reference
         // reset the field-centric heading on left bumper press
