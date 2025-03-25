@@ -56,7 +56,7 @@ public class ElevatorToPosition extends Command {
   @Override
   public void execute() {
     //either times out, or gets to the elevator position we want it to and stops moving
-     if(System.currentTimeMillis()-time > 1650||(Math.abs(m_elevator.getVelocity())<5 && Math.abs(m_elevator.getRealPostion()-m_elevator.getSetPosiiton()) <0.3)){
+     if(System.currentTimeMillis()-time > 1650||(Math.abs(m_elevator.getVelocity())<5 && Math.abs(m_elevator.getRealPosition()-m_elevator.getSetPosition()) <0.3)){
       done = true;
       System.out.println(System.currentTimeMillis()-time);
 

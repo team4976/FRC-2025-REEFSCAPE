@@ -4,47 +4,42 @@
 
 package frc.robot.commands;
 
-//import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.PivotArm;
-
-
-
+import frc.robot.subsystems.Driving;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Pigeon;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /** An example command that uses an example subsystem. */
-public class ArmDown extends Command {
+public class ResetGyroWithRotation extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //private final ExampleSubsystem m_subsystem;
-  private final PivotArm m_pivot;
-  private final CommandXboxController joystick = new CommandXboxController(1);
-  private final double joypos;
+
+  private final Pigeon m_Pigeon;
+  private final Driving m_Driving;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ArmDown(PivotArm pivot, double joy) {
+  public ResetGyroWithRotation(Pigeon pigeon, Driving driving) {
+    m_Pigeon = pigeon;
+    m_Driving = driving;
+
     //m_subsystem = subsystem;
-    joypos = joy;
-    m_pivot = pivot;
     // Use addRequirements() here to declare subsystem dependencies.
     //addRequirements(subsystem);
-    addRequirements(pivot);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //m_pivot.goTo(m_pivot.getPosition()-((joypos*0.001)));
+    m_Driving.resetAndrew(m_Pigeon.getYaw());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_pivot.goTo(m_pivot.getPosition()-((joystick.getRightX()*0.0075)));
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -53,6 +48,6 @@ public class ArmDown extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

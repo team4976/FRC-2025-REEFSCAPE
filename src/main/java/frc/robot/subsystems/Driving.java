@@ -12,6 +12,7 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -46,9 +47,13 @@ public class Driving extends SubsystemBase {
   private boolean whatWas = false;
   //public CommandSwerveDrivetrain drivetrainer = TunerConstants.createDrivetrain();
   private final CommandXboxController joystick = new CommandXboxController(Constants.OperatorConstants.kDriverControllerPort);
-  
+  private final CommandXboxController andrew = new CommandXboxController(1);
   
 
+
+  public void resetAndrew(double rotation){
+    drivetrainer.resetRotation(Rotation2d.fromDegrees(rotation));
+  }
 
   public void setX(double X) {
     x = Math.max(-1, Math.min(1, X));
@@ -120,6 +125,9 @@ public class Driving extends SubsystemBase {
        //drivetrainer.setControl(drive.withRotationalRate(-joystick.getRightX() * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
  
        joystick.y().onTrue(drivetrainer.runOnce(() -> drivetrainer.seedFieldCentric()));
+
+       //andrew.x().onTrue(drivetrainer.runOnce(() -> drivetrainer.resetRotation(Rotation2d.fromDegrees(60))));
+
         
 
       }

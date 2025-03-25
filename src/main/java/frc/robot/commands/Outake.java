@@ -46,7 +46,11 @@ public class Outake extends Command {
     //hey, if it works!
     //depending on where it is it runs faster or slower to spit the coral out
 
-    if(m_Elevator1.getSetPosiiton() > 20){
+    //looks at where it's placing it on the reef... via reading the pivot position?
+    //hey, if it works!
+    //depending on where it is it runs faster or slower to spit the coral out 
+
+    if(m_Elevator1.getSetPosition() > 20){
       m_EndEffector.runed(5.5);
     }
 
