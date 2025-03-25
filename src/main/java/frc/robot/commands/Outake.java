@@ -18,16 +18,17 @@ public class Outake extends Command {
   private final EndEffector m_EndEffector;
   private final PivotArm m_PivotArm;
   private final Driving m_Driving;
-  //private final Elevator1 m_Elevator1;
+  private final Elevator1 m_Elevator1;
   private boolean hasCoral = false;
   private boolean done = false;
   private double time;
 
-  public Outake(EndEffector endEffector, PivotArm pivotarm, Driving mDriving) {
+  public Outake(EndEffector endEffector, PivotArm pivotarm, Driving mDriving, Elevator1 elevator) {
     //m_subsystem = subsystem;
     m_EndEffector = endEffector;
     m_PivotArm = pivotarm;
     m_Driving = mDriving;
+    m_Elevator1 = elevator;
     //m_Elevator1 = elevator1;
     //addRequirements(elevator1);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -44,14 +45,24 @@ public class Outake extends Command {
     //looks at where it's placing it on the reef... via reading the pivot position?
     //hey, if it works!
     //depending on where it is it runs faster or slower to spit the coral out
-    if(m_PivotArm.getPosition() > 0.6){
-      m_EndEffector.runed(-5.5);
-    }
-    else if(m_PivotArm.getPosition() == 0.32){
-      m_EndEffector.oneSide(0.5);
-    }
-    else{
+
+    if(m_Elevator1.getSetPosiiton() > 20){
       m_EndEffector.runed(5.5);
+    }
+
+    else{
+
+    
+    
+      if(m_PivotArm.getPosition() > 0.6){
+        m_EndEffector.runed(-5.5);
+      }
+      else if(m_PivotArm.getPosition() == 0.32){
+        m_EndEffector.oneSide(0.3);
+      }
+      else{
+        m_EndEffector.runed(4);//was 5
+      }
     }
     
       //m_EndEffector.runed(0.4);

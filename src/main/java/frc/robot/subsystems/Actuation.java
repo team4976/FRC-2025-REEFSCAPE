@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -52,6 +53,16 @@ public class Actuation extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    // if(DriverStation.isAutonomousEnabled()){
+    //   actuator.set(0.2);
+    //   actuator1.set(0.2);
+    // }
+    // else if(DriverStation.isTeleopEnabled()){
+    //   actuator.set(0.99);
+    //   actuator.set(0.99);
+    // }
+
   }
 
   @Override

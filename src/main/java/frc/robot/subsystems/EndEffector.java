@@ -74,7 +74,7 @@ public class EndEffector extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //SmartDashboard.putNumber("Intake Switch", coralLimitSwitch.getPosition());
+    SmartDashboard.putNumber("Intake Switch", coralLimitSwitch.getPosition());
     SmartDashboard.putBoolean("Coral LimitSwitch", getSwitch());
     // This method will be called once per scheduler run
 

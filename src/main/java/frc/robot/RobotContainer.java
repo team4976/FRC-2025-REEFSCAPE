@@ -123,40 +123,40 @@ public class RobotContainer {
         //this is all one auto. there has to be a better way to do this. an autonomous file of some sort...
         //composite command to end all composite commands. if it ain't broke don't fix it
         theAutochooser.addOption("Left", (autoChooser.getSelected().alongWith(new ElevatorToPosition(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
-        .andThen(new ElevatorToPosition(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm).alongWith(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset)))
-        .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset))
-        .andThen(new Outake(effector, pivot, driving))
+        .andThen(new ElevatorToPosition(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm).alongWith(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset, 1200)))//was 1350
+        //.andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset))
+        .andThen(new Outake(effector, pivot, driving, elevator))
         .andThen(new L1(elevator, pivot).alongWith(autoChooser2.getSelected()))
         .andThen(Commands.deadline(new Intake(effector, pivot), new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig)))
         .andThen(new ElevatorToPosition(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm).alongWith(autoChooser3.getSelected()))
-        .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset).alongWith(new ElevatorToPosition(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
-        .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset))
-        .andThen(new Outake(effector, pivot, driving))
+        .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset, 1200).alongWith(new ElevatorToPosition(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
+        //.andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset))
+        .andThen(new Outake(effector, pivot, driving, elevator))
         .andThen(new L1(elevator, pivot).alongWith(autoChooser4.getSelected()))
         .andThen(Commands.deadline(new Intake(effector, pivot), new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig)))
         .andThen(autoChooser5.getSelected().alongWith(new ElevatorToPosition(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
-        .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset).alongWith(new ElevatorToPosition(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
-        .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset))
-        .andThen(new Outake(effector, pivot, driving))
+        .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset,1200).alongWith(new ElevatorToPosition(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
+        //.andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset))
+        .andThen(new Outake(effector, pivot, driving, elevator))
         .andThen(new L1(elevator, pivot).alongWith(new Intake(effector, pivot))));
 
         //the other auto
         theAutochooser.addOption("Right", (autoChooserb.getSelected().alongWith(new ElevatorToPosition(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
-        .andThen(new ElevatorToPosition(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm).alongWith(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset)))
-        .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset))
-        .andThen(new Outake(effector, pivot, driving))
+        .andThen(new ElevatorToPosition(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm).alongWith(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset, 1200)))
+        //.andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset))
+        .andThen(new Outake(effector, pivot, driving, elevator))
         .andThen(new L1(elevator, pivot).alongWith(autoChooser2b.getSelected()))
         .andThen(Commands.deadline(new Intake(effector, pivot), new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig)))
         .andThen(new ElevatorToPosition(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm).alongWith(autoChooser3b.getSelected()))
-        .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset).alongWith(new ElevatorToPosition(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
-        .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset))
-        .andThen(new Outake(effector, pivot, driving))
+        .andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset,1200).alongWith(new ElevatorToPosition(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
+        //.andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset))
+        .andThen(new Outake(effector, pivot, driving, elevator))
         .andThen(new L1(elevator, pivot).alongWith(autoChooser4b.getSelected()))
         .andThen(Commands.deadline(new Intake(effector, pivot), new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig)))
         .andThen(autoChooser5b.getSelected().alongWith(new ElevatorToPosition(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
-        .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset).alongWith(new ElevatorToPosition(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
-        .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset))
-        .andThen(new Outake(effector, pivot, driving))
+        .andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset, 1200).alongWith(new ElevatorToPosition(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm)))
+        //.andThen(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset))
+        .andThen(new Outake(effector, pivot, driving, elevator))
         .andThen(new L1(elevator, pivot).alongWith(new Intake(effector, pivot))));
 
         //puts the auto chooser to smartdashboard
@@ -167,7 +167,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("L1", new L1(elevator, pivot).alongWith(new Intake(effector, pivot)));
         NamedCommands.registerCommand("L4", new ElevatorToPosition(elevator, pivot, effector, 31.26, -2.7));
         NamedCommands.registerCommand("Intake", new Intake(effector, pivot));
-        NamedCommands.registerCommand("LeftAlign", new DumbAlign(m_SideCam, driving, -0.35, photon, pig, 0.34));
+        NamedCommands.registerCommand("LeftAlign", new DumbAlign(m_SideCam, driving, -0.35, photon, pig, 0.34, 2000));
 
         configureBindings();
     }
@@ -175,30 +175,43 @@ public class RobotContainer {
     private void configureBindings() {
 
         //operator. manual elevator controls
-        op_controller.povUp().onTrue(new ElevatorUp(elevator));
-        op_controller.povDown().onTrue(new ElevatorDown(elevator));
+        op_controller.rightBumper().onTrue(new ElevatorUp(elevator));
+        op_controller.leftBumper().onTrue(new ElevatorDown(elevator));
        
         //operator. manual control for "wrist"
         op_controller.axisMagnitudeGreaterThan(4, 0.2).whileTrue((new ArmDown(pivot, op_controller.getRightX())));
 
         //driver. dumb align and then... shoot low? TODO: ask ben
-        drive_controller.rightTrigger().toggleOnTrue(new DumbAlign(m_SideCam, driving, 0, photon, pig, 0.31).andThen(new L1Shot(pivot, elevator, pig, driving, 0, 0.5, 0.32)));
-        //
-        drive_controller.x().toggleOnTrue(new Reset(pig));
+        joystick.x().toggleOnTrue(new Reset(pig));
+
+        joystick.rightTrigger().toggleOnTrue(new L2(elevator, pivot, effector, 0.5, 0.32));
         
+        //andrew.povUp().onTrue(new L4(elevator));
+        //joystick.povRight().onTrue(new L3(elevator));
+        //joystick.povDown().toggleOnTrue(new L2(elevator, pivot, effector));
+        //joystick.povLeft().onTrue(new L1(elevator));
+
+        //joystick.povUp().toggleOnTrue(new L4(elevator, pivot, effector));
+        //joystick.povRight().toggleOnTrue(new L3(elevator, pivot, effector));
+        //joystick.povLeft().toggleOnTrue(new L2(elevator, pivot, effector));
+        //joystick.povDown().toggleOnTrue(new L1(elevator));
+
+        //joystick.povDown().onTrue(new Intake(effector, pivot));
+        //joystick.leftBumper().toggleOnTrue(new AutoAlignLeft(photon, driving));
+        //joystick.rightBumper().toggleOnTrue(new AutoAlignRight(photon, driving));
 
 
-        //driver. intake command, we might want it back in the future
+
         //joystick.b().toggleOnTrue(new Intake(effector, pivot));
         //driver. run outake
-        drive_controller.a().toggleOnTrue(new Outake(effector, pivot, driving));
+        drive_controller.a().toggleOnTrue(new Outake(effector, pivot, driving, elevator));
         //driver. actuator. TODO: isn't this obsolete when we don't have a climber?
         drive_controller.start().toggleOnTrue(new ActuateUp(actuation));
         drive_controller.back().toggleOnTrue(new ActuateDown(actuation));
 
         //operator. intake manual controls
-        op_controller.b().whileTrue(new RunIntake(effector, 0.3));
-        op_controller.a().whileTrue(new RunIntake(effector, -0.3));
+        op_controller.b().whileTrue(new RunIntake(effector, 5));
+        op_controller.a().whileTrue(new RunIntake(effector, -5));
         
         //probably being kept around just in case
         //drive_controller.povRight().onTrue(new ArmUp(pivot));
@@ -211,12 +224,16 @@ public class RobotContainer {
         drive_controller.povDown().toggleOnTrue(new L1(elevator, pivot).alongWith(new Intake(effector, pivot)));//L1
 
         //driver. camera-assisted alignment
-        drive_controller.rightBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset));
-        drive_controller.leftBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset));
+        drive_controller.rightBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset, 2000));
+        //joystick.rightBumper().onTrue(new L2(elevator, pivot, effector, Constants.L3Elevator, Constants.L3Arm));
+        drive_controller.leftBumper().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset, 2000));
+        //joystick.leftBumper().onTrue(new L2(elevator, pivot, effector, Constants.L3Elevator, Constants.L3Arm));
         drive_controller.b().toggleOnTrue(new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig));
         
         //we still want sysid routines in our back pocket but we don't need them right now
-        /*// Run SysId routines when holding back/start and X/Y.
+
+
+        // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         drive_controller.back().and(drive_controller.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
         drive_controller.back().and(drive_controller.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
@@ -231,6 +248,8 @@ public class RobotContainer {
         //telemetry. sends some data back to the robot on position and such
         drivetrain.registerTelemetry(logger::telemeterize);
     }
+
+    
 
     public Command getAutonomousCommand() {
      

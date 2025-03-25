@@ -30,11 +30,13 @@ public class DumbAlign extends Command {
   public double rotation;
   public double Offset;
 
+  private double m_timeout;
+
   private ProfiledPIDController forwardPid = new ProfiledPIDController(0.5, 0, 0, new TrapezoidProfile.Constraints(0.01, 10000));
   private ProfiledPIDController parallelPid = new ProfiledPIDController(0.1, 0, 0, new TrapezoidProfile.Constraints(0.2, 0.2));
 
   
-  public DumbAlign(SideCam sideCam, Driving driving, double Offset, PhotonVision photonVision, Pigeon pig, double forwardOffset){
+  public DumbAlign(SideCam sideCam, Driving driving, double Offset, PhotonVision photonVision, Pigeon pig, double forwardOffset, double timeout){
 
     m_pig = pig;
     m_forwardOffset = forwardOffset;
@@ -42,6 +44,7 @@ public class DumbAlign extends Command {
     m_SideCam = sideCam;
     m_Driving = driving;
     m_PhotonVision = photonVision;
+    m_timeout = timeout;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driving);
   }
@@ -153,7 +156,7 @@ public class DumbAlign extends Command {
     //m_Driving.setY((m_SideCam.getYaw() - (-27)));
 
     //ends if close enough range, or gone on too long
-    if((Math.abs(forward) < 0.007 && Math.abs(output) < 0.007 && Math.abs(rotation) < 0.007)|| System.currentTimeMillis() - time >2000 ){
+    if((Math.abs(forward) < 0.007 && Math.abs(output) < 0.007 && Math.abs(rotation) < 0.007)|| System.currentTimeMillis() - time >m_timeout ){
       end = true;
     }
   }
