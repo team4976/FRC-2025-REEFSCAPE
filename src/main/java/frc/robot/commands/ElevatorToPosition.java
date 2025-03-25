@@ -26,12 +26,6 @@ public class ElevatorToPosition extends Command {
   private double time;
   
 
-
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
   public ElevatorToPosition(Elevator1 elevator, PivotArm pivot, EndEffector effector, double Position, double arm) {
     //m_subsystem = subsystem;
     ArmPosition = arm;
@@ -49,6 +43,7 @@ public class ElevatorToPosition extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //starts moving elevator
     m_elevator.gotolevel(position);
     m_PivotArm.goTo(ArmPosition);
     done = false;
@@ -60,6 +55,7 @@ public class ElevatorToPosition extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //either times out, or gets to the elevator position we want it to and stops moving
      if(System.currentTimeMillis()-time > 1650||(Math.abs(m_elevator.getVelocity())<5 && Math.abs(m_elevator.getRealPostion()-m_elevator.getSetPosiiton()) <0.3)){
       done = true;
       System.out.println(System.currentTimeMillis()-time);

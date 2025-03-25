@@ -18,15 +18,7 @@ public class L1 extends Command {
   private double time;
   
 
-
-
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
   public L1(Elevator1 elevator, PivotArm pivotArm) {
-    //m_subsystem = subsystem;
     m_elevator = elevator;
     m_PivotArm = pivotArm;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -40,6 +32,7 @@ public class L1 extends Command {
   @Override
   public void initialize() {
     //m_elevator.gotolevel(2);
+    //send elevator down
     m_elevator.gotolevel(1.05); // was 0.63
     done = false;
 
@@ -49,6 +42,7 @@ public class L1 extends Command {
   @Override
   public void execute() {
     if(m_elevator.getRealPostion()<5.5 && !done){
+      //flip the end affector for intaking
       m_PivotArm.goTo(0.81);
       done = true;
 

@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Driving;
 import frc.robot.subsystems.Elevator1;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.subsystems.PivotArm;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,11 +30,8 @@ public class L1Shot extends Command {
   private boolean done;
 
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
+  //on the whole what i have worked out is that this positions the bot to shoot the lowest level
+  
   public L1Shot(PivotArm pivotarm, Elevator1 elevator1, Pigeon pigeon, Driving driving, double rotational, double elevatorpos, double pivotpos) {
     //m_subsystem = subsystem;
     m_PivotArm = pivotarm;
@@ -57,16 +53,19 @@ public class L1Shot extends Command {
   @Override
   public void initialize() {
     done = false;
+
+    //make sure we're not moving i guess
     m_Driving.setMode(true);
     m_Driving.setX(0);
     m_Driving.setY(0);
     m_Driving.setRotation(0);
+
+    //move stuff to score
     m_PivotArm.goTo(m_pivotpos);
     m_Elevator1.gotolevel(m_elevatorpos);
+    //gyroscope
     originalGyro = m_Pigeon.getAccumGyro();
     desiredGyro = originalGyro+m_rotational;
-
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -82,6 +81,7 @@ public class L1Shot extends Command {
     }
 
 
+    //honestly you'd have to ask ben to find out what this gyro is doing
     m_Driving.setRotation(output);
 
     if (Math.abs(output) < 0.007) {

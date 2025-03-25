@@ -76,6 +76,7 @@ public class DumbAlignReverse extends Command {
 
     double rotation = -(((Offset-m_pig.getYaw()+180)%360+360)%360-180)/100;
 
+    //make sure rotation isn't too agressive, caps it
     if(rotation > 0.2){
       rotation = 0.2;
     }
@@ -92,12 +93,15 @@ public class DumbAlignReverse extends Command {
 
     if(m_SideCam.getYaw() == 1000){
       output = 0;
-    }else{
+    }
+    else{
 
       //output = (m_SideCam.getYaw() - (m_Offset))/-20;
       output = m_PhotonVision.getY()+0.7;
       //m_Driving.setY((m_SideCam.getYaw() - (-27))/-40);
     }
+
+    //caps output again
     if(output>0.1){
       output = 0.1;
 
@@ -105,6 +109,8 @@ public class DumbAlignReverse extends Command {
     else if(output < -0.1){
       output = -0.1;
     }
+
+    //bootleg pdi and even more capping. are we sure none of that is redundant? surely we don't need to do it this many times...
     if(m_PhotonVision.getHas()){
       output = -m_PhotonVision.getY()-m_Offset;
 
@@ -136,6 +142,7 @@ public class DumbAlignReverse extends Command {
 
     //output = m_PhotonVision.getY()-m_Offset;
 
+    //prevent speed from being too high and getting out of control
     if(output>0.2){
       output = 0.2;
 
@@ -147,6 +154,7 @@ public class DumbAlignReverse extends Command {
 
     //m_Driving.setY((m_SideCam.getYaw() - (-27)));
 
+    //if in acceptable range, or enough time passed, end command
     if(Math.abs(forward) < 0.01 && Math.abs(output) < 0.01 && Math.abs(rotation) < 0.01 ){
       end = true;
     }

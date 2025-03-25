@@ -40,6 +40,10 @@ public class Outake extends Command {
   @Override
   public void initialize() {
     //if(m_PivotArm.getPosition() < 3){
+
+    //looks at where it's placing it on the reef... via reading the pivot position?
+    //hey, if it works!
+    //depending on where it is it runs faster or slower to spit the coral out
     if(m_PivotArm.getPosition() > 0.6){
       m_EndEffector.runed(-5.5);
     }
@@ -58,23 +62,26 @@ public class Outake extends Command {
      // m_EndEffector.runed(-0.3);
     //}
     //m_EndEffector.runed(-0.15);
+    //m_PivotArm.goTo(1.75);
+
+    //reset those booleans
     hasCoral = false;
     done = false;
-    //m_PivotArm.goTo(1.75);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if(!m_EndEffector.getSwitch() && !hasCoral){
-      time = System.currentTimeMillis();
+      time = System.currentTimeMillis(); //this keeps resetting the time while it has no coral
       hasCoral = true;
-      
     }
+
     if(hasCoral && (System.currentTimeMillis()-time > 150)){
       done = true;
-
     }
+
     if(Math.abs(m_PivotArm.getPosition() - (m_PivotArm.getRealPostion())) <0.25){
       //m_EndEffector.runed(-0.2);
     }
