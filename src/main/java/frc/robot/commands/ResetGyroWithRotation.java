@@ -4,66 +4,50 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Elevator1;
+import frc.robot.subsystems.Driving;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.PivotArm;
+import frc.robot.subsystems.Pigeon;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class L1 extends Command {
+public class ResetGyroWithRotation extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //private final ExampleSubsystem m_subsystem;
-  private final Elevator1 m_elevator;
-  private final PivotArm m_PivotArm;
-  private double time;
-  
 
-
+  private final Pigeon m_Pigeon;
+  private final Driving m_Driving;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public L1(Elevator1 elevator, PivotArm pivotArm) {
-    //m_subsystem = subsystem;
-    m_elevator = elevator;
-    m_PivotArm = pivotArm;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(elevator);
-    addRequirements(pivotArm);
-    //time = System.currentTimeMillis();
+  public ResetGyroWithRotation(Pigeon pigeon, Driving driving) {
+    m_Pigeon = pigeon;
+    m_Driving = driving;
 
+    //m_subsystem = subsystem;
+    // Use addRequirements() here to declare subsystem dependencies.
+    //addRequirements(subsystem);
   }
-  private boolean done;
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //m_elevator.gotolevel(2);
-    m_elevator.gotolevel(1.05); // was 0.63
-    done = false;
-
+    m_Driving.resetAndrew(m_Pigeon.getYaw());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    if(m_elevator.getRealPosition()<5.5 && !done){
-      m_PivotArm.goTo(0.81);
-      done = true;
-
-    }
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    //m_PivotArm.goTo(3.125);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return done;
+    return true;
   }
 }

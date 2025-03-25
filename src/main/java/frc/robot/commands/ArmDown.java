@@ -7,7 +7,7 @@ package frc.robot.commands;
 //import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PivotArm;
 
-import org.opencv.core.Mat;
+
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;

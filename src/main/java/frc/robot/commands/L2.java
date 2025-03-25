@@ -60,7 +60,7 @@ public class L2 extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     if(System.currentTimeMillis()-time > 1650||(Math.abs(m_elevator.getVelocity())<5 && Math.abs(m_elevator.getRealPostion()-m_elevator.getSetPosiiton()) <0.3)){
+     if(System.currentTimeMillis()-time > 1650||(Math.abs(m_elevator.getVelocity())<5 && Math.abs(m_elevator.getRealPosition()-m_elevator.getSetPosition()) <0.3)){
       done = true;
       System.out.println(System.currentTimeMillis()-time);
 
