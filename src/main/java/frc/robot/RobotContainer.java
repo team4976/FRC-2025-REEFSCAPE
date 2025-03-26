@@ -41,6 +41,7 @@ import frc.robot.commands.L4;
 //import frc.robot.commands.L4;
 import frc.robot.commands.Outake;
 import frc.robot.commands.Reset;
+import frc.robot.commands.ResetGyroWithRotation;
 import frc.robot.commands.RunIntake;
 import frc.robot.generated.TunerConstants_other;
 import frc.robot.subsystems.Actuation;
@@ -81,7 +82,7 @@ public class RobotContainer {
     private final Elevator1 elevator = new Elevator1();
     private final PivotArm pivot = new PivotArm();
     private final EndEffector effector = new EndEffector();
-    private final Climber climber = new Climber();
+    //private final Climber climber = new Climber();
     private final Actuation actuation = new Actuation();
     private final Driving driving = new Driving(drivetrain);
     private final PhotonVision photon = new PhotonVision();
@@ -185,6 +186,8 @@ public class RobotContainer {
 
         andrew.rightBumper().onTrue(new ElevatorUp(elevator));
         andrew.leftBumper().onTrue(new ElevatorDown(elevator));
+
+        
         //andrew.povRight().onTrue(new ArmUp(pivot));
         //andrew.povLeft().onTrue(new ArmDown(pivot));
 
@@ -195,6 +198,8 @@ public class RobotContainer {
         //joystick.leftTrigger().toggleOnTrue(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, 0.4).andThen(new L1Shot(pivot, elevator, pig, driving, 20, 1.5, 0.78)));
         //joystick.rightTrigger().toggleOnTrue(new DumbAlign(m_SideCam, driving, 0, photon, pig, 0.36, 1500).andThen(new L1Shot(pivot, elevator, pig, driving, 0, 0.5, 0.32)));
         joystick.x().toggleOnTrue(new Reset(pig));
+
+        andrew.x().onTrue(new ResetGyroWithRotation(pig, driving));
 
         joystick.rightTrigger().toggleOnTrue(new L2(elevator, pivot, effector, 0.5, 0.32));
         

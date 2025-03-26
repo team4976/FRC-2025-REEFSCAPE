@@ -26,7 +26,7 @@ public class EndEffector extends SubsystemBase {
 
     config.idleMode(IdleMode.kBrake);
     
-    leftMax = new SparkMax(51, MotorType.kBrushed);
+    leftMax = new SparkMax(51, MotorType.kBrushless);
     config.inverted(true);
     config.openLoopRampRate(0.01);
     
@@ -35,13 +35,13 @@ public class EndEffector extends SubsystemBase {
     config.inverted(false);
 
     
-    rightMax = new SparkMax(52, MotorType.kBrushed);
+    rightMax = new SparkMax(52, MotorType.kBrushless);
 
     rightMax.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     //SparkMaxConfig sparkconfig = new SparkMaxConfig();
     //sparkconfig.inverted(true);
     
-    stopAnalogInput = leftMax.getAnalog();
+    stopAnalogInput = rightMax.getAnalog();
     
 
 
@@ -63,7 +63,7 @@ public class EndEffector extends SubsystemBase {
   }
 
   public boolean getSwitch(){
-    return stopAnalogInput.getPosition() > 3;
+    return stopAnalogInput.getPosition() < 3;//was >
   }
 
   public void runed(double output){
