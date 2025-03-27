@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "1a"
+            "pathName": "1ahumb"
           }
         },
         {
@@ -54,7 +54,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "2a"
+                  "pathName": "2ahumb"
                 }
               }
             ]
