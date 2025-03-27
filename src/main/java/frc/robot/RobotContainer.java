@@ -13,6 +13,8 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -107,11 +109,26 @@ public class RobotContainer {
    private final SendableChooser<Command> autoChooser3b;
    private final SendableChooser<Command> autoChooser4b;
    private final SendableChooser<Command> autoChooser5b;
+   private final SendableChooser<Command> autoChooserc;
 
 
    private final SendableChooser<Command> theAutochooser;
 
     public RobotContainer() {
+
+        NamedCommands.registerCommand("L4", new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm));
+        NamedCommands.registerCommand("shoot", new Outake(effector, pivot, driving, elevator));
+        NamedCommands.registerCommand("L1", new L1(elevator, pivot));
+        NamedCommands.registerCommand("RightAlign", new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset, 1200));
+        NamedCommands.registerCommand("LeftAlign", new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset, 1200));
+        
+        NamedCommands.registerCommand("L2", new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm));
+        
+
+
+
+        autoChooserc = AutoBuilder.buildAutoChooser("c");
+
         autoChooser = AutoBuilder.buildAutoChooser("1a");
         autoChooser2 = AutoBuilder.buildAutoChooser("2a");
         autoChooser3 = AutoBuilder.buildAutoChooser("3a");
@@ -124,12 +141,14 @@ public class RobotContainer {
         autoChooser4b = AutoBuilder.buildAutoChooser("4b");
         autoChooser5b = AutoBuilder.buildAutoChooser("5b");
 
+        //NamedCommands.registerCommand("AimLeft", new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L4Arm));
+
 
 
         
         theAutochooser = new SendableChooser<>();
 
-        theAutochooser.addOption("Left", (autoChooser.getSelected().alongWith(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
+        theAutochooser.addOption("Left", ((autoChooser.getSelected()).alongWith(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
         .andThen(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm).alongWith(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset, 1200)))//was 1350
         //.andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset))
         .andThen(new Outake(effector, pivot, driving, elevator))
@@ -146,6 +165,10 @@ public class RobotContainer {
         //.andThen(new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset))
         .andThen(new Outake(effector, pivot, driving, elevator))
         .andThen(new L1(elevator, pivot).alongWith(new Intake(effector, pivot))));
+
+        //FollowPathCommand patha1 = new FollowPathCommand(null, , , null, null, Swer, null, null)
+
+        theAutochooser.addOption("Center", autoChooserc.getSelected());
 
         theAutochooser.addOption("Right", (autoChooserb.getSelected().alongWith(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
         .andThen(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm).alongWith(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset, 1200)))
@@ -178,6 +201,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("L4", new L2(elevator, pivot, effector, 31.26, -2.7));
         NamedCommands.registerCommand("Intake", new Intake(effector, pivot));
         NamedCommands.registerCommand("LeftAlign", new DumbAlign(m_SideCam, driving, -0.35, photon, pig, 0.34, 2000));
+        NamedCommands.registerCommand("AimLeft", new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L4Arm));
 
         configureBindings();
     }
