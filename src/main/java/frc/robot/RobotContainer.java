@@ -84,7 +84,7 @@ public class RobotContainer {
     private final Elevator1 elevator = new Elevator1();
     private final PivotArm pivot = new PivotArm();
     private final EndEffector effector = new EndEffector();
-    //private final Climber climber = new Climber();
+    private final Climber climber = new Climber();
     private final Actuation actuation = new Actuation();
     private final Driving driving = new Driving(drivetrain);
     private final PhotonVision photon = new PhotonVision();
@@ -113,6 +113,7 @@ public class RobotContainer {
 
 
    private final SendableChooser<Command> theAutochooser;
+   private final SendableChooser<Command> otherAutoChooser;
 
     public RobotContainer() {
 
@@ -121,8 +122,11 @@ public class RobotContainer {
         NamedCommands.registerCommand("L1", new L1(elevator, pivot));
         NamedCommands.registerCommand("RightAlign", new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset, 1200));
         NamedCommands.registerCommand("LeftAlign", new DumbAlign(m_SideCam, driving, Constants.RightOffset, photon, pig, Constants.ForwardOffset, 1200));
+        NamedCommands.registerCommand("Reverse", new DumbAlignReverse(m_SideCam, driving, 0, photonRear, pig));
+        NamedCommands.registerCommand("Intake", new Intake(effector, pivot));
         
         NamedCommands.registerCommand("L2", new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm));
+        otherAutoChooser = AutoBuilder.buildAutoChooser("1a");
         
 
 
@@ -140,6 +144,8 @@ public class RobotContainer {
         autoChooser3b = AutoBuilder.buildAutoChooser("3b");
         autoChooser4b = AutoBuilder.buildAutoChooser("4b");
         autoChooser5b = AutoBuilder.buildAutoChooser("5b");
+
+        SmartDashboard.putData("the", autoChooser);
 
         //NamedCommands.registerCommand("AimLeft", new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L4Arm));
 
@@ -168,7 +174,10 @@ public class RobotContainer {
 
         //FollowPathCommand patha1 = new FollowPathCommand(null, , , null, null, Swer, null, null)
 
-        theAutochooser.addOption("Center", autoChooserc.getSelected());
+        //theAutochooser.addOption("Center", autoChooserc.getSelected());
+        //theAutochooser.addOption("Center", autoChooserc.getSelected());
+        theAutochooser.addOption("Other", otherAutoChooser.getSelected().andThen(autoChooserc.getSelected()));
+
 
         theAutochooser.addOption("Right", (autoChooserb.getSelected().alongWith(new L2(elevator, pivot, effector, Constants.L2Elevator, Constants.L2Arm)))
         .andThen(new L2(elevator, pivot, effector, Constants.L4Elevator, Constants.L4Arm).alongWith(new DumbAlign(m_SideCam, driving, Constants.LeftOffset, photon, pig, Constants.ForwardOffset, 1200)))
@@ -189,6 +198,7 @@ public class RobotContainer {
         .andThen(new L1(elevator, pivot).alongWith(new Intake(effector, pivot))));
 
         SmartDashboard.putData("Auto:", theAutochooser);
+        //SmartDashboard.putData("the", autoChooser);
 
 
         
@@ -391,6 +401,7 @@ public class RobotContainer {
             .andThen(new L1(elevator, pivot).alongWith(new Intake(effector, pivot)));*/
 
         return theAutochooser.getSelected();
+        //return autoChooser.getSelected();
 
 
     }

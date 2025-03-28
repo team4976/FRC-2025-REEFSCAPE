@@ -48,6 +48,7 @@ public class DumbAlignReverse extends Command {
     m_Driving.setMode(true);
     //m_Driving.setY(0.01);
     m_Driving.setY(0);
+    m_Driving.setX(-0.1);
     //m_Driving.setX(0.05);
     m_Driving.setRotation(0);
     end = false;
