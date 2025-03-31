@@ -36,11 +36,7 @@ public class ResetGyroWithRotation extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    //Alliance.Blue;
-    //Optional <Alliance> ally = DriverStation.getAlliance();
-    //DriverStation.getAlliance().equals(Alliance.Blue);
-    if(DriverStation.getAlliance().get() == Alliance.Blue){
+        if(DriverStation.getAlliance().get() == Alliance.Blue){
       System.out.println("sigma");
     }
 

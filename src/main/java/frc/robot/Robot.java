@@ -8,11 +8,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.commands.ResetGyroWithRotation;
-import frc.robot.subsystems.Driving;
-import frc.robot.subsystems.Pigeon;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -24,7 +20,6 @@ public class Robot extends TimedRobot {
   public Robot() {
     Constants.initTags();
     m_robotContainer = new RobotContainer();
-    
   }
 
   @Override
@@ -52,9 +47,6 @@ public class Robot extends TimedRobot {
     }*/
   }
 
-  private Pigeon pigeon;
-  private Driving driving;
-
   @Override
   public void disabledInit() {}
 
@@ -81,22 +73,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    //run(new ResetGyroWithRotation(pigeon, driving));
-    //Commands.sequence(new ResetGyroWithRotation(pigeon, driving));
-    //new ResetGyroWithRotation(pigeon, driving).schedule();
     
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    //if(new ResetGyroWithRotation(pigeon, driving) != null){
-      //new ResetGyroWithRotation(pigeon, driving).start();
-    //}
-
-    //driving.resetAndrew(pigeon.getYaw());
-
-    //Command command = new ResetGyroWithRotation(pigeon, driving);
-
-    //command.schedule();
   }
 
   @Override

@@ -1,110 +1,79 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.ClosedLoopConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj2.command.Command;
+import java.util.function.BooleanSupplier;
+
+import com.revrobotics.AnalogInput;
+import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+//import frc.robot.util.Constants;
 
-public class Climber extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-  double multiplier = 500;
+public class Climber extends SubsystemBase{
 
-  final SparkMax m_Leader = new SparkMax(41, MotorType.kBrushless);
+    //public static DigitalInput ClimbSwitch = new DigitalInput(0);
 
-  private SparkClosedLoopController pid = m_Leader.getClosedLoopController();
+    //public static BooleanSupplier ClimbSwitchOff = () -> ClimbSwitch.get();
+    //public Trigger ClimbeSwitchOffTrigger = new Trigger(ClimbSwitchOff);
 
-  private CommandXboxController m_Controller = new CommandXboxController(Constants.OperatorConstants.kDriverControllerPort);
-  private com.revrobotics.AnalogInput m_Input;
+    SparkClosedLoopController pid;
 
-  public Climber() {
-    SparkMaxConfig config = new SparkMaxConfig();
-    config.inverted(true);
-    config.smartCurrentLimit(80, 50);
-
-    ClosedLoopConfig pidConfig = new ClosedLoopConfig();
-    
-    pidConfig.p(0.01);
-    pidConfig.i(0);
-    pidConfig.d(0.05);
-    pidConfig.outputRange(-1, 0.2);
-
-    config.closedLoop.apply(pidConfig);
-    config.closedLoopRampRate(0.5);
-
-    m_Leader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-    m_Input = m_Leader.getAnalog();
     
 
-  }
+    SparkMax Climber = new SparkMax(41, MotorType.kBrushless);
+    SparkMaxConfig ClimberConfig = new SparkMaxConfig();
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
+    
 
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
-  }
+    AnalogInput ClimberSwitch = Climber.getAnalog();
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+    private RelativeEncoder ClimbEncoder;
 
-    //double out = (m_Controller.getLeftTriggerAxis() - m_Controller.getRightTriggerAxis()) * multiplier;
-    if(m_Input.getPosition()<3){
-      if(m_Controller.getLeftTriggerAxis() < 0.15 && m_Controller.getRightTriggerAxis() < 0.15){
-        m_Leader.set(0);
-      }
-      else{
-        double out = (m_Controller.getLeftTriggerAxis() - m_Controller.getRightTriggerAxis());
-        //pid.setReference(out, ControlType.kVelocity);
-  
-        m_Leader.set(out);
-  
-  
-      }
+    double ForwardSpeed;
+    double BackwardSpeed;
+    CommandXboxController m_driverController;
+
+
+    
+    public Climber (CommandXboxController m) {
+          m_driverController = m;
+          ClimbEncoder = Climber.getEncoder();
+          ClimberConfig.inverted(false);
+
+
+          pid = Climber.getClosedLoopController();
+
+
+
+
+          
+    }
+
+    public void RunClimber(double speed){
+        Climber.set(speed);
+    }
+
+    public void Hold(){
+        pid.setReference(ClimbEncoder.getPosition(), ControlType.kPosition);
+    }
+
+    public boolean Switch(){
+       return (ClimberSwitch.getPosition()<6);
+    }
+
+   
+
+    @Override
+    public void periodic() {
+        System.out.println(Switch());
 
     }
-    else{m_Leader.set(0);}
-
-    
-
-    //pid.setReference(out, ControlType.kVelocity);
-
-
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
 }

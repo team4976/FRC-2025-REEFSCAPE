@@ -4,34 +4,32 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Elevator1;
-//import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class ElevatorDown extends Command {
+public class ClimberHold extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   //private final ExampleSubsystem m_subsystem;
-  private final Elevator1 m_elevator;
-  
-
+  private final Climber m_Climber;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ElevatorDown(Elevator1 elevator) {
+  public ClimberHold(Climber climber) {
     //m_subsystem = subsystem;
-    m_elevator = elevator;
-
+    m_Climber = climber;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(elevator);
+    addRequirements(climber);
+    //addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_elevator.gotolevel(m_elevator.getSetPosiiton()-1);
+    m_Climber.Hold();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,11 +38,13 @@ public class ElevatorDown extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_Climber.RunClimber(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

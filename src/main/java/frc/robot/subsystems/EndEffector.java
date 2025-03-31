@@ -63,7 +63,7 @@ public class EndEffector extends SubsystemBase {
   }
 
   public boolean getSwitch(){
-    return stopAnalogInput.getPosition() < 3;//was >
+    return stopAnalogInput.getPosition() < 3;
   }
 
   public void runed(double output){

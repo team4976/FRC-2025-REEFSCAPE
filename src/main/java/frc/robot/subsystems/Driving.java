@@ -47,15 +47,9 @@ public class Driving extends SubsystemBase {
   private boolean whatWas = false;
   //public CommandSwerveDrivetrain drivetrainer = TunerConstants.createDrivetrain();
   private final CommandXboxController joystick = new CommandXboxController(Constants.OperatorConstants.kDriverControllerPort);
-  private final CommandXboxController andrew = new CommandXboxController(1);
+  
   
 
-
-  public void resetAndrew(double rotation){
-    drivetrainer.resetRotation(Rotation2d.fromDegrees(rotation));
-
-    
-  }
   /**
    * Example command factory method.
    *
@@ -93,6 +87,13 @@ public class Driving extends SubsystemBase {
   public void setMode(Boolean type){
     mode = type;    
 
+  }
+
+
+   public void resetAndrew(double rotation){
+    drivetrainer.resetRotation(Rotation2d.fromDegrees(rotation));
+
+    
   }
   
 
@@ -150,9 +151,6 @@ public class Driving extends SubsystemBase {
        //drivetrainer.setControl(drive.withRotationalRate(-joystick.getRightX() * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
  
        joystick.y().onTrue(drivetrainer.runOnce(() -> drivetrainer.seedFieldCentric()));
-
-       //andrew.x().onTrue(drivetrainer.runOnce(() -> drivetrainer.resetRotation(Rotation2d.fromDegrees(60))));
-
         
 
       }

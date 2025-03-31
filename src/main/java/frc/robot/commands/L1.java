@@ -48,7 +48,7 @@ public class L1 extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_elevator.getRealPosition()<5.5 && !done){
+    if(m_elevator.getRealPostion()<5.5 && !done){
       m_PivotArm.goTo(0.81);
       done = true;
 

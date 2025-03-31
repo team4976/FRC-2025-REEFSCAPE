@@ -48,7 +48,6 @@ public class DumbAlignReverse extends Command {
     m_Driving.setMode(true);
     //m_Driving.setY(0.01);
     m_Driving.setY(0);
-    m_Driving.setX(-0.1);
     //m_Driving.setX(0.05);
     m_Driving.setRotation(0);
     end = false;
@@ -110,11 +109,11 @@ public class DumbAlignReverse extends Command {
       output = -m_PhotonVision.getY()-m_Offset;
 
       if(output>0.1){
-        output = 0.2;
+        output = 0.1;
 
       }
       else if(output < -0.1){
-        output = -0.2;
+        output = -0.1;
       }
 
       forward = -(m_PhotonVision.getX()-0.64);//was 0.72
