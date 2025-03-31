@@ -20,11 +20,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 
-//i dont really pretend to understand this subsystem or its purpose. it makes the robot go. don't poke it
+
 
 
 public class Driving extends SubsystemBase {
-
+  /** Creates a new ExampleSubsystem. */
   final SwerveRequest.RobotCentric drive1;
   final SwerveRequest.FieldCentric drive;
   CommandSwerveDrivetrain drivetrainer;
@@ -47,12 +47,31 @@ public class Driving extends SubsystemBase {
   private boolean whatWas = false;
   //public CommandSwerveDrivetrain drivetrainer = TunerConstants.createDrivetrain();
   private final CommandXboxController joystick = new CommandXboxController(Constants.OperatorConstants.kDriverControllerPort);
-  private final CommandXboxController andrew = new CommandXboxController(1);
+  
   
 
+  /**
+   * Example command factory method.
+   *
+   * @return a command
+   */
+  public Command exampleMethodCommand() {
+    // Inline construction of command goes here.
+    // Subsystem::RunOnce implicitly requires `this` subsystem.
+    return runOnce(
+        () -> {
+          /* one-time action goes here */
+        });
+  }
 
-  public void resetAndrew(double rotation){
-    drivetrainer.resetRotation(Rotation2d.fromDegrees(rotation));
+  /**
+   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
+   *
+   * @return value of some boolean subsystem state, such as a digital sensor.
+   */
+  public boolean exampleCondition() {
+    // Query some boolean state, such as a digital sensor.
+    return false;
   }
 
   public void setX(double X) {
@@ -68,6 +87,13 @@ public class Driving extends SubsystemBase {
   public void setMode(Boolean type){
     mode = type;    
 
+  }
+
+
+   public void resetAndrew(double rotation){
+    drivetrainer.resetRotation(Rotation2d.fromDegrees(rotation));
+
+    
   }
   
 
@@ -125,9 +151,6 @@ public class Driving extends SubsystemBase {
        //drivetrainer.setControl(drive.withRotationalRate(-joystick.getRightX() * RotationsPerSecond.of(0.75).in(RadiansPerSecond)));
  
        joystick.y().onTrue(drivetrainer.runOnce(() -> drivetrainer.seedFieldCentric()));
-
-       //andrew.x().onTrue(drivetrainer.runOnce(() -> drivetrainer.resetRotation(Rotation2d.fromDegrees(60))));
-
         
 
       }

@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Actuation;
-
+import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
@@ -29,7 +29,7 @@ public class ActuateUp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Actuation.runActuator(0.7);
+    m_Actuation.runActuator(0.65);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

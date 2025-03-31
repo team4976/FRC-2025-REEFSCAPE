@@ -4,47 +4,44 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Elevator1;
-//import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /** An example command that uses an example subsystem. */
-public class ElevatorDown extends Command {
+public class ClimberUp extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  //private final ExampleSubsystem m_subsystem;
-  private final Elevator1 m_elevator;
-  
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public ElevatorDown(Elevator1 elevator) {
-    //m_subsystem = subsystem;
-    m_elevator = elevator;
+  Climber climber;
+  CommandXboxController tXboxController;
 
+  public ClimberUp(Climber subsystem, CommandXboxController XboxController) {
+    climber = subsystem;
+    tXboxController = XboxController;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(elevator);
+    addRequirements(climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_elevator.gotolevel(m_elevator.getSetPosiiton()-1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    climber.RunClimber(tXboxController.getLeftTriggerAxis() * -1);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    climber.RunClimber(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

@@ -30,7 +30,7 @@ public class Intake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_EndEffector.runed(-4.15);//was 0.42 for brushless
+    m_EndEffector.runed(-7);//was 0.42 for brushless
     hasCoral = false;
     //m_Arm.goTo(1.7);
 

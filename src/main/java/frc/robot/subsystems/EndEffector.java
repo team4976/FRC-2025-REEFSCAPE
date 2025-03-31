@@ -20,17 +20,13 @@ public class EndEffector extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   private SparkMax leftMax;
   private SparkMax rightMax;
-  public double output;
-  //limit switch in the end effector that says wether a coral is there or not
-  private AnalogInput coralLimitSwitch;
-
+  private AnalogInput stopAnalogInput;
   public EndEffector() {
-    //configures the motors
     SparkMaxConfig config = new SparkMaxConfig();
 
     config.idleMode(IdleMode.kBrake);
     
-    leftMax = new SparkMax(51, MotorType.kBrushed);
+    leftMax = new SparkMax(51, MotorType.kBrushless);
     config.inverted(true);
     config.openLoopRampRate(0.01);
     
@@ -39,46 +35,68 @@ public class EndEffector extends SubsystemBase {
     config.inverted(false);
 
     
-    rightMax = new SparkMax(52, MotorType.kBrushed);
+    rightMax = new SparkMax(52, MotorType.kBrushless);
 
     rightMax.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     //SparkMaxConfig sparkconfig = new SparkMaxConfig();
     //sparkconfig.inverted(true);
     
-    coralLimitSwitch = leftMax.getAnalog();
- 
+    stopAnalogInput = rightMax.getAnalog();
+    
+
+
+
   }
 
+  /**
+   * Example command factory method.
+   *
+   * @return a command
+   */
+  public Command exampleMethodCommand() {
+    // Inline construction of command goes here.
+    // Subsystem::RunOnce implicitly requires `this` subsystem.
+    return runOnce(
+        () -> {
+          /* one-time action goes here */
+        });
+  }
 
-  //returns true if there's a coral in the end effector 
   public boolean getSwitch(){
-    return coralLimitSwitch.getPosition() > 3;
+    return stopAnalogInput.getPosition() < 3;
   }
 
-  //runs the end effector
-  public void runed(double o){
-    output = o;
+  public void runed(double output){
     //leftMax.set(output);
     leftMax.setVoltage(output);
     //rightMax.set(output);
     rightMax.setVoltage(output);
   }
-
-  //runs half the end effector
   public void oneSide(double output){
     leftMax.set(0.01);
     rightMax.set(output);
   }
 
+  /**
+   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
+   *
+   * @return value of some boolean subsystem state, such as a digital sensor.
+   */
+  public boolean exampleCondition() {
+    // Query some boolean state, such as a digital sensor.
+    return false;
 
+  }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Intake Switch", coralLimitSwitch.getPosition());
-    SmartDashboard.putBoolean("Coral LimitSwitch", getSwitch());
+    SmartDashboard.putNumber("Intake Switch", stopAnalogInput.getPosition());
+    SmartDashboard.putBoolean("Switch", getSwitch());
     // This method will be called once per scheduler run
+  }
 
-    SmartDashboard.putNumber("Effector Left Volt", leftMax.getAppliedOutput());
-    SmartDashboard.putNumber("Effector Right Volt", rightMax.getAppliedOutput());
+  @Override
+  public void simulationPeriodic() {
+    // This method will be called once per scheduler run during simulation
   }
 }

@@ -7,6 +7,8 @@ package frc.robot.commands;
 import frc.robot.subsystems.Driving;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Pigeon;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
@@ -34,7 +36,17 @@ public class ResetGyroWithRotation extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Driving.resetAndrew(m_Pigeon.getYaw());
+        if(DriverStation.getAlliance().get() == Alliance.Blue){
+      System.out.println("sigma");
+    }
+
+    if(m_Pigeon.getYaw() > 180){
+      m_Driving.resetAndrew(m_Pigeon.getYaw()-180);
+    }
+    else{
+      m_Driving.resetAndrew(m_Pigeon.getYaw()+180);
+    }
+    //m_Driving.resetAndrew(m_Pigeon.getYaw());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
