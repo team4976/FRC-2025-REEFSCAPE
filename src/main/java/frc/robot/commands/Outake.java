@@ -48,7 +48,7 @@ public class Outake extends Command {
     //if(m_PivotArm.getPosition() < 3){
 
     if(m_Elevator1.getSetPosiiton() > 20){
-      m_EndEffector.runed(4.75);// was 5.5
+      m_EndEffector.runed(4.25);// was 5.5
     }
 
     else{

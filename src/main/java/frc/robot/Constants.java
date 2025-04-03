@@ -58,7 +58,7 @@ public final class Constants {
 
 
   public static final double L4Elevator = 29;//was 30.6 // was 30.45
-  public static final double L4Arm = 0.369;//was 0.346
+  public static final double L4Arm = 0.358;//was 0.346 // was 0.369
 
   public static final double L3Elevator = 15;//was 15.7// was 15.9
   public static final double L3Arm = 0.346;//was 0.346
