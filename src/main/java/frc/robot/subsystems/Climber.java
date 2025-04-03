@@ -73,7 +73,7 @@ public class Climber extends SubsystemBase{
 
     @Override
     public void periodic() {
-        System.out.println(Switch());
+        //System.out.println(Switch());
 
     }
 }

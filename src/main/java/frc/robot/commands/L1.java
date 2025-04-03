@@ -40,7 +40,7 @@ public class L1 extends Command {
   @Override
   public void initialize() {
     //m_elevator.gotolevel(2);
-    m_elevator.gotolevel(1.05); // was 0.63
+    m_elevator.gotolevel(0.7); // was 1.05
     done = false;
 
   }

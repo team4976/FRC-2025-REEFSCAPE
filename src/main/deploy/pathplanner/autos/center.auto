@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "New Path"
+            "pathName": "Center"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "a",
+  "folder": null,
   "choreoAuto": false
 }

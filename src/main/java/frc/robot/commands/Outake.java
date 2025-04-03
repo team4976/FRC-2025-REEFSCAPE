@@ -48,7 +48,7 @@ public class Outake extends Command {
     //if(m_PivotArm.getPosition() < 3){
 
     if(m_Elevator1.getSetPosiiton() > 20){
-      m_EndEffector.runed(5.5);
+      m_EndEffector.runed(4.75);// was 5.5
     }
 
     else{
@@ -59,10 +59,10 @@ public class Outake extends Command {
         m_EndEffector.runed(-5.5);
       }
       else if(m_PivotArm.getPosition() == 0.32){
-        m_EndEffector.oneSide(0.3);
+        m_EndEffector.oneSide(0.2);
       }
       else{
-        m_EndEffector.runed(4);//was 5
+        m_EndEffector.runed(3.5);//was 4
       }
     }
     
