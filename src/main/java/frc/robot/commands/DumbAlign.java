@@ -77,6 +77,10 @@ public class DumbAlign extends Command {
       m_Driving.setRotation(0);
       m_Driving.setX(0);
       m_Driving.setY(0);
+
+      if(System.currentTimeMillis() - time >m_timeout){ // TODO testing
+         end = true;
+      }
       return;
     }
 
